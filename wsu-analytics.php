@@ -27,7 +27,28 @@ class WSU_Analytics {
 	 * Register the settings fields that will be output for this plugin.
 	 */
 	public function display_settings() {
+		register_setting( 'general', 'wsuwp_ga_id', array( $this, 'sanitize_ga_id' ) );
 		add_settings_field( 'wsuwp-ga-id', 'Google Analytics ID', array( $this, 'general_settings_ga_id'), 'general', 'default', array( 'label_for' => 'wsuwp_ga_id' ) );
+	}
+
+	/**
+	 * Make sure what we're seeing looks like a Google Analytics tracking ID.
+	 *
+	 * @param string $ga_id The inputted Google Analytics ID.
+	 *
+	 * @return string Sanitized Google Analytics ID.
+	 */
+	public function sanitize_ga_id( $ga_id ) {
+		// trim spaces, uppercase UA, explode to 3 piece array
+		$ga_id = explode( '-', trim( strtoupper( $ga_id ) ) );
+
+		if ( empty( $ga_id ) || 'UA' !== $ga_id[0] ) {
+			return false;
+		}
+
+		$ga_id = implode( '-', $ga_id );
+
+		return $ga_id;
 	}
 
 	/**
