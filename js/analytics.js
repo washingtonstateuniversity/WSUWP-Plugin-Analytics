@@ -4,7 +4,6 @@
 	var _DN    = window.wsu_analytics['domain'];
 	var _CP    = false;
 
-	console.log( GAcode, _DN );
 	var site_data = [
 		{
 			"element":"a[href^='http']:not([href*='wsu.edu'])",
