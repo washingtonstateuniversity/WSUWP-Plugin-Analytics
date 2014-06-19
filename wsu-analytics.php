@@ -20,6 +20,23 @@ class WSU_Analytics {
 	 */
 	public function __construct() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'admin_init', array( $this, 'display_settings' ) );
+	}
+
+	/**
+	 * Register the settings fields that will be output for this plugin.
+	 */
+	public function display_settings() {
+		add_settings_field( 'wsuwp-ga-id', 'Google Analytics ID', array( $this, 'general_settings_ga_id'), 'general', 'default', array( 'label_for' => 'wsuwp_ga_id' ) );
+	}
+
+	/**
+	 * Display a field to capture the site's Google Analytics ID.
+	 */
+	public function general_settings_ga_id() {
+		$google_analytics_id = get_option( 'wsuwp_ga_id', false );
+
+		?><input id="wsuwp_ga_id" name="wsuwp_ga_id" value="<?php echo esc_attr( $google_analytics_id ); ?>" type="text" class="regular-text" /><?php
 	}
 
 	/**
