@@ -39,12 +39,14 @@ class WSU_Analytics {
 			return;
 		}
 
+		$site_details = get_blog_details();
+
 		wp_enqueue_script( 'jquery-jtrack', 'https://repo.wsu.edu/jtrack/jquery.jTrack.0.2.1.js', array( 'jquery' ), $this->script_version(), true );
 		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
 
 		$tracker_data = array(
 			'tracker_id' => $google_analytics_id,
-			'domain' => 'wsu.edu',
+			'domain' => $site_details->domain,
 		);
 
 		wp_localize_script( 'wsu-analytics-main', 'wsu_analytics', $tracker_data );
