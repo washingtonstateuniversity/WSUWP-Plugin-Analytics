@@ -21,7 +21,15 @@ class WSU_Analytics {
 	 * Enqueue the scripts used for analytics on the platform.
 	 */
 	public function enqueue_scripts() {
+		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.js', __FILE__ ), array( 'jquery' ), false, true );
 
+		$tracker_data = array(
+			'tracker_id' => 12345,
+			'domain' => 'wsu.edu',
+		);
+
+		wp_localize_script( 'wsu-analytics-main', 'wsu_analytics', $tracker_data );
+		wp_enqueue_script( 'wsu-analytics-main' );
 	}
 }
 new WSU_Analytics();
