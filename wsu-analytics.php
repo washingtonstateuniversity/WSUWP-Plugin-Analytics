@@ -26,11 +26,24 @@ class WSU_Analytics {
 	 * Enqueue the scripts used for analytics on the platform.
 	 */
 	public function enqueue_scripts() {
+		// Look for a site level Google Analytics ID
+		$google_analytics_id = get_option( 'wsuwp_ga_id', false );
+
+		// If a site level ID does not exist, look for a network level Google Analytics ID
+		if ( ! $google_analytics_id ) {
+			$google_analytics_id = get_site_option( 'wsuwp_network_ga_id', false );
+		}
+
+		// If no GA ID exists, we can't reliably track visitors.
+		if ( ! $google_analytics_id ) {
+			return;
+		}
+
 		wp_enqueue_script( 'jquery-jtrack', 'https://repo.wsu.edu/jtrack/jquery.jTrack.0.2.1.js', array( 'jquery' ), $this->script_version(), true );
 		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
 
 		$tracker_data = array(
-			'tracker_id' => 12345,
+			'tracker_id' => $google_analytics_id,
 			'domain' => 'wsu.edu',
 		);
 
