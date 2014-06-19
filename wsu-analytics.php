@@ -11,6 +11,11 @@ Author URI: http://web.wsu.edu
 class WSU_Analytics {
 
 	/**
+	 * @var string The current version of this plugin, or used to break script cache.
+	 */
+	var $version = '0.0.1';
+
+	/**
 	 * Add our hooks.
 	 */
 	public function __construct() {
@@ -21,7 +26,8 @@ class WSU_Analytics {
 	 * Enqueue the scripts used for analytics on the platform.
 	 */
 	public function enqueue_scripts() {
-		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.js', __FILE__ ), array( 'jquery' ), false, true );
+		wp_enqueue_script( 'jquery-jtrack', 'https://repo.wsu.edu/jtrack/jquery.jTrack.0.2.1.js', array( 'jquery' ), $this->script_version(), true );
+		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
 
 		$tracker_data = array(
 			'tracker_id' => 12345,
@@ -30,6 +36,19 @@ class WSU_Analytics {
 
 		wp_localize_script( 'wsu-analytics-main', 'wsu_analytics', $tracker_data );
 		wp_enqueue_script( 'wsu-analytics-main' );
+	}
+
+	/**
+	 * Compile a script version and include WSUWP Platform if possible.
+	 *
+	 * @return string Version to be attached to scripts.
+	 */
+	private function script_version() {
+		if ( function_exists( 'wsuwp_global_version' ) ) {
+			return wsuwp_global_version() . '-' . $this->version;
+		}
+
+		return $this->version;
 	}
 }
 new WSU_Analytics();
