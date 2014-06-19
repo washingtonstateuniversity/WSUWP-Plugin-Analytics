@@ -46,6 +46,14 @@ class WSU_Analytics {
 			return false;
 		}
 
+		if ( isset( $ga_id[1] ) ) {
+			$ga_id[1] = preg_replace( '/[^0-9]/', '', $ga_id[1] );
+		}
+
+		if ( isset( $ga_id[2] ) ) {
+			$ga_id[2] = preg_replace( '/[^0-9]/', '', $ga_id[2] );
+		}
+
 		$ga_id = implode( '-', $ga_id );
 
 		return $ga_id;
