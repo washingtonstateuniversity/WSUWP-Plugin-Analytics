@@ -21,6 +21,7 @@ class WSU_Analytics {
 	public function __construct() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_init', array( $this, 'display_settings' ) );
+		add_action( 'wp_footer', array( $this, 'global_tracker' ), 999 );
 	}
 
 	/**
@@ -110,6 +111,29 @@ class WSU_Analytics {
 		}
 
 		return $this->version;
+	}
+
+	/**
+	 * Set a global tracker for the wsu.edu root domain. This tracker will not work for
+	 * any domains outside of the wsu.edu root at this time.
+	 */
+	public function global_tracker() {
+		if ( defined( 'WSU_LOCAL_CONFIG' ) && WSU_LOCAL_CONFIG ) {
+			return;
+		}
+
+		// The cookie domain is always wp.wsu.edu, but this can be filtered.
+		$cookie_domain = apply_filters( 'wsu_analytics_cookie_domain', 'wsu.edu' );
+		?>
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+			ga('create', 'UA-52133513-1', '<?php echo esc_attr( $cookie_domain ); ?>');
+			ga('send', 'pageview');
+		</script>
+		<?php
 	}
 }
 new WSU_Analytics();
