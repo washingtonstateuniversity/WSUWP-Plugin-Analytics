@@ -22,6 +22,7 @@ class WSU_Analytics {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_init', array( $this, 'display_settings' ) );
 		add_action( 'wp_footer', array( $this, 'global_tracker' ), 999 );
+		add_action( 'admin_footer', array( $this, 'global_tracker' ), 999 );
 	}
 
 	/**
