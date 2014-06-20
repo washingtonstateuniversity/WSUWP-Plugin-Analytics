@@ -13,7 +13,7 @@ class WSU_Analytics {
 	/**
 	 * @var string The current version of this plugin, or used to break script cache.
 	 */
-	var $version = '0.0.2';
+	var $version = '0.0.3';
 
 	/**
 	 * Add our hooks.
