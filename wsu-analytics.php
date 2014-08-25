@@ -135,6 +135,8 @@ class WSU_Analytics {
 			$page_view_type = 'Network Admin';
 		} elseif ( ! is_admin() ) {
 			$page_view_type = 'Front End';
+		} else {
+			$page_view_type = 'Unknown';
 		}
 
 		if ( is_user_logged_in() ) {
