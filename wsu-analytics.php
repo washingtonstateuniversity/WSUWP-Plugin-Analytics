@@ -137,6 +137,11 @@ class WSU_Analytics {
 			$page_view_type = 'Front End';
 		}
 
+		if ( is_user_logged_in() ) {
+			$authenticated_user = 'Authenticated';
+		} else {
+			$authenticated_user = 'Not Authenticated';
+		}
 		?>
 		<script>
 			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -145,6 +150,7 @@ class WSU_Analytics {
 			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 			ga('create', '<?php echo esc_attr( $global_id ); ?>', '<?php echo esc_attr( $cookie_domain ); ?>');
 			ga('set', 'dimension1', '<?php echo $page_view_type; ?>' );
+			ga('set', 'dimension2', '<?php echo $authenticated_user; ?>' );
 			ga('send', 'pageview');
 		</script>
 		<?php
