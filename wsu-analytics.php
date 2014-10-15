@@ -158,4 +158,4 @@ class WSU_Analytics {
 		<?php
 	}
 }
-new WSU_Analytics();
+$wsu_analytics = new WSU_Analytics();
