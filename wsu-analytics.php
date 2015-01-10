@@ -104,12 +104,7 @@ class WSU_Analytics {
 	}
 
 	public function mediaelement_scripts() {
-		global $wp_scripts;
-
-		wp_deregister_script( 'wp-mediaelement' );
-		$wp_scripts->registered['mediaelement']->extra['data'] = str_replace( '_wpmejsSettings', '_oldwpmejsSettings', $wp_scripts->registered['mediaelement']->extra['data'] );
 		wp_enqueue_script( 'wsu-mediaelement-events', plugins_url( '/js/mediaelement-events.js', __FILE__ ), array( 'mediaelement' ), false, true );
-		wp_enqueue_script( 'wp-mediaelement', '/wp-includes/js/mediaelement/wp-mediaelement.js', array( 'mediaelement' ), false, true );
 
 		return 'mediaelement';
 	}
