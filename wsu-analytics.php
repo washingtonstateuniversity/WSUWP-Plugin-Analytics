@@ -20,6 +20,7 @@ class WSU_Analytics {
 	 */
 	public function __construct() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'mediaelement_scripts' ), 99 );
 		add_action( 'admin_init', array( $this, 'display_settings' ) );
 		add_action( 'wp_footer', array( $this, 'global_tracker' ), 999 );
 		add_action( 'admin_footer', array( $this, 'global_tracker' ), 999 );
@@ -99,6 +100,14 @@ class WSU_Analytics {
 
 		wp_localize_script( 'wsu-analytics-main', 'wsu_analytics', $tracker_data );
 		wp_enqueue_script( 'wsu-analytics-main' );
+	}
+
+	public function mediaelement_scripts() {
+		global $wp_scripts;
+		wp_deregister_script( 'wp-mediaelement' );
+		$wp_scripts->registered['mediaelement']->extra['data'] = str_replace( '_wpmejsSettings', '_oldwpmejsSettings', $wp_scripts->registered['mediaelement']->extra['data'] );
+		wp_enqueue_script( 'wsu-mediaelement-events', plugins_url( '/js/mediaelement-events.js', __FILE__ ), array( 'mediaelement' ), false, true );
+		wp_enqueue_script( 'wp-mediaelement', '/wp-includes/js/mediaelement/wp-mediaelement.js', array( 'mediaelement' ), false, true );
 	}
 
 	/**
