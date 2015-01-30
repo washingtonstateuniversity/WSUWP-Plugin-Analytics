@@ -25,6 +25,7 @@ class WSU_Analytics {
 		add_action( 'admin_init', array( $this, 'display_settings' ) );
 		add_action( 'wp_footer', array( $this, 'global_tracker' ), 999 );
 		add_action( 'admin_footer', array( $this, 'global_tracker' ), 999 );
+		add_action( 'wp_head', array( $this, 'display_site_verification' ), 99 );
 	}
 
 	/**
@@ -32,7 +33,9 @@ class WSU_Analytics {
 	 */
 	public function display_settings() {
 		register_setting( 'general', 'wsuwp_ga_id', array( $this, 'sanitize_ga_id' ) );
+		register_setting( 'general', 'wsuwp_google_verify', array( $this, 'sanitize_google_verify' ) );
 		add_settings_field( 'wsuwp-ga-id', 'Google Analytics ID', array( $this, 'general_settings_ga_id'), 'general', 'default', array( 'label_for' => 'wsuwp_ga_id' ) );
+		add_settings_field( 'wsuwp-google-site-verify', 'Google Site Verification', array( $this, 'general_settings_google_site_verify' ), 'general', 'default', array( 'label_for' => 'wsuwp_google_verify' ) );
 	}
 
 	/**
@@ -64,12 +67,43 @@ class WSU_Analytics {
 	}
 
 	/**
+	 * Sanitize the saved value for the Google Site Verification meta.
+	 *
+	 * @param string $google_verify
+	 *
+	 * @return string
+	 */
+	public function sanitize_google_verify( $google_verify ) {
+		return sanitize_text_field( $google_verify );
+	}
+
+	/**
 	 * Display a field to capture the site's Google Analytics ID.
 	 */
 	public function general_settings_ga_id() {
 		$google_analytics_id = get_option( 'wsuwp_ga_id', false );
 
 		?><input id="wsuwp_ga_id" name="wsuwp_ga_id" value="<?php echo esc_attr( $google_analytics_id ); ?>" type="text" class="regular-text" /><?php
+	}
+
+	/**
+	 * Provide an input in general settings for the entry of Google Site Verification meta data.
+	 */
+	public function general_settings_google_site_verify() {
+		$google_verification = get_option( 'wsuwp_google_verify', false );
+
+		?><input id="wsuwp_google_verify" name="wsuwp_google_verify" value="<?php echo esc_attr( $google_verification ); ?>" type="text" class="regular-text" /><?php
+	}
+
+	/**
+	 * Output the verification tag used by Google to verify a site.
+	 */
+	public function display_site_verification() {
+		$google_verification = get_option( 'wsuwp_google_verify', false );
+
+		if ( $google_verification ) {
+			echo '<meta name="google-site-verification" content="' . esc_attr( $google_verification ) . '">';
+		}
 	}
 
 	/**
