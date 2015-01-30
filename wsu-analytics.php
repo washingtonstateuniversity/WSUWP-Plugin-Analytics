@@ -34,8 +34,10 @@ class WSU_Analytics {
 	public function display_settings() {
 		register_setting( 'general', 'wsuwp_ga_id', array( $this, 'sanitize_ga_id' ) );
 		register_setting( 'general', 'wsuwp_google_verify', array( $this, 'sanitize_google_verify' ) );
+		register_setting( 'general', 'wsuwp_bing_verify', array( $this, 'sanitize_bing_verify' ) );
 		add_settings_field( 'wsuwp-ga-id', 'Google Analytics ID', array( $this, 'general_settings_ga_id'), 'general', 'default', array( 'label_for' => 'wsuwp_ga_id' ) );
 		add_settings_field( 'wsuwp-google-site-verify', 'Google Site Verification', array( $this, 'general_settings_google_site_verify' ), 'general', 'default', array( 'label_for' => 'wsuwp_google_verify' ) );
+		add_settings_field( 'wsuwp-bing-site-verify', 'Bing Site Verification', array( $this, 'general_settings_bing_site_verify' ), 'general', 'default', array( 'label_for' => 'wsuwp_bing_verify' ) );
 	}
 
 	/**
@@ -78,6 +80,17 @@ class WSU_Analytics {
 	}
 
 	/**
+	 * Sanitize the saved value for the Bing Site Verification meta.
+	 *
+	 * @param $bing_verify
+	 *
+	 * @return string
+	 */
+	public function sanitize_bing_verify( $bing_verify ) {
+		return sanitize_text_field( $bing_verify );
+	}
+
+	/**
 	 * Display a field to capture the site's Google Analytics ID.
 	 */
 	public function general_settings_ga_id() {
@@ -96,13 +109,27 @@ class WSU_Analytics {
 	}
 
 	/**
-	 * Output the verification tag used by Google to verify a site.
+	 * Provide an input in general settings for the entry of Bing Site Verification meta data.
+	 */
+	public function general_settings_bing_site_verify() {
+		$bing_verification = get_option( 'wsuwp_bing_verify', false );
+
+		?><input id="wsuwp_bing_verify" name="wsuwp_bing_verify" value="<?php echo esc_attr( $bing_verification ); ?>" type="text" class="regular-text" /><?php
+	}
+
+	/**
+	 * Output the verification tags used by Google and Bing to verify a site.
 	 */
 	public function display_site_verification() {
 		$google_verification = get_option( 'wsuwp_google_verify', false );
+		$bing_verification = get_option( 'wsuwp_bing_verify', false );
 
 		if ( $google_verification ) {
-			echo '<meta name="google-site-verification" content="' . esc_attr( $google_verification ) . '">';
+			echo '<meta name="google-site-verification" content="' . esc_attr( $google_verification ) . '">' . "\n";
+		}
+
+		if ( $bing_verification ) {
+			echo '<meta name="msvalidate.01" content="' . esc_attr( $bing_verification ) . '" />' . "\n";
 		}
 	}
 
