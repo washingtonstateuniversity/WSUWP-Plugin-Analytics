@@ -30,6 +30,17 @@
 				"overwrites":"true"
 			}
 		},
+		// TinyURL has issues with extra parameters and throws a 404.
+		{
+			"element":"a[href*='tinyurl.com']",
+			"options":{
+				"skip_internal":"true",
+				"mode":"event,_link",
+				"category":"outbound",
+				"skip_campaign":"true",
+				"overwrites":"true"
+			}
+		},
 		// The MME faculty page URLS end with a non key/value parameter - e.g. faculty.html?jfelt - and don't like extra parameters.
 		{
 			"element":"a[href*='www.mme.wsu.edu/people/faculty/faculty.html']",
