@@ -41,9 +41,16 @@
 				"overwrites":"true"
 			}
 		},
-		// The MME faculty page URLS end with a non key/value parameter - e.g. faculty.html?jfelt - and don't like extra parameters.
+		/**
+		 * Skip some URLs that do not play nicely with extra parameters:
+		 *
+		 * - MME faculty page URLS end with a non key/value parameter - e.g. faculty.html?jfelt - and don't like extra parameters.
+		 * - puyallup.wsu.edu is picky about URLs that arrive without a slash before the parameters.
+		 * - ptwc.weather.gov bails immediately if proper parameters are not provided.
+		 * - www.atmos.washington.edu relies on specific parameters in a CGI request.
+		 */
 		{
-			"element":"a[href*='www.mme.wsu.edu/people/faculty/faculty.html']",
+			"element":"a[href*='www.mme.wsu.edu/people/faculty/faculty.html'],a[href*='puyallup.wsu.edu'],a[href*='ptwc.weather.gov'],a[href*='www.atmos.washington.edu']",
 			"options":{
 				"skip_internal":"true",
 				"mode":"event,_link",
