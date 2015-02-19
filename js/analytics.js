@@ -49,7 +49,6 @@
 		 * - ptwc.weather.gov bails immediately if proper parameters are not provided.
 		 * - www.atmos.washington.edu relies on specific parameters in a CGI request.
 		 */
-		//
 		{
 			"element":"a[href*='www.mme.wsu.edu/people/faculty/faculty.html'],a[href*='puyallup.wsu.edu'],a[href*='ptwc.weather.gov'],a[href*='www.atmos.washington.edu']",
 			"options":{
