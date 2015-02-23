@@ -2,14 +2,14 @@ window.wsu_analytics.global.events=[];
 window.wsu_analytics.app.events=[];
 window.wsu_analytics.site.events = [
 		{
-			element:"a[href^='http']:not([href*='wsu.edu']), .track.outbound ",
+			element:"a[href^='http']:not([href*='wsu.edu']), .track.outbound",
 			options:{
 				mode:"event,_link",
 				category:"outbound"
 			}
 		},
 		{
-			element:"a[href*='wsu.edu']:not([href*='**SELF_DOMAIN**']), .track.internal ",
+			element:"a[href*='wsu.edu']:not([href*='**SELF_DOMAIN**']), .track.internal",
 			options:{
 				skip_internal:true,
 				mode:"event,_link",
@@ -17,7 +17,12 @@ window.wsu_analytics.site.events = [
 			}
 		},
 		{
-			element:"a[href*='zzusis.wsu.edu'],a[href*='portal.wsu.edu'],a[href*='applyweb.com/public/inquiry'], .track.skip_campaign",
+			element:"a[href*='zzusis.wsu.edu'],\
+					 a[href*='portal.wsu.edu'],\
+					 a[href*='applyweb.com/public/inquiry'],\
+					 a[href*='www.mme.wsu.edu/people/faculty/faculty.html'],\
+					 a[href*='puyallup.wsu.edu'],\
+					 .track.internal.skip_campaign",
 			options:{
 				skip_internal:true,
 				mode:"event,_link",
@@ -26,9 +31,12 @@ window.wsu_analytics.site.events = [
 				overwrites:true
 			}
 		},
-		// TinyURL has issues with extra parameters and throws a 404.
+		// Externals that are known to be url query intolerant.
 		{
-			element:"a[href*='tinyurl.com']",
+			element:"a[href*='tinyurl.com'],\
+					 a[href*='ptwc.weather.gov'],\
+					 a[href*='www.atmos.washington.edu'],\
+					 .track.outbound.skip_campaign",
 			options:{
 				skip_internal:true,
 				mode:"event,_link",
@@ -37,24 +45,7 @@ window.wsu_analytics.site.events = [
 				overwrites:true
 			}
 		},
-		/**
-		 * Skip some URLs that do not play nicely with extra parameters:
-		 *
-		 * - MME faculty page URLS end with a non key/value parameter - e.g. faculty.html?jfelt - and don't like extra parameters.
-		 * - puyallup.wsu.edu is picky about URLs that arrive without a slash before the parameters.
-		 * - ptwc.weather.gov bails immediately if proper parameters are not provided.
-		 * - www.atmos.washington.edu relies on specific parameters in a CGI request.
-		 */
-		{
-			element:"a[href*='www.mme.wsu.edu/people/faculty/faculty.html'],a[href*='puyallup.wsu.edu'],a[href*='ptwc.weather.gov'],a[href*='www.atmos.washington.edu']",
-			options:{
-				skip_internal:true,
-				mode:"event,_link",
-				category:"internal",
-				skip_campaign:true,
-				overwrites:true
-			}
-		},
+
 		{
 			element:".youtube,.youtube2",
 			options:{
@@ -67,15 +58,15 @@ window.wsu_analytics.site.events = [
 			}
 		},
 		{
-			element:"a[href*='.jpg'],a[href*='.zip'],a[href*='.tiff'],a[href*='.tif'],\
-						a[href*='.bin'],a[href*='.Bin'],a[href*='.eps'],a[href*='.gif'],\
-						a[href*='.png'],a[href*='.ppt'],a[href*='.pdf'],a[href*='.doc'],\
-						a[href*='.docx'],\
-						.track.jpg,.track.zip,.track.tiff,.track.tif,\
-						.track.bin,.track.Bin,.track.eps,.track.gif,\
-						.track.png,.track.ppt,.track.pdf,.track.doc,\
-						.track.docx\
-						",
+			element:"a[href*='.jpg'], a[href*='.zip'], a[href*='.tiff'], a[href*='.tif'],\
+					 a[href*='.bin'], a[href*='.Bin'], a[href*='.eps'], a[href*='.gif'],\
+					 a[href*='.png'], a[href*='.ppt'], a[href*='.pdf'], a[href*='.doc'],\
+					 a[href*='.docx'],\
+					 .track.jpg, .track.zip, .track.tiff, .track.tif,\
+					 .track.bin, .track.Bin, .track.eps, .track.gif,\
+					 .track.png, .track.ppt, .track.pdf, .track.doc,\
+					 .track.docx\
+					",
 			options:{
 				action:function(ele){
 					var href_parts =$(ele).attr('herf').split('.');
