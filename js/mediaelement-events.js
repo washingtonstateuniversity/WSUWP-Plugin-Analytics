@@ -16,19 +16,23 @@ _wpmejsSettings.success = function( mejs ) {
 		}
 
 		if(typeof jQuery.jtrack !=="undefined"){
+			/* we can do so much better then this, but it'll work for now
+				just update to do more robust tracking as we can.
+			*/
+			
 			// Event listener for when the video starts playing
 			mejs.addEventListener( 'playing', function( e ) {
-				jQuery.jtrack.trackEvent(pageTracker,"Audio", 'playing');
+				jQuery('body').trackEvent ('Audio', 'playing', "some lable", 1 );
 			}, false);
 
 			// Event listener for when the video is paused
 			mejs.addEventListener( 'pause', function( e ) {
-				jQuery.jtrack.trackEvent(pageTracker,"Audio", 'pausing');
+				jQuery('body').trackEvent ('Audio', 'pausing', "some lable", 1 );
 			}, false);
 
 			// Event listener for when the video ends
 			mejs.addEventListener( 'ended', function( e ) {
-				jQuery.jtrack.trackEvent(pageTracker,"Audio", 'ending');
+				jQuery('body').trackEvent ('Audio', 'ending', "some lable", 1 );
 			}, false);
 		}
 	};
