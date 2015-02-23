@@ -160,8 +160,13 @@ class WSU_Analytics {
 		//if blaa blaa then build else then use default
 		wp_register_script( 'wsu-analytics-events', plugins_url( 'js/default_events.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
 		
+		$load_jquery_ui_option_var_that_is_for_now=true;
+		if(wp_script_is('jquery-ui','enqueued') && $load_jquery_ui_option_var_that_is_for_now){
+			//if blaa blaa then build else then use default
+			wp_register_script( 'wsu-analytics-ui-events', plugins_url( 'js/default_ui-events.js', __FILE__ ), array( 'wsu-analytics-events', 'jquery' ), $this->script_version(), true );
+		}
 		
-		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.min.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
+		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.min.js', __FILE__ ), array( 'wsu-analytics-events', 'jquery' ), $this->script_version(), true );
 
 		/*$tracker_data = array(
 			'tracker_id' => $google_analytics_id,
@@ -192,13 +197,15 @@ class WSU_Analytics {
 
 		wp_localize_script( 'wsu-analytics-events', 'wsu_analytics', $tracker_data );
 		wp_enqueue_script( 'wsu-analytics-events' );
+		if(wp_script_is('jquery-ui')){
+			wp_enqueue_script( 'wsu-analytics-ui-events' );
+		}
 		wp_enqueue_script( 'wsu-analytics-main' );
 		return;
 	}
 
 	public function mediaelement_scripts() {
 		wp_enqueue_script( 'wsu-mediaelement-events', plugins_url( '/js/mediaelement-events.js', __FILE__ ), array( 'mediaelement' ), false, true );
-
 		return 'mediaelement';
 	}
 
