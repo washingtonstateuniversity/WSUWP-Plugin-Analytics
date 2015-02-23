@@ -167,9 +167,10 @@ class WSU_Analytics {
 			'tracker_id' => $google_analytics_id,
 			'domain' => $site_details->domain,
 		);*/
-		
+
 		$tracker_data = array(
 			"wsuglobal"=>array(
+				"ga_code"=>"UA-55791317-1",
 				"campus"=>"none",
 				"college"=>"none",
 				"unit"=>"none",
@@ -177,9 +178,10 @@ class WSU_Analytics {
 				"events"=>array() //placholder // get and build from the default
 			),
 			"app"=>array(
-				"page_view_type"=>'Unknown',
-				"authenticated_user"=>'Not Authenticated',
-				"is_authenticated"=>false,
+				"ga_code"=>"UA-52133513-1",
+				"page_view_type"=>$this->get_page_view_type(),
+				"authenticated_user"=>$this->get_authenticated_user(),
+				"is_authenticated"=>is_user_logged_in(),
 				"events"=>array() //placholder // get and build from the default
 			),
 			"site"=>array(
@@ -199,6 +201,29 @@ class WSU_Analytics {
 
 		return 'mediaelement';
 	}
+
+	private function get_page_view_type(){
+		if ( is_blog_admin() ) {
+			$page_view_type = 'Site Admin';
+		} elseif ( is_network_admin() ) {
+			$page_view_type = 'Network Admin';
+		} elseif ( ! is_admin() ) {
+			$page_view_type = 'Front End';
+		} else {
+			$page_view_type = 'Unknown';
+		}
+		return $page_view_type;
+	}
+
+	private function get_authenticated_user(){
+		if ( is_user_logged_in() ) {
+			$authenticated_user = 'Authenticated';
+		} else {
+			$authenticated_user = 'Not Authenticated';
+		}
+		return $authenticated_user;
+	}
+
 
 	/**
 	 * Compile a script version and include WSUWP Platform if possible.

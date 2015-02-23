@@ -1,7 +1,7 @@
 (function($, window){
 	/* start with the defaults for WSU sites */
 	var rendered_accounts = [{
-			id:'UA-55791317-1',
+			id:window.wsu_analytics.wsuglobal.ga_code,
 			settings:{
 				namedSpace:'WSUGlobal',
 				cookieDomain:".wsu.edu",
@@ -16,7 +16,7 @@
 				events: window.wsu_analytics.wsuglobal.events
 			}
 		},{
-			id: 'UA-52133513-1',
+			id: window.wsu_analytics.app.ga_code,
 			settings:{
 				namedSpace:'appScope',
 				cookieDomain:".wsu.edu",
