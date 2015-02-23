@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WSU Analytics
-Version: 0.3.2
+Version: 0.3.3
 Plugin URI: http://web.wsu.edu
 Description: Manages analytics for sites on the WSUWP Platform
 Author: washingtonstateuniversity, jeremyfelt
@@ -19,13 +19,15 @@ class WSU_Analytics {
 	 * Add our hooks.
 	 */
 	public function __construct() {
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10 );
 		add_filter( 'wp_video_shortcode_library', array( $this, 'mediaelement_scripts' ), 11 );
 		add_filter( 'wp_audio_shortcode_library', array( $this, 'mediaelement_scripts' ), 11 );
-		add_action( 'admin_init', array( $this, 'display_settings' ) );
-		add_action( 'wp_footer', array( $this, 'global_tracker' ), 999 );
-		add_action( 'admin_footer', array( $this, 'global_tracker' ), 999 );
+		
 		add_action( 'wp_head', array( $this, 'display_site_verification' ), 99 );
+		add_action( 'wp_footer', array( $this, 'global_tracker' ), 999 );
+		
+		add_action( 'admin_init', array( $this, 'display_settings' ), 99);
+		add_action( 'admin_footer', array( $this, 'global_tracker' ), 999 );
 	}
 
 	/**
@@ -131,6 +133,7 @@ class WSU_Analytics {
 		if ( $bing_verification ) {
 			echo '<meta name="msvalidate.01" content="' . esc_attr( $bing_verification ) . '" />' . "\n";
 		}
+		return;
 	}
 
 	/**
@@ -150,18 +153,37 @@ class WSU_Analytics {
 			return;
 		}
 
-		$site_details = get_blog_details();
+		//$site_details = get_blog_details();
 
 		wp_enqueue_script( 'jquery-jtrack', '//repo.wsu.edu/jtrack/1/jtrack.js', array( 'jquery' ), $this->script_version(), true );
 		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.min.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
 
-		$tracker_data = array(
+		/*$tracker_data = array(
 			'tracker_id' => $google_analytics_id,
 			'domain' => $site_details->domain,
+		);*/
+		
+		$tracker_data = array(
+			"global"=>array(
+				"campus"=>"none",
+				"college"=>"none",
+				"unit"=>"none",
+				"subunit"=>"none",
+			),
+			"app"=>array(
+				"page_view_type"=>'Unknown',
+				"authenticated_user"=>'Not Authenticated',
+				"is_authenticated"=>false
+			),
+			"site"=>array(
+				"ga_code"=>$google_analytics_id,
+				"events"=>array() //get and build from the default and return a url
+			)
 		);
 
 		wp_localize_script( 'wsu-analytics-main', 'wsu_analytics', $tracker_data );
 		wp_enqueue_script( 'wsu-analytics-main' );
+		return;
 	}
 
 	public function mediaelement_scripts() {
@@ -225,6 +247,7 @@ class WSU_Analytics {
 			ga('send', 'pageview');
 		</script>
 		<?php
+		return;
 	}
 }
 $wsu_analytics = new WSU_Analytics();
