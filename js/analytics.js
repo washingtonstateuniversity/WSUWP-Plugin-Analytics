@@ -7,13 +7,13 @@
 				cookieDomain:".wsu.edu",
 				dimension:[
 					{'name':'dimension1','val': window.location.protocol },//protocol <string> (http: / https:)
-					{'name':'dimension2','val': window.wsu_analytics.global.campus },//campus <string>
-					{'name':'dimension3','val': window.wsu_analytics.global.college },//college <string>
-					{'name':'dimension4','val': window.wsu_analytics.global.unit },//unit <string>
-					{'name':'dimension5','val': window.wsu_analytics.global.subunit },//subunit <string>
+					{'name':'dimension2','val': window.wsu_analytics.wsuglobal.campus },//campus <string>
+					{'name':'dimension3','val': window.wsu_analytics.wsuglobal.college },//college <string>
+					{'name':'dimension4','val': window.wsu_analytics.wsuglobal.unit },//unit <string>
+					{'name':'dimension5','val': window.wsu_analytics.wsuglobal.subunit },//subunit <string>
 					{'name':'dimension6','val': window.wsu_analytics.app.is_authenticated }//editor <bool>
 				],
-				events: window.wsu_analytics.global.events
+				events: window.wsu_analytics.wsuglobal.events
 			}
 		},{
 			id: 'UA-52133513-1',

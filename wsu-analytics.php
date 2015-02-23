@@ -156,6 +156,11 @@ class WSU_Analytics {
 		//$site_details = get_blog_details();
 
 		wp_enqueue_script( 'jquery-jtrack', '//repo.wsu.edu/jtrack/1/jtrack.js', array( 'jquery' ), $this->script_version(), true );
+		
+		//if blaa blaa then build else then use default
+		wp_register_script( 'wsu-analytics-events', plugins_url( 'js/default_events.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
+		
+		
 		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.min.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
 
 		/*$tracker_data = array(
@@ -164,24 +169,27 @@ class WSU_Analytics {
 		);*/
 		
 		$tracker_data = array(
-			"global"=>array(
+			"wsuglobal"=>array(
 				"campus"=>"none",
 				"college"=>"none",
 				"unit"=>"none",
 				"subunit"=>"none",
+				"events"=>array() //placholder // get and build from the default
 			),
 			"app"=>array(
 				"page_view_type"=>'Unknown',
 				"authenticated_user"=>'Not Authenticated',
-				"is_authenticated"=>false
+				"is_authenticated"=>false,
+				"events"=>array() //placholder // get and build from the default
 			),
 			"site"=>array(
 				"ga_code"=>$google_analytics_id,
-				"events"=>array() //get and build from the default and return a url
+				"events"=>array() //placholder // get and build from the default
 			)
 		);
 
-		wp_localize_script( 'wsu-analytics-main', 'wsu_analytics', $tracker_data );
+		wp_localize_script( 'wsu-analytics-events', 'wsu_analytics', $tracker_data );
+		wp_enqueue_script( 'wsu-analytics-events' );
 		wp_enqueue_script( 'wsu-analytics-main' );
 		return;
 	}
@@ -235,18 +243,7 @@ class WSU_Analytics {
 		} else {
 			$authenticated_user = 'Not Authenticated';
 		}
-		?>
-		<script>
-			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-			ga('create', '<?php echo esc_attr( $global_id ); ?>', '<?php echo esc_attr( $cookie_domain ); ?>');
-			ga('set', 'dimension1', '<?php echo $page_view_type; ?>' );
-			ga('set', 'dimension2', '<?php echo $authenticated_user; ?>' );
-			ga('send', 'pageview');
-		</script>
-		<?php
+		
 		return;
 	}
 }
