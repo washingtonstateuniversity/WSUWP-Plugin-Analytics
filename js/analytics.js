@@ -2,6 +2,7 @@
 	/* start with the defaults for WSU sites */
 	var rendered_accounts = [];
 	
+	/* should the wsu global be used? */
 	if(analytics.app.page_view_type==="Front End" || analytics.app.page_view_type==="unknown"){
 		rendered_accounts = jQuery.merge( rendered_accounts , [{
 			id:analytics.wsuglobal.ga_code,
@@ -21,6 +22,7 @@
 		}] );
 	}
 
+	/* Set up the app level for the GA schema */
 	rendered_accounts = jQuery.merge( rendered_accounts , [{
 		id: analytics.app.ga_code,
 		settings:{
@@ -34,6 +36,7 @@
 		}
 	}] );	
 
+	/* if on the front end send site level data */
 	if(analytics.app.page_view_type==="Front End" || analytics.app.page_view_type==="unknown"){
 		if(analytics.site.ga_code!==false){
 			rendered_accounts = jQuery.merge( rendered_accounts , [{

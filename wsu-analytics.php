@@ -373,8 +373,17 @@ class WSU_Analytics {
 
 
 	private function is_editor(){
-		// first check if even logged in, if so are they an easy to check admin? , if not then double check what they can do that would make them an "editor"
-		return is_user_logged_in() && ( is_super_admin() || ( current_user_can('add_users')||current_user_can('edit_pages')||current_user_can('edit_posts')||current_user_can('manage_options') ) );
+		if(is_user_logged_in()){
+			if(is_super_admin()){
+				return true;	
+			}
+			$user = wp_get_current_user();
+			$allowed_roles = array('editor', 'administrator', 'author');
+			if( array_intersect($allowed_roles, $user->roles ) ) {
+				return true;	
+			}
+		}
+		return false;
 	}
 
 
