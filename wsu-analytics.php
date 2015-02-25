@@ -39,12 +39,12 @@ class WSU_Analytics {
 		register_setting( 'general', 'wsuwp_ga_id', array( $this, 'sanitize_ga_id' ) );
 		register_setting( 'general', 'wsuwp_google_verify', array( $this, 'sanitize_google_verify' ) );
 		register_setting( 'general', 'wsuwp_bing_verify', array( $this, 'sanitize_bing_verify' ) );
-		register_setting( 'general', 'wsuwp_analytics_settings', array( $this, 'sanitize_wsuwp_analytics_settings' ) );
+		register_setting( 'general', 'wsuwp_analytics_option_map', array( $this, 'sanitize_wsuwp_analytics_option_map' ) );
 
 		add_settings_field( 'wsuwp-ga-id', 'Google Analytics ID', array( $this, 'general_settings_ga_id'), 'general', 'default', array( 'label_for' => 'wsuwp_ga_id' ) );
 		add_settings_field( 'wsuwp-google-site-verify', 'Google Site Verification', array( $this, 'general_settings_google_site_verify' ), 'general', 'default', array( 'label_for' => 'wsuwp_google_verify' ) );
 		add_settings_field( 'wsuwp-bing-site-verify', 'Bing Site Verification', array( $this, 'general_settings_bing_site_verify' ), 'general', 'default', array( 'label_for' => 'wsuwp_bing_verify' ) );
-		add_settings_field( 'wsuwp-analytics-settings', 'General Analytics Settings', array( $this, 'general_settings_inputs' ), 'general', 'default', array( 'label_for' => 'wsuwp_analytics_settings' ) );
+		add_settings_field( 'wsuwp-analytics-option-map', 'General Analytics Settings', array( $this, 'general_settings_inputs' ), 'general', 'default', array( 'label_for' => 'wsuwp_analytics_option_map' ) );
 	}
 
 	/**
@@ -98,13 +98,13 @@ class WSU_Analytics {
 	}
 
 	/**
-	 * Sanitize the saved value for the Bing Site Verification meta.
+	 * Sanitize the saved value for analytics.
 	 *
-	 * @param $bing_verify
+	 * @param $analytics_settings
 	 *
 	 * @return string
 	 */
-	public function sanitize_wsuwp_analytics_settings( $analytics_settings ) {
+	public function sanitize_wsuwp_analytics_option_map( $analytics_settings ) {
 		return $analytics_settings;
 	}
 
@@ -147,7 +147,7 @@ class WSU_Analytics {
 	 * @access private
 	 */
 	private function get_analytics_options(){
-		$option_object = get_option( 'wsuwp_analytics_options', json_encode(array(
+		$option_object = get_option( 'wsuwp_analytics_option_map', array(
 			"campus"=>"none",
 			"college"=>"none",
 			"unit"=>"none",
@@ -155,8 +155,8 @@ class WSU_Analytics {
 			"extend_defaults"=>true,
 			"use_jquery_ui"=>true,
 			"is_debug"=>false
-		)) );
-		return (array)json_decode($option_object);
+		) );
+		return $option_object;
 	}
 	
 	
@@ -255,20 +255,20 @@ class WSU_Analytics {
 			
 		<!-- extend_defaults -->
 		<p><b>Extend Defaults</b></p>
-		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="true" <?=checked( true, $option_object["extend_defaults"] )?> /></label>
-		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="false" <?=checked( false, $option_object["extend_defaults"] )?> /></label>
+		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="true" <?=checked( "true", $option_object["extend_defaults"] )?> /></label>
+		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="false" <?=checked( "false", $option_object["extend_defaults"] )?> /></label>
 		<p class="description">When using a theme js file to define your custom events, should, "Yes", it be extending the defaults provided with the plugin, or should, "No", it be replacing the defaults. </p><br/>
 
 		<!-- use_jquery_ui -->
 		<p><b>Use jQuery UI</b></p>
-		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="true" <?=checked( true, $option_object["use_jquery_ui"] )?> /></label>
-		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="false" <?=checked( false, $option_object["use_jquery_ui"] )?> /></label>
+		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="true" <?=checked( "true", $option_object["use_jquery_ui"] )?> /></label>
+		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="false" <?=checked( "false", $option_object["use_jquery_ui"] )?> /></label>
 		<p class="description">Load default jQuery UI events.  Note: When using a theme js file, the jQuery UI will follow the same `Extend Defaults` selection. </p><br/>
 
 		<!-- debug -->
 		<p><b>Turn on debug</b></p>
-		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[is_debug]" value="true" <?=checked( true, $option_object["is_debug"] )?> /></label>
-		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[is_debug]" value="false" <?=checked( false, $option_object["is_debug"] )?> /></label>
+		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[is_debug]" value="true" <?=checked( "true", $option_object["is_debug"] )?> /></label>
+		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[is_debug]" value="false" <?=checked( "false", $option_object["is_debug"] )?> /></label>
 		<p class="description">Normally used for local development</p><br/>		
 		
 		
