@@ -108,11 +108,6 @@ class WSU_Analytics {
 		return $analytics_settings;
 	}
 
-
-
-
-
-
 	/**
 	 * Display a field to capture the site's Google Analytics ID.
 	 */
@@ -158,10 +153,7 @@ class WSU_Analytics {
 		) );
 		return $option_object;
 	}
-	
-	
-	
-	
+
 	/**
 	 * Provide inputs and selects in general settings
 	 *
@@ -280,10 +272,6 @@ class WSU_Analytics {
 
 		<?php
 	}
-	
-	
-	
-	
 
 	/**
 	 * Output the verification tags used by Google and Bing to verify a site.
@@ -299,7 +287,6 @@ class WSU_Analytics {
 		if ( $bing_verification ) {
 			echo '<meta name="msvalidate.01" content="' . esc_attr( $bing_verification ) . '" />' . "\n";
 		}
-		return;
 	}
 
 	/**
@@ -397,19 +384,14 @@ class WSU_Analytics {
 		}
 		//start up the tracking script
 		wp_enqueue_script( 'wsu-analytics-main' );
-		return;
 	}
 	
 	/**
-	 * Enqueues the events when the core media is loaded
-	 *
-	 * @return String
+	 * Enqueues the events when the core media is loaded.
 	 */
 	public function mediaelement_scripts() {
 		wp_enqueue_script( 'wsu-mediaelement-events', plugins_url( '/js/mediaelement-events.js', __FILE__ ), array( 'mediaelement' ), false, true );
-		return 'mediaelement';
 	}
-
 
 	/**
 	 * State if the user is authenticated
@@ -464,8 +446,6 @@ class WSU_Analytics {
 		}
 		return false;
 	}
-
-
 
 	/**
 	 * Compile a script version and include WSUWP Platform if possible.
