@@ -19,16 +19,17 @@ class WSU_Analytics {
 	 * Add our hooks.
 	 */
 	public function __construct() {
+		//set up the trackers for both the front and admin
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10 );
+		
+		//account for the code media  elements, but treated as after dom load in the browser
 		add_filter( 'wp_video_shortcode_library', array( $this, 'mediaelement_scripts' ), 11 );
 		add_filter( 'wp_audio_shortcode_library', array( $this, 'mediaelement_scripts' ), 11 );
 		
 		add_action( 'wp_head', array( $this, 'display_site_verification' ), 99 );
-		//add_action( 'wp_footer', array( $this, 'global_tracker' ), 999 );
 		
 		add_action( 'admin_init', array( $this, 'display_settings' ), 99);
 		add_action( 'admin_footer', array( $this, 'enqueue_scripts' ), 10 );
-		//add_action( 'admin_footer', array( $this, 'global_tracker' ), 999 );
 	}
 
 	/**
@@ -39,15 +40,11 @@ class WSU_Analytics {
 		register_setting( 'general', 'wsuwp_google_verify', array( $this, 'sanitize_google_verify' ) );
 		register_setting( 'general', 'wsuwp_bing_verify', array( $this, 'sanitize_bing_verify' ) );
 		register_setting( 'general', 'wsuwp_analytics_settings', array( $this, 'sanitize_wsuwp_analytics_settings' ) );
-		
-		
+
 		add_settings_field( 'wsuwp-ga-id', 'Google Analytics ID', array( $this, 'general_settings_ga_id'), 'general', 'default', array( 'label_for' => 'wsuwp_ga_id' ) );
 		add_settings_field( 'wsuwp-google-site-verify', 'Google Site Verification', array( $this, 'general_settings_google_site_verify' ), 'general', 'default', array( 'label_for' => 'wsuwp_google_verify' ) );
 		add_settings_field( 'wsuwp-bing-site-verify', 'Bing Site Verification', array( $this, 'general_settings_bing_site_verify' ), 'general', 'default', array( 'label_for' => 'wsuwp_bing_verify' ) );
-		
 		add_settings_field( 'wsuwp-analytics-settings', 'General Analytics Settings', array( $this, 'general_settings_inputs' ), 'general', 'default', array( 'label_for' => 'wsuwp_analytics_settings' ) );
-		
-		
 	}
 
 	/**
@@ -108,7 +105,7 @@ class WSU_Analytics {
 	 * @return string
 	 */
 	public function sanitize_wsuwp_analytics_settings( $analytics_settings ) {
-		return sanitize_text_field( $analytics_settings );
+		return $analytics_settings;
 	}
 
 
@@ -144,22 +141,34 @@ class WSU_Analytics {
 	}
 	
 	/**
-	 * Provide inputs and selects in general settings
+	 * Get the site analytics options with no fallback to the network
+	 *
+	 * @return array
+	 * @access private
 	 */
-	public function general_settings_inputs() {
+	private function get_analytics_options(){
 		$option_object = get_option( 'wsuwp_analytics_options', json_encode(array(
 			"campus"=>"none",
 			"college"=>"none",
 			"unit"=>"none",
 			"subunit"=>"none",
 			"extend_defaults"=>true,
-			"use_jquery_ui"=>true
+			"use_jquery_ui"=>true,
+			"is_debug"=>false
 		)) );
-
-		//stub
-		$option_object = (array)json_decode($option_object);
+		return (array)json_decode($option_object);
+	}
+	
+	
+	
+	
+	/**
+	 * Provide inputs and selects in general settings
+	 */
+	public function general_settings_inputs() {
+		$option_object = $this->get_analytics_options();
 		
-		
+		//stubs
 		$campus=array();
 		$college=array();
 		$units=array(
@@ -175,47 +184,75 @@ class WSU_Analytics {
 		<!-- campus -->
 		<p><b>Campus</b></p>
 		<select name="wsuwp_analytics_option_map[campus]">
-			<option value="" <?=selected( $key, $option_object["campus"] )?>></option>
+			<option value="none" <?=selected( "none", $option_object["campus"] )?>>None</option>
+			<option value="all" <?=selected( "all", $option_object["campus"] )?>>All</option>
+			<?php foreach($campus as $key=>$name):?>
+				<option value="<?=$key?>" <?=selected( $key, $option_object["campus"] )?>><?=$name?></option>
+			<?php endforeach;?>
 		</select>
 		<p class="description">Does this site represent a campus in either location or association?</p><br/>
 		
 		<!-- college -->
 		<p><b>College</b></p>
 		<select name="wsuwp_analytics_option_map[college]">
-			<option value="" <?=selected( $key, $option_object["college"] )?>></option>
+			<option value="none" <?=selected( "none", $option_object["college"] )?>>None</option>
+			<option value="all" <?=selected( "all", $option_object["college"] )?>>All</option>
+			<?php foreach($college as $key=>$name):?>
+				<option value="<?=$key?>" <?=selected( $key, $option_object["college"] )?>><?=$name?></option>
+			<?php endforeach;?>
 		</select>
 		<p class="description">Does this site represent a College either in totality or as an association?</p><br/>
 		
 		<!-- units -->
 		<p><b>Parent Unit</b></p>
 		<select name="wsuwp_analytics_option_map[unit]">
-			<optgroup label="school">
-				<option value="" <?=selected( $key, $option_object["unit"] )?>></option>
-			</optgroup>
+			<option value="none" <?=selected( "none", $option_object["unit"] )?>>None</option>
+			<?php foreach($units as $key=>$group):?>
+				<optgroup label="<?=$key?>">
+				<?php foreach($group as $item_key=>$name):?>
+					<option value="<?=$item_key?>" <?=selected( $item_key, $option_object["unit"] )?>><?=$name?></option>
+				<?php endforeach;?>
+				</optgroup>
+			<?php endforeach;?>
 		</select>
 		<p class="description">Does this site represent an entiy that has a parent unit/department/office/school?</p><br/>
 		
 		<!-- units -->
 		<p><b>Unit</b></p>
 		<select name="wsuwp_analytics_option_map[subunit]">
-			<optgroup label="school">
-				<option value="" <?=selected( $key, $option_object["subunit"] )?>></option>
-			</optgroup>
+			<option value="none" <?=selected( "none", $option_object["subunit"] )?>>None</option>
+			<?php foreach($units as $key=>$group):?>
+				<optgroup label="<?=$key?>">
+				<?php foreach($group as $item_key=>$name):?>
+					<option value="<?=$item_key?>" <?=selected( $item_key, $option_object["subunit"] )?>><?=$name?></option>
+				<?php endforeach;?>
+				</optgroup>
+			<?php endforeach;?>
 		</select>
 		<p class="description">Does this site represent an entiy that is some form of a unit/department/office/school?</p><br/>
 			
-		
+		<!-- extend_defaults -->
 		<p><b>Extend Defaults</b></p>
 		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="true" <?=checked( true, $option_object["extend_defaults"] )?> /></label>
 		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="false" <?=checked( false, $option_object["extend_defaults"] )?> /></label>
 		<p class="description">When using a theme js file to define your custom events, should, "Yes", it be extending the defaults provided with the plugin, or should, "No", it be replacing the defaults. </p><br/>
 
+		<!-- use_jquery_ui -->
 		<p><b>Use jQuery UI</b></p>
 		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="true" <?=checked( true, $option_object["use_jquery_ui"] )?> /></label>
 		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="false" <?=checked( false, $option_object["use_jquery_ui"] )?> /></label>
 		<p class="description">Load default jQuery UI events.  Note: When using a theme js file, the jQuery UI will follow the same `Extend Defaults` selection. </p><br/>
+
+		<!-- debug -->
+		<p><b>Turn on debug</b></p>
+		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[is_debug]" value="true" <?=checked( true, $option_object["is_debug"] )?> /></label>
+		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[is_debug]" value="false" <?=checked( false, $option_object["is_debug"] )?> /></label>
+		<p class="description">Normally used for local development</p><br/>		
+		
 		
 		<hr/>
+		
+		
 		<p class="description">Instructions on how to set up your Google analytics to best use this plugin can be <a href="#" class="ajax_info" target="_blank">found here</a>.</p>
 
 
@@ -247,11 +284,14 @@ class WSU_Analytics {
 	 * Enqueue the scripts used for analytics on the platform.
 	 */
 	public function enqueue_scripts() {
-		/*if ( defined( 'WSU_LOCAL_CONFIG' ) && WSU_LOCAL_CONFIG ) {
+
+		$option_object = $this->get_analytics_options();
+
+		if ( !$option_object["is_debug"] && defined( 'WSU_LOCAL_CONFIG' ) && WSU_LOCAL_CONFIG ) {
 			return;
-		}*/
-		
-		
+		}
+
+
 		// Look for a site level Google Analytics ID
 		$google_analytics_id = get_option( 'wsuwp_ga_id', false );
 
@@ -268,24 +308,13 @@ class WSU_Analytics {
 		//$site_details = get_blog_details();
 
 		wp_enqueue_script( 'jquery-jtrack', '//repo.wsu.edu/jtrack/1/jtrack.js', array( 'jquery' ), $this->script_version(), true );
-		
-		
-		$option_object = get_option( 'wsuwp_analytics_options', json_encode(array(
-			"campus"=>"none",
-			"college"=>"none",
-			"unit"=>"none",
-			"subunit"=>"none",
-			"extend_defaults"=>true,
-			"use_jquery_ui"=>true
-		)) );
-		$option_object = (array)json_decode($option_object);
 
-		
+
 		wp_register_script( 'wsu-analytics-events', plugins_url( 'js/default_events.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
+
 
 		$using_jquery_ui = wp_script_is('jquery-ui-core','registered') || wp_script_is('jquery-ui-core','enqueued') || wp_script_is('jquery-ui-core','done');
 		if( $using_jquery_ui && $option_object['use_jquery_ui'] ){
-			//if blaa blaa then build else then use default
 			wp_register_script( 'wsu-analytics-ui-events', plugins_url( 'js/default_ui-events.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
 		}
 		
@@ -293,23 +322,23 @@ class WSU_Analytics {
 
 		$tracker_data = array(
 			"wsuglobal"=>array(
-				"ga_code"=>"UA-55791317-1",
-				"campus"=>$option_object["campus"],
-				"college"=>$option_object["college"],
-				"unit"=> $option_object["unit"]=="none" && $option_object["subunit"]!="none" ? $option_object["subunit"] : $option_object["unit"],
-				"subunit"=>$option_object["unit"]!="none" ? $option_object["subunit"] : $option_object["unit"],
-				"events"=>array() //placholder // implementor would extend or override
+				"ga_code"           => "UA-55791317-1", // this is hardcode for now
+				"campus"            => $option_object["campus"],
+				"college"           => $option_object["college"],
+				"unit"              => $option_object["unit"]=="none" && $option_object["subunit"]!="none" ? $option_object["subunit"] : $option_object["unit"],
+				"subunit"           => $option_object["unit"]!="none" ? $option_object["subunit"] : $option_object["unit"],
+				"events"            => array() //ns placholder
 			),
 			"app"=>array(
-				"ga_code"=>"UA-52133513-1",
-				"page_view_type"=>$this->get_page_view_type(),
-				"authenticated_user"=>$this->get_authenticated_user(),
-				"is_editor"=>$this->is_editor(),
-				"events"=>array() //placholder // implementor would extend or override
+				"ga_code"           => "UA-52133513-1", // this is hardcode for now
+				"page_view_type"    => $this->get_page_view_type(),
+				"authenticated_user"=> $this->get_authenticated_user(),
+				"is_editor"         => $this->is_editor(),
+				"events"            => array() //ns placholder
 			),
 			"site"=>array(
-				"ga_code"=>$google_analytics_id,
-				"events"=>array() //placholder // implementor would extend or override
+				"ga_code"           => $google_analytics_id,
+				"events"            => array() //ns placholder
 			)
 		);
 		
@@ -349,6 +378,13 @@ class WSU_Analytics {
 		return 'mediaelement';
 	}
 
+
+	/**
+	 * State if the user is authenticated
+	 *
+	 * @return String
+	 * @access private
+	 */
 	private function get_page_view_type(){
 		if ( is_blog_admin() ) {
 			$page_view_type = 'Site Admin';
@@ -362,6 +398,12 @@ class WSU_Analytics {
 		return $page_view_type;
 	}
 
+	/**
+	 * State if the user is authenticated
+	 *
+	 * @return String
+	 * @access private
+	 */
 	private function get_authenticated_user(){
 		if ( is_user_logged_in() ) {
 			$authenticated_user = 'Authenticated';
@@ -371,7 +413,12 @@ class WSU_Analytics {
 		return $authenticated_user;
 	}
 
-
+	/**
+	 * Is the user do more then just suggest content for the site?
+	 *
+	 * @return boolean
+	 * @access private
+	 */
 	private function is_editor(){
 		if(is_user_logged_in()){
 			if(is_super_admin()){
@@ -392,6 +439,7 @@ class WSU_Analytics {
 	 * Compile a script version and include WSUWP Platform if possible.
 	 *
 	 * @return string Version to be attached to scripts.
+	 * @access private
 	 */
 	private function script_version() {
 		if ( function_exists( 'wsuwp_global_version' ) ) {
