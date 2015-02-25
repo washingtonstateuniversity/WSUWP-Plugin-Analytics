@@ -14,7 +14,7 @@
 					{'name':'dimension3','val': analytics.wsuglobal.college },//college <string>
 					{'name':'dimension4','val': analytics.wsuglobal.unit },//unit <string>
 					{'name':'dimension5','val': analytics.wsuglobal.subunit },//subunit <string>
-					{'name':'dimension6','val': ""+analytics.app.is_authenticated }//editor <bool>
+					{'name':'dimension6','val': ""+analytics.app.is_editor }//editor <bool>
 				],
 				events: analytics.wsuglobal.events
 			}
@@ -42,7 +42,7 @@
 					namedSpace:'siteScope',
 					cookieDomain:".wsu.edu",
 					dimension:[
-						{'name':'dimension1','val': ""+analytics.app.is_authenticated }//editor <bool>
+						{'name':'dimension1','val': ""+analytics.app.is_editor }//editor <bool>
 					],
 					events: analytics.site.events
 				}

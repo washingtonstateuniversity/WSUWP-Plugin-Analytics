@@ -304,7 +304,7 @@ class WSU_Analytics {
 				"ga_code"=>"UA-52133513-1",
 				"page_view_type"=>$this->get_page_view_type(),
 				"authenticated_user"=>$this->get_authenticated_user(),
-				"is_authenticated"=>$this->is_editor(),
+				"is_editor"=>$this->is_editor(),
 				"events"=>array() //placholder // implementor would extend or override
 			),
 			"site"=>array(
