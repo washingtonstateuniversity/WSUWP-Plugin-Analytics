@@ -24,10 +24,11 @@ class WSU_Analytics {
 		add_filter( 'wp_audio_shortcode_library', array( $this, 'mediaelement_scripts' ), 11 );
 		
 		add_action( 'wp_head', array( $this, 'display_site_verification' ), 99 );
-		add_action( 'wp_footer', array( $this, 'global_tracker' ), 999 );
+		//add_action( 'wp_footer', array( $this, 'global_tracker' ), 999 );
 		
 		add_action( 'admin_init', array( $this, 'display_settings' ), 99);
-		add_action( 'admin_footer', array( $this, 'global_tracker' ), 999 );
+		add_action( 'admin_footer', array( $this, 'enqueue_scripts' ), 10 );
+		//add_action( 'admin_footer', array( $this, 'global_tracker' ), 999 );
 	}
 
 	/**
@@ -246,6 +247,11 @@ class WSU_Analytics {
 	 * Enqueue the scripts used for analytics on the platform.
 	 */
 	public function enqueue_scripts() {
+		/*if ( defined( 'WSU_LOCAL_CONFIG' ) && WSU_LOCAL_CONFIG ) {
+			return;
+		}*/
+		
+		
 		// Look for a site level Google Analytics ID
 		$google_analytics_id = get_option( 'wsuwp_ga_id', false );
 
@@ -379,38 +385,5 @@ class WSU_Analytics {
 		return $this->version;
 	}
 
-	/**
-	 * Set a global tracker for the wsu.edu root domain. This tracker will not work for
-	 * any domains outside of the wsu.edu root at this time.
-	 */
-	public function global_tracker() {
-		if ( defined( 'WSU_LOCAL_CONFIG' ) && WSU_LOCAL_CONFIG ) {
-			return;
-		}
-
-		// The cookie domain is always wp.wsu.edu, but this can be filtered.
-		$cookie_domain = apply_filters( 'wsu_analytics_cookie_domain', 'wsu.edu' );
-
-		// The GA ID is ours by default, but can be filtered.
-		$global_id = apply_filters( 'wsu_analytics_ga_id', 'UA-52133513-1' );
-
-		if ( is_blog_admin() ) {
-			$page_view_type = 'Site Admin';
-		} elseif ( is_network_admin() ) {
-			$page_view_type = 'Network Admin';
-		} elseif ( ! is_admin() ) {
-			$page_view_type = 'Front End';
-		} else {
-			$page_view_type = 'Unknown';
-		}
-
-		if ( is_user_logged_in() ) {
-			$authenticated_user = 'Authenticated';
-		} else {
-			$authenticated_user = 'Not Authenticated';
-		}
-		
-		return;
-	}
 }
 $wsu_analytics = new WSU_Analytics();
