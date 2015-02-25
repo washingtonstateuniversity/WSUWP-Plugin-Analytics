@@ -1,6 +1,9 @@
 (function($, window){
 	/* start with the defaults for WSU sites */
-	var rendered_accounts = [{
+	var rendered_accounts = []
+	
+	if(window.wsu_analytics.app.page_view_type=="Front End" || window.wsu_analytics.app.page_view_type=="unknown"){
+		rendered_accounts = jQuery.merge( rendered_accounts , [{
 			id:window.wsu_analytics.wsuglobal.ga_code,
 			settings:{
 				namedSpace:'WSUGlobal',
@@ -15,31 +18,36 @@
 				],
 				events: window.wsu_analytics.wsuglobal.events
 			}
-		},{
-			id: window.wsu_analytics.app.ga_code,
-			settings:{
-				namedSpace:'appScope',
-				cookieDomain:".wsu.edu",
-				dimension:[
-					{'name':'dimension1','val': window.wsu_analytics.app.page_view_type },//page_view_type <string>
-					{'name':'dimension2','val': window.wsu_analytics.app.authenticated_user },//authenticated_user <string>
-				],
-				events: window.wsu_analytics.app.events
-			}
-		}];
-	/* add the "built" account object to the array of accounts for GA */
-	if(window.wsu_analytics.site.ga_code!==false){
-		rendered_accounts.push({
-			id: window.wsu_analytics.site.ga_code,
-			settings:{
-				namedSpace:'siteScope',
-				cookieDomain:".wsu.edu",
-				dimension:[
-					{'name':'dimension1','val': window.wsu_analytics.app.is_authenticated }//editor <bool>
-				],
-				events: window.wsu_analytics.site.events
-			}
-		});
+		}] );
+	}
+
+	rendered_accounts = jQuery.merge( rendered_accounts , [{
+		id: window.wsu_analytics.app.ga_code,
+		settings:{
+			namedSpace:'appScope',
+			cookieDomain:".wsu.edu",
+			dimension:[
+				{'name':'dimension1','val': window.wsu_analytics.app.page_view_type },//page_view_type <string>
+				{'name':'dimension2','val': window.wsu_analytics.app.authenticated_user },//authenticated_user <string>
+			],
+			events: window.wsu_analytics.app.events
+		}
+	}] );	
+
+	if(window.wsu_analytics.app.page_view_type=="Front End" && window.wsu_analytics.app.page_view_type=="unknown"){
+		if(window.wsu_analytics.site.ga_code!==false){
+			rendered_accounts = jQuery.merge( rendered_accounts , [{
+				id: window.wsu_analytics.site.ga_code,
+				settings:{
+					namedSpace:'siteScope',
+					cookieDomain:".wsu.edu",
+					dimension:[
+						{'name':'dimension1','val': window.wsu_analytics.app.is_authenticated }//editor <bool>
+					],
+					events: window.wsu_analytics.site.events
+				}
+			}] );
+		}
 	}
 	console.log(rendered_accounts);
 	/* just so we are not tracking at this time
