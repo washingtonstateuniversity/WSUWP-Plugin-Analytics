@@ -164,18 +164,40 @@ class WSU_Analytics {
 	
 	/**
 	 * Provide inputs and selects in general settings
+	 *
+	 * @todo the stubs should be pulled not hardcoded
 	 */
 	public function general_settings_inputs() {
 		$option_object = $this->get_analytics_options();
 		
-		//stubs
-		$campus=array();
-		$college=array();
+		//stubs for now untill it's pulled form a more central source
+		$campus=array(
+			"pullman"=>"Pullman"
+		);
+		$college=array(
+			"art_and_science"=>"Arts & Science",
+			"cahnrs"=>"CAHNRS & Extension",
+			"carson"=>"Carson",
+			"education"=>"Education",
+			"honors"=>"Honors College",
+			"medicine"=>"Medicine",
+			"murrow"=>"Murrow",
+			"nursing"=>"Nursing",
+			"pharmacy"=>"Pharmacy",
+			"vetmed"=>"VetMed",
+			"voiland"=>"Voiland"
+		);
 		$units=array(
-			"school"=>array(),
-			"departments"=>array(),
-			"offices"=>array(),
-			"unit"=>array(),
+			"school"=>array(
+				"food_sciences"=>"Food Sciences"
+			),
+			"departments"=>array(
+			),
+			"offices"=>array(
+			),
+			"unit"=>array(
+				"ucomm"=>"University Communications"
+			)
 		);
 		
 		?>
@@ -325,6 +347,9 @@ class WSU_Analytics {
 				"ga_code"           => "UA-55791317-1", // this is hardcode for now
 				"campus"            => $option_object["campus"],
 				"college"           => $option_object["college"],
+				// note that the use may think that "parent unit" is them or not.  
+				// When that happens we need to detect it by noting that the subunit is filled but the 
+				// unit is not.  This accounts for the other way to look at the two drop downs
 				"unit"              => $option_object["unit"]=="none" && $option_object["subunit"]!="none" ? $option_object["subunit"] : $option_object["unit"],
 				"subunit"           => $option_object["unit"]!="none" ? $option_object["subunit"] : $option_object["unit"],
 				"events"            => array() //ns placholder
@@ -372,7 +397,12 @@ class WSU_Analytics {
 		wp_enqueue_script( 'wsu-analytics-main' );
 		return;
 	}
-
+	
+	/**
+	 * Enqueues the events when the core media is loaded
+	 *
+	 * @return String
+	 */
 	public function mediaelement_scripts() {
 		wp_enqueue_script( 'wsu-mediaelement-events', plugins_url( '/js/mediaelement-events.js', __FILE__ ), array( 'mediaelement' ), false, true );
 		return 'mediaelement';
