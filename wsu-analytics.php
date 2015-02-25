@@ -274,7 +274,7 @@ class WSU_Analytics {
 		)) );
 		$option_object = (array)json_decode($option_object);
 
-		//if blaa blaa then build else then use default
+		
 		wp_register_script( 'wsu-analytics-events', plugins_url( 'js/default_events.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
 
 		$using_jquery_ui = wp_script_is('jquery-ui-core','registered') || wp_script_is('jquery-ui-core','enqueued') || wp_script_is('jquery-ui-core','done');
@@ -292,23 +292,25 @@ class WSU_Analytics {
 				"college"=>$option_object["college"],
 				"unit"=> $option_object["unit"]=="none" && $option_object["subunit"]!="none" ? $option_object["subunit"] : $option_object["unit"],
 				"subunit"=>$option_object["unit"]!="none" ? $option_object["subunit"] : $option_object["unit"],
-				"events"=>array() //placholder // get and build from the default
+				"events"=>array() //placholder // implementor would extend or override
 			),
 			"app"=>array(
 				"ga_code"=>"UA-52133513-1",
 				"page_view_type"=>$this->get_page_view_type(),
 				"authenticated_user"=>$this->get_authenticated_user(),
 				"is_authenticated"=>is_user_logged_in(),
-				"events"=>array() //placholder // get and build from the default
+				"events"=>array() //placholder // implementor would extend or override
 			),
 			"site"=>array(
 				"ga_code"=>$google_analytics_id,
-				"events"=>array() //placholder // get and build from the default
+				"events"=>array() //placholder // implementor would extend or override
 			)
 		);
-
+		
+		// output the inline settings for the plugin
 		wp_localize_script( 'wsu-analytics-events', 'wsu_analytics', $tracker_data );
 		
+		//figure out what set of events are to be used for the site
 		$hascustom_events = file_exists(get_stylesheet_directory() . '/wsu-analytics/events.js');
 		if($hascustom_events){
 			if($option_object['extend_defaults'] == true){
@@ -319,6 +321,7 @@ class WSU_Analytics {
 			wp_enqueue_script( 'wsu-analytics-events' );
 		}
 
+		//figure out what set of jQuery UI events are to be used for the site
 		if( wp_script_is('wsu-analytics-ui-events','registered') ){
 			$hascustom_ui_events = file_exists(get_stylesheet_directory() . '/wsu-analytics/ui-events.js');
 			if($hascustom_ui_events){
@@ -330,7 +333,7 @@ class WSU_Analytics {
 				wp_enqueue_script( 'wsu-analytics-ui-events' );
 			}
 		}
-		
+		//start up the tracking script
 		wp_enqueue_script( 'wsu-analytics-main' );
 		return;
 	}
