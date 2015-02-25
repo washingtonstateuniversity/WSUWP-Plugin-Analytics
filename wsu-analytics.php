@@ -37,9 +37,16 @@ class WSU_Analytics {
 		register_setting( 'general', 'wsuwp_ga_id', array( $this, 'sanitize_ga_id' ) );
 		register_setting( 'general', 'wsuwp_google_verify', array( $this, 'sanitize_google_verify' ) );
 		register_setting( 'general', 'wsuwp_bing_verify', array( $this, 'sanitize_bing_verify' ) );
+		register_setting( 'general', 'wsuwp_analytics_settings', array( $this, 'sanitize_wsuwp_analytics_settings' ) );
+		
+		
 		add_settings_field( 'wsuwp-ga-id', 'Google Analytics ID', array( $this, 'general_settings_ga_id'), 'general', 'default', array( 'label_for' => 'wsuwp_ga_id' ) );
 		add_settings_field( 'wsuwp-google-site-verify', 'Google Site Verification', array( $this, 'general_settings_google_site_verify' ), 'general', 'default', array( 'label_for' => 'wsuwp_google_verify' ) );
 		add_settings_field( 'wsuwp-bing-site-verify', 'Bing Site Verification', array( $this, 'general_settings_bing_site_verify' ), 'general', 'default', array( 'label_for' => 'wsuwp_bing_verify' ) );
+		
+		add_settings_field( 'wsuwp-analytics-settings', 'General Analytics Settings', array( $this, 'general_settings_inputs' ), 'general', 'default', array( 'label_for' => 'wsuwp_analytics_settings' ) );
+		
+		
 	}
 
 	/**
@@ -93,6 +100,22 @@ class WSU_Analytics {
 	}
 
 	/**
+	 * Sanitize the saved value for the Bing Site Verification meta.
+	 *
+	 * @param $bing_verify
+	 *
+	 * @return string
+	 */
+	public function sanitize_wsuwp_analytics_settings( $analytics_settings ) {
+		return sanitize_text_field( $analytics_settings );
+	}
+
+
+
+
+
+
+	/**
 	 * Display a field to capture the site's Google Analytics ID.
 	 */
 	public function general_settings_ga_id() {
@@ -118,6 +141,89 @@ class WSU_Analytics {
 
 		?><input id="wsuwp_bing_verify" name="wsuwp_bing_verify" value="<?php echo esc_attr( $bing_verification ); ?>" type="text" class="regular-text" /><?php
 	}
+	
+	/**
+	 * Provide inputs and selects in general settings
+	 */
+	public function general_settings_inputs() {
+		$option_object = get_option( 'wsuwp_analytics_options', json_encode(array(
+			"campus"=>"none",
+			"college"=>"none",
+			"unit"=>"none",
+			"subunit"=>"none",
+			"extend_defaults"=>true,
+			"use_jquery_ui"=>true
+		)) );
+
+		//stub
+		$option_object = (array)json_decode($option_object);
+		
+		
+		$campus=array();
+		$college=array();
+		$units=array(
+			"school"=>array(),
+			"departments"=>array(),
+			"offices"=>array(),
+			"unit"=>array(),
+		);
+		
+		?>
+		<hr/>
+		
+		<!-- campus -->
+		<p><b>Campus</b></p>
+		<select name="wsuwp_analytics_option_map[campus]">
+			<option value="" <?=selected( $key, $option_object["campus"] )?>></option>
+		</select>
+		<p class="description">Does this site represent a campus in either location or association?</p><br/>
+		
+		<!-- college -->
+		<p><b>College</b></p>
+		<select name="wsuwp_analytics_option_map[college]">
+			<option value="" <?=selected( $key, $option_object["college"] )?>></option>
+		</select>
+		<p class="description">Does this site represent a College either in totality or as an association?</p><br/>
+		
+		<!-- units -->
+		<p><b>Parent Unit</b></p>
+		<select name="wsuwp_analytics_option_map[unit]">
+			<optgroup label="school">
+				<option value="" <?=selected( $key, $option_object["unit"] )?>></option>
+			</optgroup>
+		</select>
+		<p class="description">Does this site represent an entiy that has a parent unit/department/office/school?</p><br/>
+		
+		<!-- units -->
+		<p><b>Unit</b></p>
+		<select name="wsuwp_analytics_option_map[subunit]">
+			<optgroup label="school">
+				<option value="" <?=selected( $key, $option_object["subunit"] )?>></option>
+			</optgroup>
+		</select>
+		<p class="description">Does this site represent an entiy that is some form of a unit/department/office/school?</p><br/>
+			
+		
+		<p><b>Extend Defaults</b></p>
+		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="true" <?=checked( true, $option_object["extend_defaults"] )?> /></label>
+		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="false" <?=checked( false, $option_object["extend_defaults"] )?> /></label>
+		<p class="description">When using a theme js file to define your custom events, should, "Yes", it be extending the defaults provided with the plugin, or should, "No", it be replacing the defaults. </p><br/>
+
+		<p><b>Use jQuery UI</b></p>
+		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="true" <?=checked( true, $option_object["use_jquery_ui"] )?> /></label>
+		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="false" <?=checked( false, $option_object["use_jquery_ui"] )?> /></label>
+		<p class="description">Load default jQuery UI events.  Note: When using a theme js file, the jQuery UI will follow the same `Extend Defaults` selection. </p><br/>
+		
+		<hr/>
+		<p class="description">Instructions on how to set up your Google analytics to best use this plugin can be <a href="#" class="ajax_info" target="_blank">found here</a>.</p>
+
+
+		<?php
+	}
+	
+	
+	
+	
 
 	/**
 	 * Output the verification tags used by Google and Bing to verify a site.
@@ -157,29 +263,35 @@ class WSU_Analytics {
 
 		wp_enqueue_script( 'jquery-jtrack', '//repo.wsu.edu/jtrack/1/jtrack.js', array( 'jquery' ), $this->script_version(), true );
 		
+		
+		$option_object = get_option( 'wsuwp_analytics_options', json_encode(array(
+			"campus"=>"none",
+			"college"=>"none",
+			"unit"=>"none",
+			"subunit"=>"none",
+			"extend_defaults"=>true,
+			"use_jquery_ui"=>true
+		)) );
+		$option_object = (array)json_decode($option_object);
+
 		//if blaa blaa then build else then use default
 		wp_register_script( 'wsu-analytics-events', plugins_url( 'js/default_events.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
-		
-		$load_jquery_ui_option_var_that_is_for_now=true;
-		if(wp_script_is('jquery-ui','enqueued') && $load_jquery_ui_option_var_that_is_for_now){
+
+		$using_jquery_ui = wp_script_is('jquery-ui-core','registered') || wp_script_is('jquery-ui-core','enqueued') || wp_script_is('jquery-ui-core','done');
+		if( $using_jquery_ui && $option_object['use_jquery_ui'] ){
 			//if blaa blaa then build else then use default
-			wp_register_script( 'wsu-analytics-ui-events', plugins_url( 'js/default_ui-events.js', __FILE__ ), array( 'wsu-analytics-events', 'jquery' ), $this->script_version(), true );
+			wp_register_script( 'wsu-analytics-ui-events', plugins_url( 'js/default_ui-events.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
 		}
 		
-		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.min.js', __FILE__ ), array( 'wsu-analytics-events', 'jquery' ), $this->script_version(), true );
-
-		/*$tracker_data = array(
-			'tracker_id' => $google_analytics_id,
-			'domain' => $site_details->domain,
-		);*/
+		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.min.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
 
 		$tracker_data = array(
 			"wsuglobal"=>array(
 				"ga_code"=>"UA-55791317-1",
-				"campus"=>"none",
-				"college"=>"none",
-				"unit"=>"none",
-				"subunit"=>"none",
+				"campus"=>$option_object["campus"],
+				"college"=>$option_object["college"],
+				"unit"=> $option_object["unit"]=="none" && $option_object["subunit"]!="none" ? $option_object["subunit"] : $option_object["unit"],
+				"subunit"=>$option_object["unit"]!="none" ? $option_object["subunit"] : $option_object["unit"],
 				"events"=>array() //placholder // get and build from the default
 			),
 			"app"=>array(
@@ -196,10 +308,29 @@ class WSU_Analytics {
 		);
 
 		wp_localize_script( 'wsu-analytics-events', 'wsu_analytics', $tracker_data );
-		wp_enqueue_script( 'wsu-analytics-events' );
-		if(wp_script_is('jquery-ui')){
-			wp_enqueue_script( 'wsu-analytics-ui-events' );
+		
+		$hascustom_events = file_exists(get_stylesheet_directory() . '/wsu-analytics/events.js');
+		if($hascustom_events){
+			if($option_object['extend_defaults'] == true){
+				wp_enqueue_script( 'wsu-analytics-events' );
+			}
+			wp_enqueue_script( 'custom-events', get_stylesheet_directory_uri() . '/wsu-analytics/events.js', array( 'jquery-jtrack' ), false, true );
+		}else{
+			wp_enqueue_script( 'wsu-analytics-events' );
 		}
+
+		if( wp_script_is('wsu-analytics-ui-events','registered') ){
+			$hascustom_ui_events = file_exists(get_stylesheet_directory() . '/wsu-analytics/ui-events.js');
+			if($hascustom_ui_events){
+				if($option_object['extend_defaults'] == true){
+					wp_enqueue_script( 'wsu-analytics-ui-events' );
+				}
+				wp_enqueue_script( 'custome-ui-events', get_stylesheet_directory_uri() . '/wsu-analytics/ui-events.js', array( 'jquery-jtrack' ), false, true );
+			}else{
+				wp_enqueue_script( 'wsu-analytics-ui-events' );
+			}
+		}
+		
 		wp_enqueue_script( 'wsu-analytics-main' );
 		return;
 	}
