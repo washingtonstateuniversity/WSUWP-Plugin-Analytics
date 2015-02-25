@@ -14,7 +14,7 @@
 					{'name':'dimension3','val': analytics.wsuglobal.college },//college <string>
 					{'name':'dimension4','val': analytics.wsuglobal.unit },//unit <string>
 					{'name':'dimension5','val': analytics.wsuglobal.subunit },//subunit <string>
-					{'name':'dimension6','val': analytics.app.is_authenticated }//editor <bool>
+					{'name':'dimension6','val': ""+analytics.app.is_authenticated }//editor <bool>
 				],
 				events: analytics.wsuglobal.events
 			}
@@ -42,7 +42,7 @@
 					namedSpace:'siteScope',
 					cookieDomain:".wsu.edu",
 					dimension:[
-						{'name':'dimension1','val': analytics.app.is_authenticated }//editor <bool>
+						{'name':'dimension1','val': ""+analytics.app.is_authenticated }//editor <bool>
 					],
 					events: analytics.site.events
 				}
@@ -51,11 +51,11 @@
 	}
 	//console.log(analytics.app.page_view_type);
 	//console.log(rendered_accounts);
-	/* just so we are not tracking at this time
+	/* just so we are not tracking at this time*/
 	jQuery.jtrack({
 		analytics:{
 			ga_name:"_wsuGA",
 			accounts: rendered_accounts
 		}
-	});*/
+	});
 })(jQuery, window, window.wsu_analytics);
