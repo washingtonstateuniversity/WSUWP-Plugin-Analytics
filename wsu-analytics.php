@@ -322,10 +322,12 @@ class WSU_Analytics {
 			$google_analytics_id = get_site_option( 'wsuwp_network_ga_id', false );
 		}
 
-		// If no GA ID exists, we can't reliably track visitors.
+		/*// If no GA ID exists, we can't reliably track visitors.
 		if ( ! $google_analytics_id ) {
 			return;
-		}
+		}*/ //there still maybe app level information to get so we will proceed
+		// @todo remove befor publish
+		
 
 		//$site_details = get_blog_details();
 
