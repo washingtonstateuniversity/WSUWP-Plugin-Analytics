@@ -304,7 +304,7 @@ class WSU_Analytics {
 				"ga_code"=>"UA-52133513-1",
 				"page_view_type"=>$this->get_page_view_type(),
 				"authenticated_user"=>$this->get_authenticated_user(),
-				"is_authenticated"=>is_user_logged_in(),
+				"is_authenticated"=>$this->is_editor(),
 				"events"=>array() //placholder // implementor would extend or override
 			),
 			"site"=>array(
@@ -370,6 +370,13 @@ class WSU_Analytics {
 		}
 		return $authenticated_user;
 	}
+
+
+	private function is_editor(){
+		// first check if even logged in, if so are they an easy to check admin? , if not then double check what they can do that would make them an "editor"
+		return is_user_logged_in() && ( is_super_admin() || ( current_user_can('add_users')||current_user_can('edit_pages')||current_user_can('edit_posts')||current_user_can('manage_options') ) );
+	}
+
 
 
 	/**
