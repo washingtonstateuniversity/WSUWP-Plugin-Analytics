@@ -21,6 +21,19 @@ class WSU_Analytics {
 	var $settings_page = '';
 
 	/**
+	 * @var array List of default values for the extended analytics option.
+	 */
+	var $extended_analytics_defaults = array(
+		'campus'          => 'none',
+		'college'         => 'none',
+		'unit'            => 'none',
+		'subunit'         => 'none',
+		'extend_defaults' => true,
+		'use_jquery_ui'   => true,
+		'is_debug'        => false,
+	);
+
+	/**
 	 * Add our hooks.
 	 */
 	public function __construct() {
@@ -82,7 +95,7 @@ class WSU_Analytics {
 				<input type="hidden" name="option_page" value="wsuwp-analytics" />
 			</form>
 		</div>
-        <?php
+		<?php
 	}
 
 	/**
@@ -152,13 +165,18 @@ class WSU_Analytics {
 	}
 
 	/**
-	 * Sanitize the saved value for analytics.
+	 * Sanitize the saved values for extended analytics settings.
 	 *
-	 * @param $analytics_settings
+	 * @todo Properly clean these once the taxonomy is implemented.
 	 *
-	 * @return string
+	 * @param array $analytics_settings Array of settings being saved.
+	 *
+	 * @return array Clean array of settings to save.
 	 */
 	public function sanitize_wsuwp_analytics_option_map( $analytics_settings ) {
+		$clean_settings = $this->extended_analytics_defaults;
+		wp_parse_args( $analytics_settings, $clean_settings );
+
 		return $analytics_settings;
 	}
 
@@ -188,26 +206,17 @@ class WSU_Analytics {
 
 		?><input id="wsuwp_bing_verify" name="wsuwp_bing_verify" value="<?php echo esc_attr( $bing_verification ); ?>" type="text" class="regular-text" /><?php
 	}
-	
+
 	/**
-	 * Get the site analytics options with no fallback to the network
+	 * Get extended analytics options for this site.
 	 *
 	 * @return array
 	 * @access private
 	 */
 	private function get_analytics_options(){
-		$defaults = array(
-			'campus' => 'none',
-			'college' => 'none',
-			'unit' => 'none',
-			'subunit' => 'none',
-			'extend_defaults' => true,
-			'use_jquery_ui' => true,
-			'is_debug' => false,
-		);
 		$option_object = get_option( 'wsuwp_analytics_option_map', array() );
 
-		return wp_parse_args( $option_object, $defaults );
+		return wp_parse_args( $option_object, $this->extended_analytics_defaults );
 	}
 
 	/**
