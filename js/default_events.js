@@ -25,8 +25,6 @@ window.wsu_analytics.wsuglobal.events = [
 		element:"#spine nav li.parent > a",
 		options:{
 			action:function(ele){
-				console.log(ele);
-				console.log($(ele).text());
 				return "Couplets "+ (ele.closest('.parent').is(".opened") ?"opening":"closing");
 			},
 			eventTracked:"click",
