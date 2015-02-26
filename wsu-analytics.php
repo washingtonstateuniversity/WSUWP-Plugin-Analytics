@@ -39,11 +39,11 @@ class WSU_Analytics {
 	public function __construct() {
 		//set up the trackers for both the front and admin
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10 );
-		
+
 		//account for the code media  elements, but treated as after dom load in the browser
 		add_filter( 'wp_video_shortcode_library', array( $this, 'mediaelement_scripts' ), 11 );
 		add_filter( 'wp_audio_shortcode_library', array( $this, 'mediaelement_scripts' ), 11 );
-		
+
 		add_action( 'wp_head', array( $this, 'display_site_verification' ), 99 );
 
 		// Configure the settings page and sections provided by the plugin.
@@ -226,7 +226,7 @@ class WSU_Analytics {
 	 */
 	public function general_settings_inputs() {
 		$option_object = $this->get_analytics_options();
-		
+
 		//stubs for now untill it's pulled form a more central source
 		$campus=array(
 			"pullman"=>"Pullman"
@@ -256,10 +256,8 @@ class WSU_Analytics {
 				"ucomm"=>"University Communications"
 			)
 		);
-		
+
 		?>
-		<hr/>
-		
 		<!-- campus -->
 		<p><b>Campus</b></p>
 		<select name="wsuwp_analytics_option_map[campus]">
@@ -270,7 +268,7 @@ class WSU_Analytics {
 			<?php endforeach;?>
 		</select>
 		<p class="description">Does this site represent a campus in either location or association?</p><br/>
-		
+
 		<!-- college -->
 		<p><b>College</b></p>
 		<select name="wsuwp_analytics_option_map[college]">
@@ -281,7 +279,7 @@ class WSU_Analytics {
 			<?php endforeach;?>
 		</select>
 		<p class="description">Does this site represent a College either in totality or as an association?</p><br/>
-		
+
 		<!-- units -->
 		<p><b>Parent Unit</b></p>
 		<select name="wsuwp_analytics_option_map[unit]">
@@ -295,7 +293,7 @@ class WSU_Analytics {
 			<?php endforeach;?>
 		</select>
 		<p class="description">Does this site represent an entiy that has a parent unit/department/office/school?</p><br/>
-		
+
 		<!-- units -->
 		<p><b>Unit</b></p>
 		<select name="wsuwp_analytics_option_map[subunit]">
@@ -309,7 +307,7 @@ class WSU_Analytics {
 			<?php endforeach;?>
 		</select>
 		<p class="description">Does this site represent an entiy that is some form of a unit/department/office/school?</p><br/>
-			
+
 		<!-- extend_defaults -->
 		<p><b>Extend Defaults</b></p>
 		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="true" <?=checked( "true", $option_object["extend_defaults"] )?> /></label>
@@ -326,15 +324,9 @@ class WSU_Analytics {
 		<p><b>Turn on debug</b></p>
 		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[is_debug]" value="true" <?=checked( "true", $option_object["is_debug"] )?> /></label>
 		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[is_debug]" value="false" <?=checked( "false", $option_object["is_debug"] )?> /></label>
-		<p class="description">Normally used for local development</p><br/>		
-		
-		
+		<p class="description">Normally used for local development</p><br/>
 		<hr/>
-		
-		
 		<p class="description">Instructions on how to set up your Google analytics to best use this plugin can be <a href="#" class="ajax_info" target="_blank">found here</a>.</p>
-
-
 		<?php
 	}
 
@@ -358,13 +350,11 @@ class WSU_Analytics {
 	 * Enqueue the scripts used for analytics on the platform.
 	 */
 	public function enqueue_scripts() {
-
 		$option_object = $this->get_analytics_options();
 
 		if ( !$option_object["is_debug"] && defined( 'WSU_LOCAL_CONFIG' ) && WSU_LOCAL_CONFIG ) {
 			return;
 		}
-
 
 		// Look for a site level Google Analytics ID
 		$google_analytics_id = get_option( 'wsuwp_ga_id', false );
@@ -379,21 +369,18 @@ class WSU_Analytics {
 			return;
 		}*/ //there still maybe app level information to get so we will proceed
 		// @todo remove befor publish
-		
 
 		//$site_details = get_blog_details();
 
 		wp_enqueue_script( 'jquery-jtrack', '//repo.wsu.edu/jtrack/1/jtrack.js', array( 'jquery' ), $this->script_version(), true );
 
-
 		wp_register_script( 'wsu-analytics-events', plugins_url( 'js/default_events.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
-
 
 		$using_jquery_ui = wp_script_is('jquery-ui-core','registered') || wp_script_is('jquery-ui-core','enqueued') || wp_script_is('jquery-ui-core','done');
 		if( $using_jquery_ui && $option_object['use_jquery_ui'] ){
 			wp_register_script( 'wsu-analytics-ui-events', plugins_url( 'js/default_ui-events.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
 		}
-		
+
 		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.min.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
 
 		$tracker_data = array(
@@ -401,8 +388,8 @@ class WSU_Analytics {
 				"ga_code"           => "UA-55791317-1", // this is hardcode for now
 				"campus"            => $option_object["campus"],
 				"college"           => $option_object["college"],
-				// note that the use may think that "parent unit" is them or not.  
-				// When that happens we need to detect it by noting that the subunit is filled but the 
+				// note that the use may think that "parent unit" is them or not.
+				// When that happens we need to detect it by noting that the subunit is filled but the
 				// unit is not.  This accounts for the other way to look at the two drop downs
 				"unit"              => $option_object["unit"]=="none" && $option_object["subunit"]!="none" ? $option_object["subunit"] : $option_object["unit"],
 				"subunit"           => $option_object["unit"]!="none" ? $option_object["subunit"] : $option_object["unit"],
@@ -420,7 +407,7 @@ class WSU_Analytics {
 				"events"            => array() //ns placholder
 			)
 		);
-		
+
 		// output the inline settings for the plugin
 		wp_localize_script( 'wsu-analytics-events', 'wsu_analytics', $tracker_data );
 		
