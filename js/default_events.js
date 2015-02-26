@@ -11,7 +11,7 @@ window.wsu_analytics.site.events   = [
 	{
 		element:"a[href*='wsu.edu']:not([href*='**SELF_DOMAIN**']), .track.internal",
 		options:{
-			skip_internal:true,
+			skip_internal:"true",
 			mode:"event,_link",
 			category:"internal"
 		}
@@ -22,13 +22,13 @@ window.wsu_analytics.site.events   = [
 				 a[href*='applyweb.com/public/inquiry'],\
 				 a[href*='www.mme.wsu.edu/people/faculty/faculty.html'],\
 				 a[href*='puyallup.wsu.edu'],\
-				 .track.internal.skip_campaign",
+				 .track.internal.query_intoleran",
 		options:{
-			skip_internal:true,
-			mode:"event,_link",
-			category:"internal",
-			skip_campaign:true,
-			overwrites:true
+			skip_internal:"true",
+			overwrites:"true",
+			mode:"event",
+			category:"internal-query-intolerant"
+
 		}
 	},
 	// Externals that are known to be url query intolerant.
@@ -36,16 +36,15 @@ window.wsu_analytics.site.events   = [
 		element:"a[href*='tinyurl.com'],\
 				 a[href*='ptwc.weather.gov'],\
 				 a[href*='www.atmos.washington.edu'],\
-				 .track.outbound.skip_campaign",
+				 .track.outbound.query_intoleran",
 		options:{
-			skip_internal:true,
-			mode:"event,_link",
-			category:"outbound",
-			skip_campaign:true,
-			overwrites:true
+			skip_internal:"true",
+			overwrites:"true",
+			mode:"event",
+			category:"outbound-query-intoleran"
+			
 		}
 	},
-
 	{
 		element:".youtube,.youtube2",
 		options:{
@@ -54,7 +53,7 @@ window.wsu_analytics.site.events   = [
 			label:function(ele){
 				return ( ($(ele).attr('title')!='' && typeof($(ele).attr('title')) !=='undefined' ) ? $(ele).attr('title') : $(ele).attr('href') );
 			},
-			overwrites:true
+			overwrites:"true"
 		}
 	},
 	{
@@ -76,7 +75,7 @@ window.wsu_analytics.site.events   = [
 			label:function(ele){
 				return ( ($(ele).attr('title')!='' && typeof($(ele).attr('title')) !=='undefined' ) ? $(ele).attr('title') : $(ele).attr('href') );
 			},
-			overwrites:true
+			overwrites:"true"
 		}
 	},
 	//this should be built on which are loading in the customizer
@@ -85,7 +84,7 @@ window.wsu_analytics.site.events   = [
 		options:{
 			category:"Social",
 			action:"Facebook",
-			overwrites:true
+			overwrites:"true"
 		}
 	},
 	{
@@ -93,24 +92,14 @@ window.wsu_analytics.site.events   = [
 		options:{
 			category:"Feed",
 			action:"RSS",
-			overwrites:true
+			overwrites:"true"
 		}
 	},
 	{
 		element:"a[href*='mailto:'],.track.email",
 		options:{
 			category:"email",
-			overwrites:true
+			overwrites:"true"
 		}
 	},
-	//this should be moved to an extension of jQuery ui events, when enqued
-	{
-		element:"a.modal",
-		options:{
-			category:"modal",
-			skip_internal:true,
-			mode:"event",
-			overwrites:true
-		}
-	}
 ];
