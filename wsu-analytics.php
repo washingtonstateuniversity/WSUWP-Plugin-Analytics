@@ -196,16 +196,18 @@ class WSU_Analytics {
 	 * @access private
 	 */
 	private function get_analytics_options(){
-		$option_object = get_option( 'wsuwp_analytics_option_map', array(
-			"campus"=>"none",
-			"college"=>"none",
-			"unit"=>"none",
-			"subunit"=>"none",
-			"extend_defaults"=>true,
-			"use_jquery_ui"=>true,
-			"is_debug"=>false
-		) );
-		return $option_object;
+		$defaults = array(
+			'campus' => 'none',
+			'college' => 'none',
+			'unit' => 'none',
+			'subunit' => 'none',
+			'extend_defaults' => true,
+			'use_jquery_ui' => true,
+			'is_debug' => false,
+		);
+		$option_object = get_option( 'wsuwp_analytics_option_map', array() );
+
+		return wp_parse_args( $option_object, $defaults );
 	}
 
 	/**
