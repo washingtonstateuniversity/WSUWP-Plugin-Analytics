@@ -1,19 +1,11 @@
 window.wsu_analytics.wsuglobal.events = [
 	{
-		element:"#wsu-actions-tabs .closed button",
+		element:"#wsu-actions-tabs button",
 		options:{
-			action:"action tab opened",
-			category:"Spine Framework interactions",
-			label:function(ele){
-				return " "+$(ele).text();
+			action:" closed",
+			action:function(ele){
+				return "Action tab "+ (ele.closest('li').is(".opened") ?"opening":"closing");
 			},
-			overwrites:"true"
-		}
-	},
-	{
-		element:"#wsu-actions-tabs .opened button",
-		options:{
-			action:"action tab closed",
 			category:"Spine Framework interactions",
 			label:function(ele){
 				return " "+$(ele).text();
@@ -40,7 +32,7 @@ window.wsu_analytics.wsuglobal.events = [
 		options:{
 			action:"searching",
 			eventTracked:"autocompletesearch",
-			category:"Spine Framework",
+			category:"Spine Framework interactions",
 			label:function(ele){
 				return ""+$(ele).val();
 			},
@@ -52,7 +44,7 @@ window.wsu_analytics.wsuglobal.events = [
 		options:{
 			action:"search selection",
 			eventTracked:"autocompleteselect",
-			category:"Spine Framework",
+			category:"Spine Framework interactions",
 			label:function(ele){
 				return ""+$(ele).val();
 			},
@@ -63,7 +55,7 @@ window.wsu_analytics.wsuglobal.events = [
 		element:"#wsu-social-channels a",
 		options:{
 			action:"social channel visited",
-			category:"Spine Framework",
+			category:"Spine Framework interactions",
 			label:function(ele){
 				return ""+$(ele).text();
 			},
@@ -74,7 +66,7 @@ window.wsu_analytics.wsuglobal.events = [
 		element:"#wsu-global-links a",
 		options:{
 			action:"WSU global link visited",
-			category:"Spine Framework",
+			category:"Spine Framework interactions",
 			label:function(ele){
 				return ""+$(ele).text()+" - "+ $(ele).attr("href");
 			},
@@ -85,7 +77,7 @@ window.wsu_analytics.wsuglobal.events = [
 		element:"#wsu-signature",
 		options:{
 			action:"WSU global logo clicked",
-			category:"Spine Framework",
+			category:"Spine Framework interactions",
 			label:function(ele){
 				return $(ele).attr("href");
 			},
@@ -96,7 +88,7 @@ window.wsu_analytics.wsuglobal.events = [
 		element:"#shelve",
 		options:{
 			action:"mobile menu icon clicked",
-			category:"Spine Framework",
+			category:"Spine Framework interactions",
 			label:function(ele){
 				return $("#spine").is(".shelved") ? "closed" : "opened" ;
 			},
