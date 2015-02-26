@@ -82,28 +82,6 @@ window.wsu_analytics.wsuglobal.events = [
 		}
 	},
 	{
-		element:"#wsu-global-links a",
-		options:{
-			action:"WSU global link visited",
-			category:"Spine Framework",
-			label:function(ele){
-				return ""+$(ele).text()+" - "+ $(ele).attr("href");
-			},
-			overwrites:"true"
-		}
-	},
-	{
-		element:"#wsu-signature",
-		options:{
-			action:"WSU global logo clicked",
-			category:"Spine Framework",
-			label:function(ele){
-				return $(ele).attr("href");
-			},
-			overwrites:"true"
-		}
-	},
-	{
 		element:"#wsu-signature",
 		options:{
 			action:"WSU global logo clicked",
