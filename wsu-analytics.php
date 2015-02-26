@@ -459,6 +459,19 @@ class WSU_Analytics {
 	}
 
 	/**
+	 * Compile a script version and include WSUWP Platform if possible.
+	 *
+	 * @return string Version to be attached to scripts.
+	 */
+	private function script_version() {
+		if ( function_exists( 'wsuwp_global_version' ) ) {
+			return wsuwp_global_version() . '-' . $this->version;
+		}
+
+		return $this->version;
+	}
+
+	/**
 	 * State if the user is authenticated
 	 *
 	 * @return String
@@ -511,20 +524,5 @@ class WSU_Analytics {
 		}
 		return false;
 	}
-
-	/**
-	 * Compile a script version and include WSUWP Platform if possible.
-	 *
-	 * @return string Version to be attached to scripts.
-	 * @access private
-	 */
-	private function script_version() {
-		if ( function_exists( 'wsuwp_global_version' ) ) {
-			return wsuwp_global_version() . '-' . $this->version;
-		}
-
-		return $this->version;
-	}
-
 }
 $wsu_analytics = new WSU_Analytics();
