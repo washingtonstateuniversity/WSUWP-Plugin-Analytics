@@ -506,22 +506,37 @@ class WSU_Analytics {
 	}
 
 	/**
-	 * Is the user do more then just suggest content for the site?
+	 * Determine if the user has the ability to change the site in some fashion. This
+	 * can be through options that affect the front end or through content.
 	 *
-	 * @return boolean
+	 * @return boolean True if the user is a modifier of things. False if not.
 	 * @access private
 	 */
-	private function is_editor(){
-		if(is_user_logged_in()){
-			if(is_super_admin()){
-				return true;	
+	private function is_editor() {
+		if ( is_user_logged_in() ) {
+			// A global admin can edit content or change options anywhere.
+			if ( is_super_admin() ) {
+				return true;
 			}
+
 			$user = wp_get_current_user();
-			$allowed_roles = array('editor', 'administrator', 'author');
-			if( array_intersect($allowed_roles, $user->roles ) ) {
-				return true;	
+
+			// On the WSUWP Platform, a network admin can edit content or change options
+			// anywhere on an individual network and may not have a role assigned.
+			if ( function_exists( 'wsuwp_is_network_admin' ) ) {
+				if ( wsuwp_is_network_admin( $user->user_login ) ) {
+					return true;
+				}
+			}
+
+			// Authors and above have (at least) the ability to publish content or delete
+			// published content at some level.
+			$allowed_roles = array( 'editor', 'administrator', 'author' );
+			if ( array_intersect( $allowed_roles, $user->roles ) ) {
+				return true;
 			}
 		}
+
 		return false;
 	}
 }
