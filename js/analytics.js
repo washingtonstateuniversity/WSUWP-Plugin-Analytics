@@ -23,18 +23,20 @@
 	}
 
 	/* Set up the app level for the GA schema */
-	rendered_accounts = jQuery.merge( rendered_accounts , [{
-		id: analytics.app.ga_code,
-		settings:{
-			namedSpace:'appScope',
-			cookieDomain:".wsu.edu",
-			dimension:[
-				{'name':'dimension1','val': analytics.app.page_view_type },//page_view_type <string>
-				{'name':'dimension2','val': analytics.app.authenticated_user },//authenticated_user <string>
-			],
-			events: analytics.app.events
-		}
-	}] );	
+	if(analytics.app.ga_code!==false){
+		rendered_accounts = jQuery.merge( rendered_accounts , [{
+			id: analytics.app.ga_code,
+			settings:{
+				namedSpace:'appScope',
+				cookieDomain:".wsu.edu",
+				dimension:[
+					{'name':'dimension1','val': analytics.app.page_view_type },//page_view_type <string>
+					{'name':'dimension2','val': analytics.app.authenticated_user },//authenticated_user <string>
+				],
+				events: analytics.app.events
+			}
+		}] );
+	}
 
 	/* if on the front end send site level data */
 	if(analytics.app.page_view_type==="Front End" || analytics.app.page_view_type==="unknown"){

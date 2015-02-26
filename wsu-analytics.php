@@ -384,7 +384,7 @@ class WSU_Analytics {
 				"ga_code"           => "UA-55791317-1", // this is hardcode for now
 				"campus"            => $option_object["campus"],
 				"college"           => $option_object["college"],
-				// note that the use may think that "parent unit" is them or not.
+				// note that the user may think that "parent unit" is for them or they may say i have no parent.
 				// When that happens we need to detect it by noting that the subunit is filled but the
 				// unit is not.  This accounts for the other way to look at the two drop downs
 				"unit"              => $option_object["unit"]=="none" && $option_object["subunit"]!="none" ? $option_object["subunit"] : $option_object["unit"],
