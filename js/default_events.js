@@ -14,6 +14,17 @@ window.wsu_analytics.wsuglobal.events = [
 		}
 	},
 	{
+		element:"#wsu-actions a",
+		options:{
+			action:"Action tab Content Click",
+			category:"Spine Framework interactions",
+			label:function(ele){
+				return $(ele).text()+ " - "+ $(ele).attr("href");
+			},
+			overwrites:"true"
+		}
+	},
+	{
 		element:"#spine nav li.parent > a",
 		options:{
 			action:function(ele){
