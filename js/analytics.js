@@ -15,7 +15,8 @@
 					{'name':'dimension3','val': analytics.wsuglobal.college },//college <string>
 					{'name':'dimension4','val': analytics.wsuglobal.unit },//unit <string>
 					{'name':'dimension5','val': analytics.wsuglobal.subunit },//subunit <string>
-					{'name':'dimension6','val': ""+analytics.app.is_editor }//editor <bool>(as string)
+					{'name':'dimension6','val': ""+analytics.app.is_editor },//editor <bool>(as string)
+					{'name':'dimension7','val': window.location.hostname }//base site url <string>(as string)
 				],
 				events: analytics.wsuglobal.events
 			}
