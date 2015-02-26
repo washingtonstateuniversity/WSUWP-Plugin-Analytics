@@ -22,17 +22,17 @@ _wpmejsSettings.success = function( mejs ) {
 			
 			// Event listener for when the video starts playing
 			mejs.addEventListener( 'playing', function( e ) {
-				jQuery('body').trackEvent ('Audio', 'playing', "some lable", 1 );
+				jQuery('body').trackEvent ('Audio', 'playing', "time", mejs.currentTime, "_wsuGA", "siteScope" );
 			}, false);
 
 			// Event listener for when the video is paused
 			mejs.addEventListener( 'pause', function( e ) {
-				jQuery('body').trackEvent ('Audio', 'pausing', "some lable", 1 );
+				jQuery('body').trackEvent ('Audio', 'pausing', "time", mejs.currentTime, "_wsuGA", "siteScope" );
 			}, false);
 
 			// Event listener for when the video ends
 			mejs.addEventListener( 'ended', function( e ) {
-				jQuery('body').trackEvent ('Audio', 'ending', "some lable", 1 );
+				jQuery('body').trackEvent ('Audio', 'ending', "time", mejs.currentTime, "_wsuGA", "siteScope" );
 			}, false);
 		}
 	};
