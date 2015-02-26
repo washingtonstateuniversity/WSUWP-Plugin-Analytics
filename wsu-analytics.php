@@ -364,13 +364,9 @@ class WSU_Analytics {
 			$google_analytics_id = get_site_option( 'wsuwp_network_ga_id', false );
 		}
 
-		/*// If no GA ID exists, we can't reliably track visitors.
-		if ( ! $google_analytics_id ) {
-			return;
-		}*/ //there still maybe app level information to get so we will proceed
-		// @todo remove befor publish
-
-		//$site_details = get_blog_details();
+		// Provide this via filter in your instance of WordPress. In the WSUWP Platform, this will
+		// be part of a must-use plugin.
+		$app_analytics_id = apply_filters( 'wsu_analytics_app_analytics_id', '' );
 
 		wp_enqueue_script( 'jquery-jtrack', '//repo.wsu.edu/jtrack/1/jtrack.js', array( 'jquery' ), $this->script_version(), true );
 
@@ -396,7 +392,7 @@ class WSU_Analytics {
 				"events"            => array() //ns placholder
 			),
 			"app"=>array(
-				"ga_code"           => "UA-52133513-1", // this is hardcode for now
+				"ga_code"           => $this->sanitize_ga_id( $app_analytics_id ),
 				"page_view_type"    => $this->get_page_view_type(),
 				"authenticated_user"=> $this->get_authenticated_user(),
 				"is_editor"         => $this->is_editor(),
