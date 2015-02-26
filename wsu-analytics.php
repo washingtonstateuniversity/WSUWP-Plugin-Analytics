@@ -16,6 +16,11 @@ class WSU_Analytics {
 	var $version = '0.3.3';
 
 	/**
+	 * @var string Track the string used for the custom settings page we add.
+	 */
+	var $settings_page = '';
+
+	/**
 	 * Add our hooks.
 	 */
 	public function __construct() {
@@ -27,24 +32,73 @@ class WSU_Analytics {
 		add_filter( 'wp_audio_shortcode_library', array( $this, 'mediaelement_scripts' ), 11 );
 		
 		add_action( 'wp_head', array( $this, 'display_site_verification' ), 99 );
-		
-		add_action( 'admin_init', array( $this, 'display_settings' ), 99);
+
+		// Configure the settings page and sections provided by the plugin.
+		add_action( 'admin_init', array( $this, 'register_settings_sections' ), 10 );
+		add_action( 'admin_menu', array( $this, 'add_analytics_options_page' ), 10 );
+
 		add_action( 'admin_footer', array( $this, 'enqueue_scripts' ), 10 );
 	}
 
 	/**
-	 * Register the settings fields that will be output for this plugin.
+	 * Register the settings sections used to display the Analytics and Site Verification areas
+	 * in our custom Analytics options page.
 	 */
-	public function display_settings() {
-		register_setting( 'general', 'wsuwp_ga_id', array( $this, 'sanitize_ga_id' ) );
-		register_setting( 'general', 'wsuwp_google_verify', array( $this, 'sanitize_google_verify' ) );
-		register_setting( 'general', 'wsuwp_bing_verify', array( $this, 'sanitize_bing_verify' ) );
-		register_setting( 'general', 'wsuwp_analytics_option_map', array( $this, 'sanitize_wsuwp_analytics_option_map' ) );
+	public function register_settings_sections() {
+		register_setting( 'wsuwp-analytics', 'wsuwp_google_verify', array( $this, 'sanitize_google_verify' ) );
+		register_setting( 'wsuwp-analytics', 'wsuwp_bing_verify', array( $this, 'sanitize_bing_verify' ) );
+		register_setting( 'wsuwp-analytics', 'wsuwp_ga_id', array( $this, 'sanitize_ga_id' ) );
+		register_setting( 'wsuwp-analytics', 'wsuwp_analytics_option_map', array( $this, 'sanitize_wsuwp_analytics_option_map' ) );
+	}
 
-		add_settings_field( 'wsuwp-ga-id', 'Google Analytics ID', array( $this, 'general_settings_ga_id'), 'general', 'default', array( 'label_for' => 'wsuwp_ga_id' ) );
-		add_settings_field( 'wsuwp-google-site-verify', 'Google Site Verification', array( $this, 'general_settings_google_site_verify' ), 'general', 'default', array( 'label_for' => 'wsuwp_google_verify' ) );
-		add_settings_field( 'wsuwp-bing-site-verify', 'Bing Site Verification', array( $this, 'general_settings_bing_site_verify' ), 'general', 'default', array( 'label_for' => 'wsuwp_bing_verify' ) );
-		add_settings_field( 'wsuwp-analytics-option-map', 'General Analytics Settings', array( $this, 'general_settings_inputs' ), 'general', 'default', array( 'label_for' => 'wsuwp_analytics_option_map' ) );
+	/**
+	 * Add a new settings page as "Analytics" in the menu. Only administrators and higher will
+	 * be able to view this by default.
+	 */
+	public function add_analytics_options_page() {
+		$this->settings_page = add_options_page( 'WSU Analytics', 'Analytics', 'manage_options', 'wsuwp-analytics', array( $this, 'display_analytics_options_page' ) );
+
+		add_settings_section( 'wsuwp-verification', 'Site Verification', array( $this, 'display_verification_settings' ), $this->settings_page );
+		add_settings_section( 'wsuwp-analytics', 'WSU Analytics', array( $this, 'display_analytics_settings' ), $this->settings_page );
+	}
+
+	/**
+	 * Provide the HTML output for the analytics options page.
+	 */
+	public function display_analytics_options_page() {
+		?>
+		<div class="wrap">
+			<h2>WSU Analytics Settings</h2>
+			<form method="post" action="options.php">
+		<?php
+
+		wp_nonce_field('wsuwp-analytics-options');
+		do_settings_sections( $this->settings_page );
+
+		submit_button();
+
+		?>
+				<input type="hidden" name="action" value="update" />
+				<input type="hidden" name="option_page" value="wsuwp-analytics" />
+			</form>
+		</div>
+        <?php
+	}
+
+	/**
+	 * Display the settings fields associated with site verification.
+	 */
+	public function display_verification_settings() {
+		add_settings_field( 'wsuwp-google-site-verify', 'Google Site Verification', array( $this, 'general_settings_google_site_verify' ), $this->settings_page, 'wsuwp-verification', array( 'label_for' => 'wsuwp_google_verify' ) );
+		add_settings_field( 'wsuwp-bing-site-verify', 'Bing Site Verification', array( $this, 'general_settings_bing_site_verify' ), $this->settings_page, 'wsuwp-verification', array( 'label_for' => 'wsuwp_bing_verify' ) );
+	}
+
+	/**
+	 * Display the settings fields associated with general analytics.
+	 */
+	public function display_analytics_settings() {
+		add_settings_field( 'wsuwp-ga-id', 'Google Analytics ID', array( $this, 'general_settings_ga_id'), $this->settings_page, 'wsuwp-analytics', array( 'label_for' => 'wsuwp_ga_id' ) );
+		add_settings_field( 'wsuwp-analytics-option-map', 'General Analytics Settings', array( $this, 'general_settings_inputs' ), $this->settings_page, 'wsuwp-analytics', array( 'label_for' => 'wsuwp_analytics_option_map' ) );
 	}
 
 	/**
