@@ -28,9 +28,9 @@ class WSU_Analytics {
 		'college'         => 'none',
 		'unit'            => 'none',
 		'subunit'         => 'none',
-		'extend_defaults' => true,
-		'use_jquery_ui'   => true,
-		'is_debug'        => false,
+		'extend_defaults' => 'true',
+		'use_jquery_ui'   => 'true',
+		'is_debug'        => 'false',
 	);
 
 	/**
