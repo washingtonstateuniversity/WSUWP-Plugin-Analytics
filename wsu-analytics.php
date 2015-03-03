@@ -267,7 +267,7 @@ class WSU_Analytics {
 				<option value="<?=$key?>" <?=selected( $key, $option_object["campus"] )?>><?=$name?></option>
 			<?php endforeach;?>
 		</select>
-		<p class="description">Does this site represent a campus in either location or association?</p><br/>
+		<p class="description">Does this site represent a campus in location or association?</p><br/>
 
 		<!-- college -->
 		<p><b>College</b></p>
@@ -278,7 +278,7 @@ class WSU_Analytics {
 				<option value="<?=$key?>" <?=selected( $key, $option_object["college"] )?>><?=$name?></option>
 			<?php endforeach;?>
 		</select>
-		<p class="description">Does this site represent a College either in totality or as an association?</p><br/>
+		<p class="description">Does this site represent a college as a whole or by association?</p><br/>
 
 		<!-- units -->
 		<p><b>Parent Unit</b></p>
@@ -292,7 +292,7 @@ class WSU_Analytics {
 				</optgroup>
 			<?php endforeach;?>
 		</select>
-		<p class="description">Does this site represent an entiy that has a parent unit/department/office/school?</p><br/>
+		<p class="description">Does this site represent an entity that has a parent unit? (e.g department, office, school)</p><br/>
 
 		<!-- units -->
 		<p><b>Unit</b></p>
@@ -306,21 +306,21 @@ class WSU_Analytics {
 				</optgroup>
 			<?php endforeach;?>
 		</select>
-		<p class="description">Does this site represent an entiy that is some form of a unit/department/office/school?</p><br/>
+		<p class="description">Does this site represent an entity that is a unit? (e.g. department, office, school)</p><br/>
 
 		<?php if ( apply_filters( 'wsu_analytics_events_override', false ) || apply_filters( 'wsu_analytics_ui_events_override', false ) ) : ?>
 		<!-- extend_defaults -->
-		<p><b>Extend Defaults</b></p>
-		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="true" <?=checked( "true", $option_object["extend_defaults"] )?> /></label>
-		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="false" <?=checked( "false", $option_object["extend_defaults"] )?> /></label>
-		<p class="description">When using a theme js file to define your custom events, should, "Yes", it be extending the defaults provided with the plugin, or should, "No", it be replacing the defaults. </p><br/>
+		<p><b>Custom Events Tracking</b></p>
+		<label>Extend <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="true" <?=checked( "true", $option_object["extend_defaults"] )?> /></label>
+		<label>Override <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="false" <?=checked( "false", $option_object["extend_defaults"] )?> /></label>
+		<p class="description">Should your theme's custom events file(s) extend or override the default events provided by WSU Analytics?</p><br/>
 		<?php endif; ?>
 
 		<!-- use_jquery_ui -->
-		<p><b>Use jQuery UI</b></p>
+		<p><b>Track jQuery UI Events</b></p>
 		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="true" <?=checked( "true", $option_object["use_jquery_ui"] )?> /></label>
 		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="false" <?=checked( "false", $option_object["use_jquery_ui"] )?> /></label>
-		<p class="description">Load default jQuery UI events.  Note: When using a theme js file, the jQuery UI will follow the same `Extend Defaults` selection. </p><br/>
+		<p class="description">Should WSU Analytics track default jQuery UI events for the site?</p><br/>
 
 		<!-- debug -->
 		<p><b>Turn on debug</b></p>
