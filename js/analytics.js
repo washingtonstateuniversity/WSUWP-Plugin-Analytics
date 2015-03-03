@@ -1,8 +1,7 @@
 (function($, window, analytics){
-	/* start with the defaults for WSU sites */
 	var rendered_accounts = [];
 	
-	/* should the wsu global be used? */
+	// Track WSU global analytics for front end requests only.
 	if(analytics.app.page_view_type==="Front End" || analytics.app.page_view_type==="unknown"){
 		rendered_accounts = jQuery.merge( rendered_accounts , [{
 			id:analytics.wsuglobal.ga_code,
@@ -23,7 +22,7 @@
 		}] );
 	}
 
-	/* Set up the app level for the GA schema */
+	// Track app level analytics for front end and admin requests.
 	if(analytics.app.ga_code!==false){
 		rendered_accounts = jQuery.merge( rendered_accounts , [{
 			id: analytics.app.ga_code,
@@ -32,14 +31,14 @@
 				cookieDomain:".wsu.edu",
 				dimension:[
 					{'name':'dimension1','val': analytics.app.page_view_type },//page_view_type <string>
-					{'name':'dimension2','val': analytics.app.authenticated_user },//authenticated_user <string>
+					{'name':'dimension2','val': analytics.app.authenticated_user }//authenticated_user <string>
 				],
 				events: analytics.app.events
 			}
 		}] );
 	}
 
-	/* if on the front end send site level data */
+	// Track site level analytics for front end requests only.
 	if(analytics.app.page_view_type==="Front End" || analytics.app.page_view_type==="unknown"){
 		if(analytics.site.ga_code!==false){
 			rendered_accounts = jQuery.merge( rendered_accounts , [{
@@ -55,9 +54,8 @@
 			}] );
 		}
 	}
-	//console.log(analytics.app.page_view_type);
-	//console.log(rendered_accounts);
-	/* just so we are not tracking at this time*/
+
+	// Fire tracking on all merged accounts and events with jTrack.
 	jQuery.jtrack({
 		analytics:{
 			ga_name:"_wsuGA",
