@@ -431,6 +431,9 @@ class WSU_Analytics {
 				wp_enqueue_script( 'wsu-analytics-ui-events' );
 			}
 		}
+
+		// Fire the primary analytics script after all tracker data and events data is available.
+		wp_enqueue_script( 'wsu-analytics-main' );
 	}
 	
 	/**
