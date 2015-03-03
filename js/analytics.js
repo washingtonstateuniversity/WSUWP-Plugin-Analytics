@@ -31,7 +31,8 @@
 				cookieDomain:".wsu.edu",
 				dimension:[
 					{'name':'dimension1','val': analytics.app.page_view_type },//page_view_type <string>
-					{'name':'dimension2','val': analytics.app.authenticated_user }//authenticated_user <string>
+					{'name':'dimension2','val': analytics.app.authenticated_user },//authenticated_user <string>
+					{'name':'dimension3','val': window.location.protocol } // HTTP or HTTPS
 				],
 				events: analytics.app.events
 			}
