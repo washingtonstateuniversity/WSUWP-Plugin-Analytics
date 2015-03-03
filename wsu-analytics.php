@@ -258,7 +258,7 @@ class WSU_Analytics {
 
 		?>
 		<!-- campus -->
-		<p><label for="wsu-analytics-campus">Campus:</label>
+		<p><label class="wsu-analytics-label" for="wsu-analytics-campus">Campus:</label>
 		<select id="wsu-analytics-campus" name="wsuwp_analytics_option_map[campus]">
 			<option value="none" <?=selected( "none", $option_object["campus"] )?>>None</option>
 			<option value="all" <?=selected( "all", $option_object["campus"] )?>>All</option>
@@ -269,7 +269,7 @@ class WSU_Analytics {
 		<p class="description">Does this site represent a campus in location or association?</p><br/>
 
 		<!-- college -->
-		<p><label for="wsu-analytics-college">College:</label>
+		<p><label class="wsu-analytics-label" for="wsu-analytics-college">College:</label>
 		<select id="wsu-analytics-college" name="wsuwp_analytics_option_map[college]">
 			<option value="none" <?=selected( "none", $option_object["college"] )?>>None</option>
 			<option value="all" <?=selected( "all", $option_object["college"] )?>>All</option>
@@ -280,7 +280,7 @@ class WSU_Analytics {
 		<p class="description">Does this site represent a college as a whole or by association?</p><br/>
 
 		<!-- units -->
-		<p><label for="wsu-analytics-parent-unit">Parent Unit:</label>
+		<p><label class="wsu-analytics-label" for="wsu-analytics-parent-unit">Parent Unit:</label>
 		<select id="wsu-analytics-parent-unit" name="wsuwp_analytics_option_map[unit]">
 			<option value="none" <?=selected( "none", $option_object["unit"] )?>>None</option>
 			<?php foreach($units as $key=>$group):?>
@@ -294,7 +294,7 @@ class WSU_Analytics {
 		<p class="description">Does this site represent an entity that has a parent unit? (e.g department, office, school)</p><br/>
 
 		<!-- units -->
-		<p><label for="wsu-analytics-unit">Unit:</label>
+		<p><label class="wsu-analytics-label" for="wsu-analytics-unit">Unit:</label>
 		<select id="wsu-analytics-unit" name="wsuwp_analytics_option_map[subunit]">
 			<option value="none" <?=selected( "none", $option_object["subunit"] )?>>None</option>
 			<?php foreach($units as $key=>$group):?>
@@ -309,20 +309,30 @@ class WSU_Analytics {
 
 		<?php if ( apply_filters( 'wsu_analytics_events_override', false ) || apply_filters( 'wsu_analytics_ui_events_override', false ) ) : ?>
 		<!-- extend_defaults -->
-		<p>Custom Events Tracking:
+		<p><span class="wsu-analytics-label">Custom Events Tracking:</span>
 		<label>Extend <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="true" <?=checked( "true", $option_object["extend_defaults"] )?> /></label>
 		<label>Override <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="false" <?=checked( "false", $option_object["extend_defaults"] )?> /></label>
 		<p class="description">Should your theme's custom events file(s) extend or override the default events provided by WSU Analytics?</p><br/>
 		<?php endif; ?>
 
 		<!-- use_jquery_ui -->
-		<p>Track jQuery UI Events:
+		<p><span class="wsu-analytics-label">Track jQuery UI Events:</span>
 		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="true" <?=checked( "true", $option_object["use_jquery_ui"] )?> /></label>
 		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="false" <?=checked( "false", $option_object["use_jquery_ui"] )?> /></label>
 		<p class="description">Should WSU Analytics track default jQuery UI events for the site?</p><br/>
 
 		<hr/>
 		<p class="description">Instructions on how to set up your Google analytics to best use this plugin can be <a href="#" class="ajax_info" target="_blank">found here</a>.</p>
+		<style>
+			.wsu-analytics-label {
+				display: inline-block;
+				width: 185px;
+				font-weight: 700;
+			}
+			.form-table td p.description {
+				font-size: 13px;
+			}
+		</style>
 		<?php
 	}
 
