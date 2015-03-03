@@ -308,11 +308,13 @@ class WSU_Analytics {
 		</select>
 		<p class="description">Does this site represent an entiy that is some form of a unit/department/office/school?</p><br/>
 
+		<?php if ( apply_filters( 'wsu_analytics_events_override', false ) || apply_filters( 'wsu_analytics_ui_events_override', false ) ) : ?>
 		<!-- extend_defaults -->
 		<p><b>Extend Defaults</b></p>
 		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="true" <?=checked( "true", $option_object["extend_defaults"] )?> /></label>
 		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="false" <?=checked( "false", $option_object["extend_defaults"] )?> /></label>
 		<p class="description">When using a theme js file to define your custom events, should, "Yes", it be extending the defaults provided with the plugin, or should, "No", it be replacing the defaults. </p><br/>
+		<?php endif; ?>
 
 		<!-- use_jquery_ui -->
 		<p><b>Use jQuery UI</b></p>
