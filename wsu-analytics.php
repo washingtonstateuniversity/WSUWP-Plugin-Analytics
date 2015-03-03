@@ -378,29 +378,32 @@ class WSU_Analytics {
 
 		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.min.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
 
+		// Escaping of tracker data for output as JSON is handled via wp_localize_script().
 		$tracker_data = array(
-			"wsuglobal"=>array(
-				"ga_code"           => "UA-55791317-1", // this is hardcode for now
-				"campus"            => $option_object["campus"],
-				"college"           => $option_object["college"],
+			'wsuglobal' => array(
+				'ga_code'            => 'UA-55791317-1', // Hard coded global analytics ID for WSU.
+				'campus'             => $option_object['campus'],
+				'college'            => $option_object['college'],
 				// note that the user may think that "parent unit" is for them or they may say i have no parent.
 				// When that happens we need to detect it by noting that the subunit is filled but the
 				// unit is not.  This accounts for the other way to look at the two drop downs
-				"unit"              => $option_object["unit"]=="none" && $option_object["subunit"]!="none" ? $option_object["subunit"] : $option_object["unit"],
-				"subunit"           => $option_object["unit"]!="none" ? $option_object["subunit"] : $option_object["unit"],
-				"events"            => array() //ns placholder
+				'unit'               => $option_object['unit'] == 'none' && $option_object['subunit']!='none' ? $option_object['subunit'] : $option_object['unit'],
+				'subunit'            => $option_object['unit'] != 'none' ? $option_object['subunit'] : $option_object['unit'],
+				'events'             => array(),
 			),
-			"app"=>array(
-				"ga_code"           => $this->sanitize_ga_id( $app_analytics_id ),
-				"page_view_type"    => $this->get_page_view_type(),
-				"authenticated_user"=> $this->get_authenticated_user(),
-				"is_editor"         => $this->is_editor(),
-				"events"            => array() //ns placholder
+
+			'app' => array(
+				'ga_code'            => $this->sanitize_ga_id( $app_analytics_id ),
+				'page_view_type'     => $this->get_page_view_type(),
+				'authenticated_user' => $this->get_authenticated_user(),
+				'is_editor'          => $this->is_editor(),
+				'events'             => array(),
 			),
-			"site"=>array(
-				"ga_code"           => $google_analytics_id,
-				"events"            => array() //ns placholder
-			)
+
+			'site' => array(
+				'ga_code'           => $google_analytics_id,
+				'events'            => array(),
+			),
 		);
 
 		// output the inline settings for the plugin
