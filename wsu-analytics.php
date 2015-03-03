@@ -322,7 +322,7 @@ class WSU_Analytics {
 		<p class="description">Should WSU Analytics track default jQuery UI events for the site?</p><br/>
 
 		<hr/>
-		<p class="description">Instructions on how to set up your Google analytics to best use this plugin can be <a href="#" class="ajax_info" target="_blank">found here</a>.</p>
+		<p class="description">Instructions on how to set up your Google analytics to best use this plugin can be <a href="https://web.wsu.edu/wordpress/plugins/wsu-analytics/">found here</a>.</p>
 		<style>
 			.wsu-analytics-label {
 				display: inline-block;
