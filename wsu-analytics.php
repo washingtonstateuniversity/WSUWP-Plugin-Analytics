@@ -30,7 +30,6 @@ class WSU_Analytics {
 		'subunit'         => 'none',
 		'extend_defaults' => 'true',
 		'use_jquery_ui'   => 'true',
-		'is_debug'        => 'false',
 	);
 
 	/**
@@ -322,11 +321,6 @@ class WSU_Analytics {
 		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="false" <?=checked( "false", $option_object["use_jquery_ui"] )?> /></label>
 		<p class="description">Should WSU Analytics track default jQuery UI events for the site?</p><br/>
 
-		<!-- debug -->
-		<p><b>Turn on debug</b></p>
-		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[is_debug]" value="true" <?=checked( "true", $option_object["is_debug"] )?> /></label>
-		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[is_debug]" value="false" <?=checked( "false", $option_object["is_debug"] )?> /></label>
-		<p class="description">Normally used for local development</p><br/>
 		<hr/>
 		<p class="description">Instructions on how to set up your Google analytics to best use this plugin can be <a href="#" class="ajax_info" target="_blank">found here</a>.</p>
 		<?php
@@ -354,7 +348,7 @@ class WSU_Analytics {
 	public function enqueue_scripts() {
 		$option_object = $this->get_analytics_options();
 
-		if ( !$option_object["is_debug"] && defined( 'WSU_LOCAL_CONFIG' ) && WSU_LOCAL_CONFIG ) {
+		if ( defined( 'WSU_LOCAL_CONFIG' ) && WSU_LOCAL_CONFIG ) {
 			return;
 		}
 
