@@ -384,11 +384,10 @@ class WSU_Analytics {
 				'ga_code'            => 'UA-55791317-1', // Hard coded global analytics ID for WSU.
 				'campus'             => $option_object['campus'],
 				'college'            => $option_object['college'],
-				// note that the user may think that "parent unit" is for them or they may say i have no parent.
-				// When that happens we need to detect it by noting that the subunit is filled but the
-				// unit is not.  This accounts for the other way to look at the two drop downs
-				'unit'               => $option_object['unit'] == 'none' && $option_object['subunit']!='none' ? $option_object['subunit'] : $option_object['unit'],
-				'subunit'            => $option_object['unit'] != 'none' ? $option_object['subunit'] : $option_object['unit'],
+				// Fallback to the subunit if a unit is not selected.
+				'unit'               => 'none' === $option_object['unit'] && 'none' !== $option_object['subunit'] ? $option_object['subunit'] : $option_object['unit'],
+				// If a subunit has been used as a fallback, output "none" as the subunit.
+				'subunit'            => 'none' !== $option_object['unit'] ? $option_object['subunit'] : 'none',
 				'events'             => array(),
 			),
 
