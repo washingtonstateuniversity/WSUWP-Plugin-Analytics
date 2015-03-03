@@ -408,14 +408,10 @@ class WSU_Analytics {
 		// output the inline settings for the plugin
 		wp_localize_script( 'wsu-analytics-events', 'wsu_analytics', $tracker_data );
 		
-		//figure out what set of events are to be used for the site
-		$hascustom_events = file_exists(get_stylesheet_directory() . '/wsu-analytics/events.js');
-		if($hascustom_events){
-			if($option_object['extend_defaults'] == true){
-				wp_enqueue_script( 'wsu-analytics-events' );
-			}
-			wp_enqueue_script( 'custom-events', get_stylesheet_directory_uri() . '/wsu-analytics/events.js', array( 'jquery-jtrack' ), false, true );
-		}else{
+		// Allow a theme to override default events.
+		if ( apply_filters( 'wsu_analytics_events_override', false ) ) {
+			wp_enqueue_script( 'wsu-analytics-custom-events', get_stylesheet_directory_uri() . '/wsu-analytics/events.js', array( 'jquery-jtrack' ), $this->script_version(), true );
+		} else {
 			wp_enqueue_script( 'wsu-analytics-events' );
 		}
 
