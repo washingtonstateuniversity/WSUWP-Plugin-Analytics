@@ -348,7 +348,7 @@ class WSU_Analytics {
 	public function enqueue_scripts() {
 		$option_object = $this->get_analytics_options();
 
-		if ( defined( 'WSU_LOCAL_CONFIG' ) && WSU_LOCAL_CONFIG ) {
+		if ( defined( 'WSU_LOCAL_CONFIG' ) && WSU_LOCAL_CONFIG && false === apply_filters( 'wsu_analytics_local_debug', false ) ) {
 			return;
 		}
 
