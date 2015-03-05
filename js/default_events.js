@@ -1,3 +1,4 @@
+(function($, window, analytics){
 window.wsu_analytics.wsuglobal.events = [
 	{
 		element:"#wsu-actions-tabs button",
@@ -43,18 +44,6 @@ window.wsu_analytics.wsuglobal.events = [
 		options:{
 			action:"searching",
 			eventTracked:"autocompletesearch",
-			category:"Spine Framework interactions",
-			label:function(ele){
-				return ""+$(ele).val();
-			},
-			overwrites:"true"
-		}
-	},
-	{
-		element:"#wsu-search input[type=text]",
-		options:{
-			action:"search selection",
-			eventTracked:"autocompleteselect",
 			category:"Spine Framework interactions",
 			label:function(ele){
 				return ""+$(ele).val();
@@ -211,3 +200,4 @@ window.wsu_analytics.site.events   = [
 		}
 	},
 ];
+})(jQuery, window, window.wsu_analytics);
