@@ -434,13 +434,13 @@ class WSU_Analytics {
 
 		// Output tracker data as a JSON object in the document.
 		wp_localize_script( 'wsu-analytics-events', 'wsu_analytics', $tracker_data );
-		
+
 		// Allow a theme to override or extend default events.
 		if ( apply_filters( 'wsu_analytics_events_override', false ) ) {
 			if ( 'true' === $option_object['extend_defaults'] ) {
 				wp_enqueue_script( 'wsu-analytics-ui-events' );
 			}
-			wp_enqueue_script( 'wsu-analytics-custom-events', get_stylesheet_directory_uri() . '/wsu-analytics/events.js', array( 'jquery-jtrack' ), $this->script_version(), true );
+			wp_enqueue_script( 'wsu-analytics-events', get_stylesheet_directory_uri() . '/wsu-analytics/events.js', array( 'jquery-jtrack' ), $this->script_version(), true );
 		} else {
 			wp_enqueue_script( 'wsu-analytics-events' );
 		}
@@ -451,7 +451,7 @@ class WSU_Analytics {
 				if ( 'true' === $option_object['extend_defaults'] ) {
 					wp_enqueue_script( 'wsu-analytics-ui-events' );
 				}
-				wp_enqueue_script( 'wsu-analytics-custom-ui-events', get_stylesheet_directory_uri() . '/wsu-analytics/ui-events.js', array( 'jquery-jtrack' ), $this->script_version(), true );
+				wp_enqueue_script( 'wsu-analytics-ui-events', get_stylesheet_directory_uri() . '/wsu-analytics/ui-events.js', array( 'jquery-jtrack' ), $this->script_version(), true );
 			} else {
 				wp_enqueue_script( 'wsu-analytics-ui-events' );
 			}
