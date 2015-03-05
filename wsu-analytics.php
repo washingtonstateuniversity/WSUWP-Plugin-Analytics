@@ -26,6 +26,7 @@ class WSU_Analytics {
 	var $extended_analytics_defaults = array(
 		'campus'          => 'none',
 		'college'         => 'none',
+		'unit_type'       => 'none',
 		'unit'            => 'none',
 		'subunit'         => 'none',
 		'extend_defaults' => 'true',
@@ -246,6 +247,17 @@ class WSU_Analytics {
 			"vetmed"=>"VetMed",
 			"voiland"=>"Voiland"
 		);
+
+		$unit_type = array(
+			'center'     => 'Center',
+			'department' => 'Department',
+			'laboratory' => 'Laboratory',
+			'office'     => 'Office',
+			'program'    => 'Program',
+			'school'     => 'School',
+			'unit'       => 'Unit',
+		);
+
 		$units=array(
 			"school"=>array(
 				"food_sciences"=>"Food Sciences"
@@ -281,6 +293,15 @@ class WSU_Analytics {
 			<?php endforeach;?>
 		</select></p>
 		<p class="description">Does this site represent a college as a whole or by association?</p><br/>
+
+		<p><label class="wsu-analytics-label" for="wsu-analytics-unit-type">Unit Type:</label>
+		<select id="wsu-analytics-unit-type" name="wsuwp_analytics_option_map[unit_type]">
+			<option value="none" <?php selected( 'none', $option_object['unit_type'] ); ?>>None</option>
+			<?php foreach ( $unit_type as $k => $v ) : ?>
+				<option value="<?php echo $k; ?>" <?php selected( $k, $option_object['unit_type'] ); ?>><?php echo $v; ?></option>
+			<?php endforeach; ?>
+		</select></p>
+		<p class="description">What type of unit does this site represent?</p><br/>
 
 		<!-- units -->
 		<p><label class="wsu-analytics-label" for="wsu-analytics-parent-unit">Parent Unit:</label>
@@ -405,6 +426,7 @@ class WSU_Analytics {
 				'ga_code'            => 'true' === $option_object['track_global'] ? 'UA-55791317-1' : false, // Hard coded global analytics ID for WSU.
 				'campus'             => $option_object['campus'],
 				'college'            => $option_object['college'],
+				'unit_type'          => $option_object['unit_type'],
 				// Fallback to the subunit if a unit is not selected.
 				'unit'               => 'none' === $option_object['unit'] && 'none' !== $option_object['subunit'] ? $option_object['subunit'] : $option_object['unit'],
 				// If a subunit has been used as a fallback, output "none" as the subunit.
