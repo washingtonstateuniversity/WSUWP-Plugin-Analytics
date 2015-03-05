@@ -230,22 +230,27 @@ class WSU_Analytics {
 	public function general_settings_inputs() {
 		$option_object = $this->get_analytics_options();
 
-		//stubs for now untill it's pulled form a more central source
-		$campus=array(
-			"pullman"=>"Pullman"
+		$campus = array(
+			'pullman'      => 'Pullman',
+			'spokane'      => 'Spokane',
+			'vancouver'    => 'Vancouver',
+			'tri-cities'   => 'Tri-Cities',
+			'globalcampus' => 'Global Campus',
+			'everett'      => 'Everett',
 		);
-		$college=array(
-			"art_and_science"=>"Arts & Science",
-			"cahnrs"=>"CAHNRS & Extension",
-			"carson"=>"Carson",
-			"education"=>"Education",
-			"honors"=>"Honors College",
-			"medicine"=>"Medicine",
-			"murrow"=>"Murrow",
-			"nursing"=>"Nursing",
-			"pharmacy"=>"Pharmacy",
-			"vetmed"=>"VetMed",
-			"voiland"=>"Voiland"
+
+		$college = array(
+			'arts_and_sciences' => 'Arts & Sciences',
+			'cahnrs' => 'CAHNRS & Extension',
+			'carson' => 'Carson',
+			'education' => 'Education',
+			'honors' => 'Honors',
+			'medicine' => 'Medicine',
+			'murrow' => 'Murrow',
+			'nursing' => 'Nursing',
+			'pharmacy' => 'Pharmacy',
+			'vetmed' => 'VetMed',
+			'voiland' => 'Voiland',
 		);
 
 		$unit_type = array(
