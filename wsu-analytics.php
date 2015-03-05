@@ -30,6 +30,9 @@ class WSU_Analytics {
 		'subunit'         => 'none',
 		'extend_defaults' => 'true',
 		'use_jquery_ui'   => 'true',
+		'track_global'    => 'true',
+		'track_app'       => 'true',
+		'track_site'      => 'true',
 	);
 
 	/**
@@ -387,7 +390,7 @@ class WSU_Analytics {
 		// Escaping of tracker data for output as JSON is handled via wp_localize_script().
 		$tracker_data = array(
 			'wsuglobal' => array(
-				'ga_code'            => 'UA-55791317-1', // Hard coded global analytics ID for WSU.
+				'ga_code'            => 'true' === $option_object['track_global'] ? 'UA-55791317-1' : false, // Hard coded global analytics ID for WSU.
 				'campus'             => $option_object['campus'],
 				'college'            => $option_object['college'],
 				// Fallback to the subunit if a unit is not selected.
@@ -398,7 +401,7 @@ class WSU_Analytics {
 			),
 
 			'app' => array(
-				'ga_code'            => $this->sanitize_ga_id( $app_analytics_id ),
+				'ga_code'            => 'true' === $option_object['track_app'] ? $this->sanitize_ga_id( $app_analytics_id ) : false,
 				'page_view_type'     => $this->get_page_view_type(),
 				'authenticated_user' => $this->get_authenticated_user(),
 				'is_editor'          => $this->is_editor(),
@@ -406,7 +409,7 @@ class WSU_Analytics {
 			),
 
 			'site' => array(
-				'ga_code'           => $google_analytics_id,
+				'ga_code'           => 'true' === $option_object['track_site'] ? $google_analytics_id : false,
 				'events'            => array(),
 			),
 		);
