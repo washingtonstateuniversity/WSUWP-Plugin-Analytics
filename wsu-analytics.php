@@ -240,7 +240,7 @@ class WSU_Analytics {
 		);
 
 		$college = array(
-			'arts_and_sciences' => 'Arts & Sciences',
+			'arts-and-sciences' => 'Arts & Sciences',
 			'cahnrs' => 'CAHNRS & Extension',
 			'carson' => 'Carson',
 			'education' => 'Education',
@@ -265,7 +265,7 @@ class WSU_Analytics {
 
 		$units=array(
 			"school"=>array(
-				"food_sciences"=>"Food Sciences"
+				"food-sciences"=>"Food Sciences"
 			),
 			"departments"=>array(
 			),
