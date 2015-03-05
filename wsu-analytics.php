@@ -263,18 +263,8 @@ class WSU_Analytics {
 			'unit'       => 'Unit',
 		);
 
-		$units=array(
-			"school"=>array(
-				"food-sciences"=>"Food Sciences"
-			),
-			"departments"=>array(
-			),
-			"offices"=>array(
-			),
-			"unit"=>array(
-				"ucomm"=>"University Communications"
-			)
-		);
+		// @todo complete units taxonomy.
+		$units = array ();
 
 		?>
 		<!-- campus -->
