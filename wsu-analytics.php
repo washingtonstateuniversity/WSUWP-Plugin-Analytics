@@ -397,10 +397,6 @@ class WSU_Analytics {
 
 		wp_enqueue_script( 'jquery-jtrack', '//repo.wsu.edu/jtrack/1/jtrack.js', array( 'jquery' ), $this->script_version(), true );
 
-		if( 'true' === $option_object['use_jquery_ui'] ){
-			wp_register_script( 'wsu-analytics-ui-events', plugins_url( 'js/default_ui-events.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
-		}
-
 		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.min.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
 
 		// Escaping of tracker data for output as JSON is handled via wp_localize_script().
@@ -445,19 +441,19 @@ class WSU_Analytics {
 
 		// Output tracker data as a JSON object in the document.
 		wp_localize_script( 'wsu-analytics-events', 'wsu_analytics', $tracker_data );
-		
+
 		// Allow a theme to override or extend default UI events.
 		if( 'true' === $option_object['use_jquery_ui'] ) {
 			if ( apply_filters( 'wsu_analytics_ui_events_override', false ) ) {
 				if ( 'true' === $option_object['extend_defaults'] ) {
-					wp_enqueue_script( 'wsu-analytics-ui-events' );
+					wp_enqueue_script( 'wsu-analytics-ui-events', plugins_url( 'js/default_ui-events.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
 					$custom_slug = 'wsu-analytics-extended-ui-events';
 				} else {
 					$custom_slug = 'wsu-analytics-ui-events';
 				}
 				wp_enqueue_script( $custom_slug, get_stylesheet_directory_uri() . '/wsu-analytics/ui-events.js', array( 'jquery-jtrack' ), $this->script_version(), true );
 			} else {
-				wp_enqueue_script( 'wsu-analytics-ui-events' );
+				wp_enqueue_script( 'wsu-analytics-ui-events', plugins_url( 'js/default_ui-events.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
 			}
 		}
 
