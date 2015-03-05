@@ -324,8 +324,26 @@ class WSU_Analytics {
 		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="false" <?=checked( "false", $option_object["use_jquery_ui"] )?> /></label>
 		<p class="description">Should WSU Analytics track default jQuery UI events for the site?</p><br/>
 
+		<?php if ( ( function_exists( 'wsuwp_is_network_admin' ) && wsuwp_is_network_admin( wsuwp_get_current_network() ) ) || is_super_admin() ) : ?>
+		<p><span class="wsu-analytics-label">Track Global Analytics</span></p>
+		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[track_global]" value="true" <?php checked( 'true', $option_object['track_global'] ); ?> /></label>
+		<label>No  <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[track_global]" value="false" <?php checked( 'false', $option_object['track_global'] ); ?> /></label>
+		<p class="description">Should global WSU analytics be tracked on this site? This should normally be on and only disabled for debugging.</p><br/>
+
+		<p><span class="wsu-analytics-label">Track App Analytics</span></p>
+		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[track_app]" value="true" <?php checked( 'true', $option_object['track_app'] ); ?> /></label>
+		<label>No  <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[track_app]" value="false" <?php checked( 'false', $option_object['track_app'] ); ?> /></label>
+		<p class="description">Should WSUWP Platform analytics be tracked on this site? This should normally be on and only disabled for debugging.</p><br/>
+		<?php endif; ?>
+
+		<p><span class="wsu-analytics-label">Track Site Analytics</span></p>
+		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[track_site]" value="true" <?php checked( 'true', $option_object['track_site'] ); ?> /></label>
+		<label>No  <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[track_site]" value="false" <?php checked( 'false', $option_object['track_site'] ); ?> /></label>
+		<p class="description">Should analytics be tracked on this site? A Google Analytics ID is still required if this is enabled.</p><br/>
+
 		<hr/>
 		<p class="description">Instructions on how to set up your Google analytics to best use this plugin can be <a href="https://web.wsu.edu/wordpress/plugins/wsu-analytics/">found here</a>.</p>
+
 		<style>
 			.wsu-analytics-label {
 				display: inline-block;
