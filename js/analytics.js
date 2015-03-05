@@ -3,24 +3,26 @@
 	
 	// Track WSU global analytics for front end requests only.
 	if(analytics.app.page_view_type==="Front End" || analytics.app.page_view_type==="unknown"){
-		rendered_accounts = jQuery.merge( rendered_accounts , [{
-			id:analytics.wsuglobal.ga_code,
-			settings:{
-				namedSpace:'WSUGlobal',
-				cookieDomain:".wsu.edu",
-				dimension:[
-					{'name':'dimension1','val': window.location.protocol },//protocol <string> (http: / https:)
-					{'name':'dimension2','val': analytics.wsuglobal.campus },//campus <string>
-					{'name':'dimension3','val': analytics.wsuglobal.college },//college <string>
-					{'name':'dimension4','val': analytics.wsuglobal.unit },//unit <string>
-					{'name':'dimension5','val': analytics.wsuglobal.subunit },//subunit <string>
-					{'name':'dimension6','val': ""+analytics.app.is_editor },//editor <bool>(as string)
-					{'name':'dimension7','val': window.location.hostname },//base site url <string>(as string)
-					{'name':'dimension8','val': analytics.wsuglobal.unit_type }//unit type <string>
-				],
-				events: analytics.wsuglobal.events
-			}
-		}] );
+		if(analytics.wsuglobal.ga_code!==false){
+			rendered_accounts = jQuery.merge( rendered_accounts , [{
+				id:analytics.wsuglobal.ga_code,
+				settings:{
+					namedSpace:'WSUGlobal',
+					cookieDomain:".wsu.edu",
+					dimension:[
+						{'name':'dimension1','val': window.location.protocol },//protocol <string> (http: / https:)
+						{'name':'dimension2','val': analytics.wsuglobal.campus },//campus <string>
+						{'name':'dimension3','val': analytics.wsuglobal.college },//college <string>
+						{'name':'dimension4','val': analytics.wsuglobal.unit },//unit <string>
+						{'name':'dimension5','val': analytics.wsuglobal.subunit },//subunit <string>
+						{'name':'dimension6','val': ""+analytics.app.is_editor },//editor <bool>(as string)
+						{'name':'dimension7','val': window.location.hostname },//base site url <string>(as string)
+						{'name':'dimension8','val': analytics.wsuglobal.unit_type }//unit type <string>
+					],
+					events: analytics.wsuglobal.events
+				}
+			}] );
+		}
 	}
 
 	// Track app level analytics for front end and admin requests.
