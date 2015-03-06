@@ -11,7 +11,7 @@ Author URI: https://web.wsu.edu/
 class WSU_Analytics {
 
 	/**
-	 * @var string The current version of this plugin, or used to break script cache.
+	 * @var string The current version of this plugin. Used to break script cache.
 	 */
 	var $version = '0.3.3';
 
@@ -40,10 +40,11 @@ class WSU_Analytics {
 	 * Add our hooks.
 	 */
 	public function __construct() {
-		//set up the trackers for both the front and admin
+		// Tracking scripts are enqueued on the front end and admin views.
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10 );
+		add_action( 'admin_footer', array( $this, 'enqueue_scripts' ), 10 );
 
-		//account for the code media  elements, but treated as after dom load in the browser
+		// Hack an enqueue of mediaelement when required to add custom events.
 		add_filter( 'wp_video_shortcode_library', array( $this, 'mediaelement_scripts' ), 11 );
 		add_filter( 'wp_audio_shortcode_library', array( $this, 'mediaelement_scripts' ), 11 );
 
@@ -52,8 +53,6 @@ class WSU_Analytics {
 		// Configure the settings page and sections provided by the plugin.
 		add_action( 'admin_init', array( $this, 'register_settings_sections' ), 10 );
 		add_action( 'admin_menu', array( $this, 'add_analytics_options_page' ), 10 );
-
-		add_action( 'admin_footer', array( $this, 'enqueue_scripts' ), 10 );
 	}
 
 	/**
