@@ -1,6 +1,8 @@
 # WSU Analytics
 
-Provides tracking scripts and GA ID management for WSU WordPress sites.
+WSU Analytics is a WordPress plugin that provides tracking through Google Analytics for WSU WordPress sites using WSU's [jTrack](https://github.com/washingtonstateuniversity/jTrack).
+
+This plugin is activated globally on the [WSUWP Platform](https://github.com/washingtonstateuniversity/wsuwp-platform) but can be used on any individual WordPress site at WSU. See the filters at the bottom of this page for providing your own application level analytics. If you have any questions about implementation, please reach out to [Web Communication](https://web.wsu.edu).
 
 ## Analytics Settings
 
@@ -15,7 +17,7 @@ The settings page for WSU Analytics can be found in your dashboard under "Settin
 
 ### Google Analytics
 
-Analytics will be tracked automatically at the global (WSU) and app (WordPress) platforms. Additional settings are provided to track specific site data and to improve the data tracked globally.
+Traffic and associated events will be tracked automatically at the global (WSU) and app (WordPress) platforms. Additional settings are provided to track specific site data and to improve the data tracked globally.
 
 * **Google Analytics ID** - The Google Analytics UA ID used to track analytics for your individual site.
 * **Campus** - The campus, if any, a site is associated with.
