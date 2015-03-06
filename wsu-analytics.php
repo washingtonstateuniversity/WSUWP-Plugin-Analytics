@@ -86,12 +86,10 @@ class WSU_Analytics {
 			<h2>WSU Analytics Settings</h2>
 			<form method="post" action="options.php">
 		<?php
-
-		wp_nonce_field('wsuwp-analytics-options');
+		wp_nonce_field( 'wsuwp-analytics-options' );
 		do_settings_sections( $this->settings_page );
 
 		submit_button();
-
 		?>
 				<input type="hidden" name="action" value="update" />
 				<input type="hidden" name="option_page" value="wsuwp-analytics" />
