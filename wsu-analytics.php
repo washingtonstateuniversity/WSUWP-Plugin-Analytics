@@ -2,10 +2,10 @@
 /*
 Plugin Name: WSU Analytics
 Version: 0.3.3
-Plugin URI: http://web.wsu.edu
-Description: Manages analytics for sites on the WSUWP Platform
-Author: washingtonstateuniversity, jeremyfelt
-Author URI: http://web.wsu.edu
+Plugin URI: https://web.wsu.edu/
+Description: Provides tracking through Google Analytics for WSU WordPress sites using WSU's jTrack.
+Author: washingtonstateuniversity, jeremyfelt, jeremybass
+Author URI: https://web.wsu.edu/
 */
 
 class WSU_Analytics {
