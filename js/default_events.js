@@ -165,7 +165,7 @@ window.wsu_analytics.site.events   = [
 				",
 		options:{
 			action:function(ele){
-				var href_parts =$(ele).attr('herf').split('.');
+				var href_parts =$(ele).attr('href').split('.');
 				return href_parts[href_parts.length-1];
 			},
 			category:"download",
