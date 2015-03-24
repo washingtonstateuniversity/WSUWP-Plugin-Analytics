@@ -119,7 +119,7 @@ window.wsu_analytics.site.events   = [
 				 a[href*='applyweb.com/public/inquiry'],\
 				 a[href*='www.mme.wsu.edu/people/faculty/faculty.html'],\
 				 a[href*='puyallup.wsu.edu'],\
-				 .track.internal.query_intoleran",
+				 .track.internal.query_intolerant",
 		options:{
 			skip_internal:"true",
 			overwrites:"true",
@@ -133,12 +133,12 @@ window.wsu_analytics.site.events   = [
 		element:"a[href*='tinyurl.com'],\
 				 a[href*='ptwc.weather.gov'],\
 				 a[href*='www.atmos.washington.edu'],\
-				 .track.outbound.query_intoleran",
+				 .track.outbound.query_intolerant",
 		options:{
 			skip_internal:"true",
 			overwrites:"true",
 			mode:"event",
-			category:"outbound-query-intoleran"
+			category:"outbound-query-intolerant"
 			
 		}
 	},
