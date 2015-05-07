@@ -102,7 +102,8 @@ window.wsu_analytics.site.events   = [
 		element:"a[href^='http']:not([href*='wsu.edu']), .track.outbound",
 		options:{
 			mode:"event,_link",
-			category:"outbound"
+			category:"outbound",
+			action:"click"
 		}
 	},
 	{
@@ -110,7 +111,8 @@ window.wsu_analytics.site.events   = [
 		options:{
 			skip_internal:"true",
 			mode:"event,_link",
-			category:"internal"
+			category:"internal",
+			action:"click"
 		}
 	},
 	{
@@ -124,7 +126,8 @@ window.wsu_analytics.site.events   = [
 			skip_internal:"true",
 			overwrites:"true",
 			mode:"event",
-			category:"internal-query-intolerant"
+			category:"internal-query-intolerant",
+			action:"click"
 
 		}
 	},
@@ -138,7 +141,8 @@ window.wsu_analytics.site.events   = [
 			skip_internal:"true",
 			overwrites:"true",
 			mode:"event",
-			category:"outbound-query-intolerant"
+			category:"outbound-query-intolerant",
+			action:"click"
 			
 		}
 	},
