@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WSU Analytics
-Version: 0.4.1
+Version: 0.4.3
 Plugin URI: https://web.wsu.edu/
 Description: Provides tracking through Google Analytics for WSU WordPress sites using WSU's jTrack.
 Author: washingtonstateuniversity, jeremyfelt, jeremybass
