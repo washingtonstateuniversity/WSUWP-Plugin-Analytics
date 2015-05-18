@@ -101,7 +101,7 @@ window.wsu_analytics.site.events   = [
 	{
 		element:"a[href^='http']:not([href*='wsu.edu']), .track.outbound",
 		options:{
-			mode:"event,_link",
+			mode:"event",
 			category:"outbound",
 			action:"click"
 		}
@@ -110,7 +110,7 @@ window.wsu_analytics.site.events   = [
 		element:"a[href*='wsu.edu']:not([href*='**SELF_DOMAIN**']), .track.internal",
 		options:{
 			skip_internal:"true",
-			mode:"event,_link",
+			mode:"event",
 			category:"internal",
 			action:"click"
 		}
