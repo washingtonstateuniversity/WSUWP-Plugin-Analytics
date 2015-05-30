@@ -412,6 +412,19 @@ class WSU_Analytics {
 
 		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.min.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
 
+		$spine_color = '';
+		$spine_grid = '';
+		$wsuwp_network = '';
+
+		if ( function_exists( 'spine_get_option' ) ) {
+			$spine_color = esc_js( spine_get_option( 'spine_color' ) );
+			$spine_grid = esc_js( spine_get_option( 'grid_style' ) );
+		}
+
+		if ( function_exists( 'wsuwp_get_current_network' ) ) {
+			$wsuwp_network = wsuwp_get_current_network()->domain;
+		}
+
 		// Escaping of tracker data for output as JSON is handled via wp_localize_script().
 		$tracker_data = array(
 			'wsuglobal' => array(
@@ -431,6 +444,9 @@ class WSU_Analytics {
 				'page_view_type'     => $this->get_page_view_type(),
 				'authenticated_user' => $this->get_authenticated_user(),
 				'is_editor'          => $this->is_editor(),
+				'wsuwp_network'      => $wsuwp_network,
+				'spine_grid'         => $spine_grid,
+				'spine_color'        => $spine_color,
 				'events'             => array(),
 			),
 
