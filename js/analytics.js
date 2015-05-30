@@ -33,9 +33,12 @@
 				namedSpace:'appScope',
 				cookieDomain:".wsu.edu",
 				dimension:[
-					{'name':'dimension1','val': analytics.app.page_view_type },//page_view_type <string>
-					{'name':'dimension2','val': analytics.app.authenticated_user },//authenticated_user <string>
-					{'name':'dimension3','val': window.location.protocol } // HTTP or HTTPS
+					{'name':'dimension1','val': analytics.app.page_view_type },     // Front end or admin page view type
+					{'name':'dimension2','val': analytics.app.authenticated_user }, // Authenticated or non-authenticated user
+					{'name':'dimension3','val': window.location.protocol },         // HTTP or HTTPS
+					{'name':'dimension4','val': analytics.app.wsuwp_network },      // The WSUWP Platform network <string>
+					{'name':'dimension5','val': analytics.app.spine_grid },         // The Spine grid layout from Customizer
+					{'name':'dimension6','val': analytics.app.spine_color }         // The color of the Spine from Customizer
 				],
 				events: analytics.app.events
 			}
