@@ -13,7 +13,7 @@ class WSU_Analytics {
 	/**
 	 * @var string The current version of this plugin. Used to break script cache.
 	 */
-	var $version = '0.4.6';
+	var $version = '0.4.7';
 
 	/**
 	 * @var string Track the string used for the custom settings page we add.
