@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WSU Analytics
-Version: 0.4.3
+Version: 0.5.0
 Plugin URI: https://web.wsu.edu/
 Description: Provides tracking through Google Analytics for WSU WordPress sites using WSU's jTrack.
 Author: washingtonstateuniversity, jeremyfelt, jeremybass
@@ -13,7 +13,7 @@ class WSU_Analytics {
 	/**
 	 * @var string The current version of this plugin. Used to break script cache.
 	 */
-	var $version = '0.4.7';
+	var $version = '0.5.0';
 
 	/**
 	 * @var string Track the string used for the custom settings page we add.
@@ -427,6 +427,10 @@ class WSU_Analytics {
 
 		// Escaping of tracker data for output as JSON is handled via wp_localize_script().
 		$tracker_data = array(
+			'defaults' => array(
+				'cookieDomain'		 => $this->get_cookie_domain(),
+			),
+			
 			'wsuglobal' => array(
 				'ga_code'            => 'true' === $option_object['track_global'] ? 'UA-55791317-1' : false, // Hard coded global analytics ID for WSU.
 				'campus'             => $option_object['campus'],
@@ -510,6 +514,19 @@ class WSU_Analytics {
 		}
 
 		return $this->version;
+	}
+
+	/**
+	 * Break the requested host into a 2 part cookie domain.
+	 *
+	 * @return string
+	 */
+	private function get_cookie_domain() {
+		$requested_domain_parts = explode( '.', $_SERVER['HTTP_HOST'] );
+		$cookie_domain = array_pop( $requested_domain_parts );
+		$cookie_domain = '.' . array_pop( $requested_domain_parts ) . '.' . $cookie_domain;
+
+		return $cookie_domain;
 	}
 
 	/**
