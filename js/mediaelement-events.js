@@ -16,23 +16,19 @@ _wpmejsSettings.success = function( mejs ) {
 		}
 
 		if(typeof jQuery.jtrack !=="undefined"){
-			/* we can do so much better then this, but it'll work for now
-				just update to do more robust tracking as we can.
-			*/
-			
 			// Event listener for when the video starts playing
 			mejs.addEventListener( 'playing', function( e ) {
-				jQuery('body').trackEvent ('Audio', 'playing', "time", mejs.currentTime, "_wsuGA", "siteScope" );
+				jQuery('body').trackEvent ( mejs.className, 'playing', mejs.currentTime, 0, "_wsuGA", "siteScope" );
 			}, false);
 
 			// Event listener for when the video is paused
 			mejs.addEventListener( 'pause', function( e ) {
-				jQuery('body').trackEvent ('Audio', 'pausing', "time", mejs.currentTime, "_wsuGA", "siteScope" );
+				jQuery('body').trackEvent ( mejs.className, 'pausing', mejs.currentTime, 0, "_wsuGA", "siteScope" );
 			}, false);
 
 			// Event listener for when the video ends
 			mejs.addEventListener( 'ended', function( e ) {
-				jQuery('body').trackEvent ('Audio', 'ending', "time", mejs.currentTime, "_wsuGA", "siteScope" );
+				jQuery('body').trackEvent ( mejs.className, 'ending', mejs.currentTime, 0, "_wsuGA", "siteScope" );
 			}, false);
 		}
 	};
