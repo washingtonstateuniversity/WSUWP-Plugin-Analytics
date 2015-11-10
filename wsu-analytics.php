@@ -436,7 +436,7 @@ class WSU_Analytics {
 		// Escaping of tracker data for output as JSON is handled via wp_localize_script().
 		$tracker_data = array(
 			'defaults' => array(
-				'cookieDomain'		=> '' !== $option_object['cookie_domain'] ? $option_object['cookie_domain'] : '.wsu.edu',
+				'cookieDomain'		 => $this->get_cookie_domain(),
 			),
 			
 			'wsuglobal' => array(
@@ -522,6 +522,19 @@ class WSU_Analytics {
 		}
 
 		return $this->version;
+	}
+
+	/**
+	 * Break the requested host into a 2 part cookie domain.
+	 *
+	 * @return string
+	 */
+	private function get_cookie_domain() {
+		$requested_domain_parts = explode( '.', $_SERVER['HTTP_HOST'] );
+		$cookie_domain = array_pop( $requested_domain_parts );
+		$cookie_domain = '.' . array_pop( $requested_domain_parts ) . '.' . $cookie_domain;
+
+		return $cookie_domain;
 	}
 
 	/**
