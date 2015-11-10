@@ -38,7 +38,8 @@
 					{'name':'dimension3','val': window.location.protocol },         // HTTP or HTTPS
 					{'name':'dimension4','val': analytics.app.wsuwp_network },      // The WSUWP Platform network <string>
 					{'name':'dimension5','val': analytics.app.spine_grid },         // The Spine grid layout from Customizer
-					{'name':'dimension6','val': analytics.app.spine_color }         // The color of the Spine from Customizer
+					{'name':'dimension6','val': analytics.app.spine_color },        // The color of the Spine from Customizer
+					{'name':'dimension7','val': analytics.app.server_protocol }     // The HTTP protocol, likely HTTP/1.1 or HTTP/2.0
 				],
 				events: analytics.app.events
 			}
