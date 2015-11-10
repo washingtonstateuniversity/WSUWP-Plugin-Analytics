@@ -34,6 +34,7 @@ class WSU_Analytics {
 		'track_global'    => 'true',
 		'track_app'       => 'true',
 		'track_site'      => 'true',
+		'cookie_domain'   => '.wsu.edu',
 	);
 
 	/**
@@ -264,6 +265,13 @@ class WSU_Analytics {
 		$units = array ();
 
 		?>
+		<!-- defaults -->
+		
+		<p><span class="wsu-analytics-label">Set Cookie domain:</span>
+		<label>domain <input type="text" class="regular-text" name="wsuwp_analytics_option_map[cookie_domain]" value="<?=$option_object["cookie_domain"]?>" placholder=".wsu.edu" /></label>
+		<p class="description">If this site url is not a `.wsu.edu` domain, you can set the cookie here.</p><br/>
+		
+		
 		<!-- campus -->
 		<p><label class="wsu-analytics-label" for="wsu-analytics-campus">Campus:</label>
 		<select id="wsu-analytics-campus" name="wsuwp_analytics_option_map[campus]">
@@ -427,6 +435,10 @@ class WSU_Analytics {
 
 		// Escaping of tracker data for output as JSON is handled via wp_localize_script().
 		$tracker_data = array(
+			'defaults' => array(
+				'cookieDomain'		=> '' !== $option_object['cookie_domain'] ? $option_object['cookie_domain'] : '.wsu.edu',
+			),
+			
 			'wsuglobal' => array(
 				'ga_code'            => 'true' === $option_object['track_global'] ? 'UA-55791317-1' : false, // Hard coded global analytics ID for WSU.
 				'campus'             => $option_object['campus'],
