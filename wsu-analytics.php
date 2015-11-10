@@ -447,6 +447,7 @@ class WSU_Analytics {
 				'ga_code'            => 'true' === $option_object['track_app'] ? $this->sanitize_ga_id( $app_analytics_id ) : false,
 				'page_view_type'     => $this->get_page_view_type(),
 				'authenticated_user' => $this->get_authenticated_user(),
+				'server_protocol'    => $_SERVER['SERVER_PROTOCOL'],
 				'is_editor'          => $this->is_editor(),
 				'wsuwp_network'      => $wsuwp_network,
 				'spine_grid'         => $spine_grid,
