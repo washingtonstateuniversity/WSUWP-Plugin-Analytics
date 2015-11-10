@@ -16,10 +16,6 @@ _wpmejsSettings.success = function( mejs ) {
 		}
 
 		if(typeof jQuery.jtrack !=="undefined"){
-			/* we can do so much better then this, but it'll work for now
-				just update to do more robust tracking as we can.
-			*///isVideo
-			
 			// Event listener for when the video starts playing
 			mejs.addEventListener( 'playing', function( e ) {
 				jQuery('body').trackEvent ( mejs.className, 'playing', mejs.currentTime, 0, "_wsuGA", "siteScope" );
