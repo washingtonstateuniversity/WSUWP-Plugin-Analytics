@@ -34,7 +34,6 @@ class WSU_Analytics {
 		'track_global'    => 'true',
 		'track_app'       => 'true',
 		'track_site'      => 'true',
-		'cookie_domain'   => '.wsu.edu',
 	);
 
 	/**
@@ -265,13 +264,6 @@ class WSU_Analytics {
 		$units = array ();
 
 		?>
-		<!-- defaults -->
-		
-		<p><span class="wsu-analytics-label">Set Cookie domain:</span>
-		<label>domain <input type="text" class="regular-text" name="wsuwp_analytics_option_map[cookie_domain]" value="<?=$option_object["cookie_domain"]?>" placholder=".wsu.edu" /></label>
-		<p class="description">If this site url is not a `.wsu.edu` domain, you can set the cookie here.</p><br/>
-		
-		
 		<!-- campus -->
 		<p><label class="wsu-analytics-label" for="wsu-analytics-campus">Campus:</label>
 		<select id="wsu-analytics-campus" name="wsuwp_analytics_option_map[campus]">
