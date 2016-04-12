@@ -96,7 +96,103 @@ window.wsu_analytics.wsuglobal.events = [
 		}
 	},
 ];
-window.wsu_analytics.app.events    = [];
+window.wsu_analytics.app.events    = [
+	{
+		element:"#wsu-actions-tabs button",
+		options:{
+			action:" closed",
+			action:function(ele){
+				return "Action tab "+ (ele.closest('li').is(".opened") ?"opening":"closing");
+			},
+			category:"Spine Framework interactions",
+			label:function(ele){
+				return " "+$(ele).text();
+			},
+			overwrites:"true"
+		}
+	},
+	{
+		element:"#wsu-actions a",
+		options:{
+			action:"Action tab Content Click",
+			category:"Spine Framework interactions",
+			label:function(ele){
+				return $(ele).text()+ " - "+ $(ele).attr("href");
+			},
+			overwrites:"true"
+		}
+	},
+	{
+		element:"#spine nav li.parent > a",
+		options:{
+			action:function(ele){
+				return "Couplets "+ (ele.closest('.parent').is(".opened") ?"opening":"closing");
+			},
+			eventTracked:"click",
+			category:"Spine Framework interactions",
+			label:function(ele){
+				return " "+$(ele).text();
+			},
+			overwrites:"true"
+		}
+	},
+	{
+		element:"#wsu-search input[type=text]",
+		options:{
+			action:"searching",
+			eventTracked:"autocompletesearch",
+			category:"Spine Framework interactions",
+			label:function(ele){
+				return ""+$(ele).val();
+			},
+			overwrites:"true"
+		}
+	},
+	{
+		element:"#wsu-social-channels a",
+		options:{
+			action:"social channel visited",
+			category:"Spine Framework interactions",
+			label:function(ele){
+				return ""+$(ele).text();
+			},
+			overwrites:"true"
+		}
+	},
+	{
+		element:"#wsu-global-links a",
+		options:{
+			action:"WSU global link visited",
+			category:"Spine Framework interactions",
+			label:function(ele){
+				return ""+$(ele).text()+" - "+ $(ele).attr("href");
+			},
+			overwrites:"true"
+		}
+	},
+	{
+		element:"#wsu-signature",
+		options:{
+			action:"WSU global logo clicked",
+			category:"Spine Framework interactions",
+			label:function(ele){
+				return $(ele).attr("href");
+			},
+			overwrites:"true"
+		}
+	},
+	{
+		element:"#shelve",
+		options:{
+			action:"mobile menu icon clicked",
+			category:"Spine Framework interactions",
+			label:function(ele){
+				return $("#spine").is(".shelved") ? "closed" : "opened" ;
+			},
+			overwrites:"true"
+		}
+	}
+];
 window.wsu_analytics.site.events   = [
 	{
 		element:"a[href^='http']:not([href*='wsu.edu']), .track.outbound",
