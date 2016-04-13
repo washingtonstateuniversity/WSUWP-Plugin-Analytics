@@ -264,12 +264,12 @@ window.wsu_analytics.site.events   = [
 		}
 	},
 	{
-		element:"a[href*='zzusis.wsu.edu'],\
-				 a[href*='portal.wsu.edu'],\
-				 a[href*='applyweb.com/public/inquiry'],\
-				 a[href*='www.mme.wsu.edu/people/faculty/faculty.html'],\
-				 a[href*='puyallup.wsu.edu'],\
-				 .track.internal.query_intolerant",
+		element:"a[href*='zzusis.wsu.edu'], " +
+				"a[href*='portal.wsu.edu'], " +
+				"a[href*='applyweb.com/public/inquiry'], " +
+				"a[href*='www.mme.wsu.edu/people/faculty/faculty.html'], " +
+				"a[href*='puyallup.wsu.edu'], " +
+				".track.internal.query_intolerant",
 		options:{
 			skip_internal:"true",
 			overwrites:"true",
@@ -282,10 +282,10 @@ window.wsu_analytics.site.events   = [
 
 	// Externals that are known to be url query intolerant.
 	{
-		element:"a[href*='tinyurl.com'],\
-				 a[href*='ptwc.weather.gov'],\
-				 a[href*='www.atmos.washington.edu'],\
-				 .track.outbound.query_intolerant",
+		element:"a[href*='tinyurl.com']," +
+				"a[href*='ptwc.weather.gov'], " +
+				"a[href*='www.atmos.washington.edu'], " +
+				".track.outbound.query_intolerant",
 		options:{
 			skip_internal:"true",
 			overwrites:"true",
@@ -307,15 +307,14 @@ window.wsu_analytics.site.events   = [
 		}
 	},
 	{
-		element:"a[href*='.jpg'], a[href*='.zip'], a[href*='.tiff'], a[href*='.tif'],\
-				 a[href*='.bin'], a[href*='.Bin'], a[href*='.eps'], a[href*='.gif'],\
-				 a[href*='.png'], a[href*='.ppt'], a[href*='.pdf'], a[href*='.doc'],\
-				 a[href*='.docx'],\
-				 .track.jpg, .track.zip, .track.tiff, .track.tif,\
-				 .track.bin, .track.Bin, .track.eps, .track.gif,\
-				 .track.png, .track.ppt, .track.pdf, .track.doc,\
-				 .track.docx\
-				",
+		element: "a[href*='.jpg'], a[href*='.zip'], a[href*='.tiff'], a[href*='.tif'], " +
+				 "a[href*='.bin'], a[href*='.Bin'], a[href*='.eps'], a[href*='.gif'], " +
+				 "a[href*='.png'], a[href*='.ppt'], a[href*='.pdf'], a[href*='.doc'], " +
+				 "a[href*='.docx'], " +
+				 ".track.jpg, .track.zip, .track.tiff, .track.tif, " +
+				 ".track.bin, .track.Bin, .track.eps, .track.gif, " +
+				 ".track.png, .track.ppt, .track.pdf, .track.doc, " +
+				 " .track.docx",
 		options:{
 			action:function( ele ) {
 				var href_parts = $( ele ).attr( "href" ).split( "." );
