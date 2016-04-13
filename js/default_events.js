@@ -128,10 +128,11 @@ window.wsu_analytics.app.events    = [
 	{
 		element:"#wsu-actions a",
 		options:{
-			action:"Action tab Content Click",
+			action:"Action tab link click",
 			category:"Spine Framework interactions",
+			eventTracked: "click",
 			label:function(ele){
-				return $(ele).text()+ " - "+ $(ele).attr("href");
+				return $(ele).text();
 			},
 			overwrites:"true"
 		}
@@ -165,10 +166,11 @@ window.wsu_analytics.app.events    = [
 	{
 		element:"#wsu-social-channels a",
 		options:{
-			action:"social channel visited",
+			action:"Social channel link click",
 			category:"Spine Framework interactions",
+			eventTracked: "click",
 			label:function(ele){
-				return ""+$(ele).text();
+				return $( ele ).text();
 			},
 			overwrites:"true"
 		}
@@ -176,10 +178,11 @@ window.wsu_analytics.app.events    = [
 	{
 		element:"#wsu-global-links a",
 		options:{
-			action:"WSU global link visited",
+			action:"WSU global link click",
 			category:"Spine Framework interactions",
+			eventTracked: "click",
 			label:function(ele){
-				return ""+$(ele).text()+" - "+ $(ele).attr("href");
+				return $( ele ).text();
 			},
 			overwrites:"true"
 		}
@@ -189,6 +192,7 @@ window.wsu_analytics.app.events    = [
 		options:{
 			action:"WSU global logo clicked",
 			category:"Spine Framework interactions",
+			eventTracked: "click",
 			label:function(ele){
 				return $(ele).attr("href");
 			},
