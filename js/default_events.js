@@ -301,7 +301,7 @@ window.wsu_analytics.site.events   = [
 			action:"youtube",
 			category:"videos",
 			label:function( ele ) {
-				return ( ( $( ele ).attr( "title" ) != "" && typeof( $( ele ).attr( "title" ) ) !== "undefined" ) ? $( ele ).attr( "title" ) : $( ele ).attr( "href" ) );
+				return ( ( $( ele ).attr( "title" ) !== "" && typeof( $( ele ).attr( "title" ) ) !== "undefined" ) ? $( ele ).attr( "title" ) : $( ele ).attr( "href" ) );
 			},
 			overwrites:"true"
 		}
@@ -322,7 +322,7 @@ window.wsu_analytics.site.events   = [
 			},
 			category:"download",
 			label:function( ele ) {
-				return ( ( $( ele ).attr( "title" ) != "" && typeof( $( ele ).attr( "title" ) ) !== "undefined" ) ? $( ele ).attr( "title" ) : $( ele ).attr( "href" ) );
+				return ( ( $( ele ).attr( "title" ) !== "" && typeof( $( ele ).attr( "title" ) ) !== "undefined" ) ? $( ele ).attr( "title" ) : $( ele ).attr( "href" ) );
 			},
 			overwrites:"true"
 		}
