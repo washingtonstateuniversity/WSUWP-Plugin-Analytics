@@ -9,6 +9,7 @@
 		"grunt": "~1.0.1",
 		"grunt-contrib-uglify": "~1.0.1",
 		"grunt-contrib-jshint": "~1.0.0",
-		"grunt-jscs": "^2.8.0"
+		"grunt-jscs": "^2.8.0",
+		"grunt-phpcs": "^0.4.0"
 	}
 }

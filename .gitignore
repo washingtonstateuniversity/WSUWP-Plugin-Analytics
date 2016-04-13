@@ -8,4 +8,8 @@
 /.idea
 
 # Ignore Nod modules via Grunt.
-/node_modules/
+node_modules
+
+# Ignore Composer files
+vendor
+composer.lock
