@@ -1,4 +1,4 @@
-( function( $, window, analytics ) {
+( function( $, window ) {
 window.wsu_analytics.wsuglobal.events = [
 	{
 		element:"#wsu-actions-tabs button",
@@ -88,7 +88,7 @@ window.wsu_analytics.wsuglobal.events = [
 		options:{
 			action:"mobile menu icon clicked",
 			category:"Spine Framework interactions",
-			label:function( ele ) {
+			label:function() {
 				return $( "#spine" ).is( ".shelved" ) ? "closed" : "opened" ;
 			},
 			overwrites:"true"
@@ -218,7 +218,7 @@ window.wsu_analytics.app.events    = [
 			action:"Mobile menu icon tapped",
 			eventTracked: "touchend",
 			category:"Spine Framework interactions",
-			label:function( ele ) {
+			label:function() {
 				if ( $( "html" ).hasClass( "spine-mobile-open" ) ) {
 					return "close";
 				} else {
@@ -234,7 +234,7 @@ window.wsu_analytics.app.events    = [
 			action: "Mobile menu icon clicked",
 			eventTracked: "click",
 			category: "Spine Framework interactions",
-			label:function( ele ) {
+			label:function() {
 				if ( $( "html" ).hasClass( "spine-mobile-open" ) ) {
 					return "close";
 				} else {
@@ -353,4 +353,4 @@ window.wsu_analytics.site.events   = [
 		}
 	}
 ];
-} )( jQuery, window, window.wsu_analytics );
+} )( jQuery, window );

@@ -1,4 +1,4 @@
-( function( $, window, analytics ) {
+( function( $, window ) {
 
 	//Would have some jquery ui rules to add in
 	window.wsu_analytics.wsuglobal.events = jQuery.merge( window.wsu_analytics.wsuglobal.events, [] );
@@ -14,4 +14,4 @@
 			}
 		}
 	] );
-} )( jQuery, window, window.wsu_analytics );
+} )( jQuery, window );
