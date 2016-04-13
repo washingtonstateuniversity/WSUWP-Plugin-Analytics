@@ -94,19 +94,33 @@ window.wsu_analytics.wsuglobal.events = [
 			},
 			overwrites:"true"
 		}
-	},
+	}
 ];
 window.wsu_analytics.app.events    = [
 	{
-		element:"#wsu-actions-tabs button",
-		options:{
-			action:" closed",
+		element: "#wsu-actions-tabs button",
+		options: {
 			action:function(ele){
-				return "Action tab "+ (ele.closest('li').is(".opened") ?"opening":"closing");
+				return "Action tab tapped "+ ( ele.closest( "li" ).hasClass( "opened" ) ? "closed" : "open" );
 			},
+			eventTracked: "touchend mouseup",
 			category:"Spine Framework interactions",
 			label:function(ele){
-				return " "+$(ele).text();
+				return $( ele ).text();
+			},
+			overwrites:"true"
+		}
+	},
+	{
+		element: "#wsu-actions-tabs button",
+		options: {
+			action:function(ele){
+				return "Action tab clicked "+ ( ele.closest( "li" ).hasClass( "opened" ) ? "open" : "closed" );
+			},
+			eventTracked: "click",
+			category:"Spine Framework interactions",
+			label:function(ele){
+				return $( ele ).text();
 			},
 			overwrites:"true"
 		}
@@ -114,10 +128,11 @@ window.wsu_analytics.app.events    = [
 	{
 		element:"#wsu-actions a",
 		options:{
-			action:"Action tab Content Click",
+			action:"Action tab link followed",
 			category:"Spine Framework interactions",
+			eventTracked: "click",
 			label:function(ele){
-				return $(ele).text()+ " - "+ $(ele).attr("href");
+				return $(ele).text();
 			},
 			overwrites:"true"
 		}
@@ -126,12 +141,26 @@ window.wsu_analytics.app.events    = [
 		element:"#spine nav li.parent > a",
 		options:{
 			action:function(ele){
-				return "Couplets "+ (ele.closest('.parent').is(".opened") ?"opening":"closing");
+				return "Couplet clicked " + ( ele.closest( ".parent" ).hasClass( "opened" ) ? "open" : "closed" );
 			},
 			eventTracked:"click",
 			category:"Spine Framework interactions",
 			label:function(ele){
-				return " "+$(ele).text();
+				return $(ele).text();
+			},
+			overwrites:"true"
+		}
+	},
+	{
+		element:"#spine nav li.parent > a",
+		options:{
+			action:function(ele) {
+				return "Couplet tapped " + ( ele.closest( ".parent" ).hasClass( "opened" ) ? "closed" : "open" );
+			},
+			eventTracked:"touchend",
+			category:"Spine Framework interactions",
+			label:function( ele ) {
+				return $( ele ).text();
 			},
 			overwrites:"true"
 		}
@@ -151,10 +180,11 @@ window.wsu_analytics.app.events    = [
 	{
 		element:"#wsu-social-channels a",
 		options:{
-			action:"social channel visited",
+			action:"Social channel link followed",
 			category:"Spine Framework interactions",
+			eventTracked: "click",
 			label:function(ele){
-				return ""+$(ele).text();
+				return $( ele ).text();
 			},
 			overwrites:"true"
 		}
@@ -162,10 +192,11 @@ window.wsu_analytics.app.events    = [
 	{
 		element:"#wsu-global-links a",
 		options:{
-			action:"WSU global link visited",
+			action:"WSU global link followed",
 			category:"Spine Framework interactions",
+			eventTracked: "click",
 			label:function(ele){
-				return ""+$(ele).text()+" - "+ $(ele).attr("href");
+				return $( ele ).text();
 			},
 			overwrites:"true"
 		}
@@ -175,6 +206,7 @@ window.wsu_analytics.app.events    = [
 		options:{
 			action:"WSU global logo clicked",
 			category:"Spine Framework interactions",
+			eventTracked: "click",
 			label:function(ele){
 				return $(ele).attr("href");
 			},
@@ -184,10 +216,31 @@ window.wsu_analytics.app.events    = [
 	{
 		element:"#shelve",
 		options:{
-			action:"mobile menu icon clicked",
+			action:"Mobile menu icon tapped",
+			eventTracked: "touchend",
 			category:"Spine Framework interactions",
 			label:function(ele){
-				return $("#spine").is(".shelved") ? "closed" : "opened" ;
+				if ( $( "html" ).hasClass( "spine-mobile-open" ) ) {
+					return 'close';
+				} else {
+					return 'open';
+				}
+			},
+			overwrites:"true"
+		}
+	},
+	{
+		element: "#shelve",
+		options: {
+			action: "Mobile menu icon clicked",
+			eventTracked: "click",
+			category: "Spine Framework interactions",
+			label:function(ele){
+				if ( $( "html" ).hasClass( "spine-mobile-open" ) ) {
+					return 'close';
+				} else {
+					return 'open';
+				}
 			},
 			overwrites:"true"
 		}
