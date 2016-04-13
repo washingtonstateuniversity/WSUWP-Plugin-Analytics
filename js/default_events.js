@@ -141,12 +141,26 @@ window.wsu_analytics.app.events    = [
 		element:"#spine nav li.parent > a",
 		options:{
 			action:function(ele){
-				return "Couplets "+ (ele.closest('.parent').is(".opened") ?"opening":"closing");
+				return "Couplet " + ( ele.closest( ".parent" ).hasClass( "opened" ) ? "open" : "close" ) + " click";
 			},
 			eventTracked:"click",
 			category:"Spine Framework interactions",
 			label:function(ele){
-				return " "+$(ele).text();
+				return $(ele).text();
+			},
+			overwrites:"true"
+		}
+	},
+	{
+		element:"#spine nav li.parent > a",
+		options:{
+			action:function(ele) {
+				return "Couplet " + ( ele.closest( ".parent" ).hasClass( "opened" ) ? "close" : "open" ) + " tap";
+			},
+			eventTracked:"touchend",
+			category:"Spine Framework interactions",
+			label:function( ele ) {
+				return $( ele ).text();
 			},
 			overwrites:"true"
 		}
