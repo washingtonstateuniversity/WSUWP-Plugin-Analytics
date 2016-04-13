@@ -3,7 +3,6 @@ window.wsu_analytics.wsuglobal.events = [
 	{
 		element:"#wsu-actions-tabs button",
 		options:{
-			action:" closed",
 			action:function( ele ) {
 				return "Action tab " + ( ele.closest( "li" ).is( ".opened" ) ? "opening" : "closing" );
 			},
