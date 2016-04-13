@@ -1,18 +1,19 @@
-module.exports = function(grunt) {
+module.exports = function( grunt ) {
+
 	// Project configuration
-	grunt.initConfig({
-		pkg: grunt.file.readJSON('package.json'),
+	grunt.initConfig( {
+		pkg: grunt.file.readJSON( "package.json" ),
 		uglify: {
 			options: {
-				banner: '/*! <%= pkg.name %> */\n'
+				banner: "/*! <%= pkg.name %> */\n"
 			},
 			build: {
-				src: 'js/analytics.js',
-				dest: 'js/analytics.min.js'
+				src: "js/analytics.js",
+				dest: "js/analytics.min.js"
 			}
 		},
 		jshint: {
-			files: [ 'js/analytics.js', 'js/default_events.js', 'js/default_ui-events.js', 'js/mediaelement-events.js', 'Gruntfile.js' ],
+			files: [ "js/analytics.js", "js/default_events.js", "js/default_ui-events.js", "js/mediaelement-events.js", "Gruntfile.js" ],
 			options: {
 				bitwise: true,
 				curly: true,
@@ -29,21 +30,21 @@ module.exports = function(grunt) {
 			}
 		},
 		jscs: {
-			files: [ 'js/analytics.js', 'js/default_events.js', 'js/default_ui-events.js', 'js/mediaelement-events.js' ],
+			files: [ "js/analytics.js", "js/default_events.js", "js/default_ui-events.js", "js/mediaelement-events.js", "Gruntfile.js" ],
 			options: {
 				preset: "jquery",
 				fix: false,
 				verbose: true,                                 // Display the rule name with the warning.
 				requireCamelCaseOrUpperCaseIdentifiers: false, // We rely on name_name too much to change them all.
-				maximumLineLength: 250                         // temporary
+				maximumLineLength: 250                         // Temporary
 			}
 		}
-	});
+	} );
 
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks( "grunt-contrib-uglify" );
+	grunt.loadNpmTasks( "grunt-contrib-jshint" );
 	grunt.loadNpmTasks( "grunt-jscs" );
 
 	// Default task(s).
-	grunt.registerTask('default', ['jshint', 'uglify']);
+	grunt.registerTask( "default", [ "jshint", "uglify" ] );
 };
