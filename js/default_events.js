@@ -1,15 +1,15 @@
-(function($, window, analytics){
+( function( $, window, analytics ) {
 window.wsu_analytics.wsuglobal.events = [
 	{
 		element:"#wsu-actions-tabs button",
 		options:{
 			action:" closed",
-			action:function(ele){
-				return "Action tab "+ (ele.closest('li').is(".opened") ?"opening":"closing");
+			action:function( ele ) {
+				return "Action tab " + ( ele.closest( "li" ).is( ".opened" ) ? "opening" : "closing" );
 			},
 			category:"Spine Framework interactions",
-			label:function(ele){
-				return " "+$(ele).text();
+			label:function( ele ) {
+				return " " + $( ele ).text();
 			},
 			overwrites:"true"
 		}
@@ -19,8 +19,8 @@ window.wsu_analytics.wsuglobal.events = [
 		options:{
 			action:"Action tab Content Click",
 			category:"Spine Framework interactions",
-			label:function(ele){
-				return $(ele).text()+ " - "+ $(ele).attr("href");
+			label:function( ele ) {
+				return $( ele ).text() + " - " + $( ele ).attr( "href" );
 			},
 			overwrites:"true"
 		}
@@ -28,13 +28,13 @@ window.wsu_analytics.wsuglobal.events = [
 	{
 		element:"#spine nav li.parent > a",
 		options:{
-			action:function(ele){
-				return "Couplets "+ (ele.closest('.parent').is(".opened") ?"opening":"closing");
+			action:function( ele ) {
+				return "Couplets " + ( ele.closest( ".parent" ).is( ".opened" ) ? "opening" : "closing" );
 			},
 			eventTracked:"click",
 			category:"Spine Framework interactions",
-			label:function(ele){
-				return " "+$(ele).text();
+			label:function( ele ) {
+				return " " + $( ele ).text();
 			},
 			overwrites:"true"
 		}
@@ -45,8 +45,8 @@ window.wsu_analytics.wsuglobal.events = [
 			action:"searching",
 			eventTracked:"autocompletesearch",
 			category:"Spine Framework interactions",
-			label:function(ele){
-				return ""+$(ele).val();
+			label:function( ele ) {
+				return "" + $( ele ).val();
 			},
 			overwrites:"true"
 		}
@@ -56,8 +56,8 @@ window.wsu_analytics.wsuglobal.events = [
 		options:{
 			action:"social channel visited",
 			category:"Spine Framework interactions",
-			label:function(ele){
-				return ""+$(ele).text();
+			label:function( ele ) {
+				return "" + $( ele ).text();
 			},
 			overwrites:"true"
 		}
@@ -67,8 +67,8 @@ window.wsu_analytics.wsuglobal.events = [
 		options:{
 			action:"WSU global link visited",
 			category:"Spine Framework interactions",
-			label:function(ele){
-				return ""+$(ele).text()+" - "+ $(ele).attr("href");
+			label:function( ele ) {
+				return "" + $( ele ).text() + " - " + $( ele ).attr( "href" );
 			},
 			overwrites:"true"
 		}
@@ -78,8 +78,8 @@ window.wsu_analytics.wsuglobal.events = [
 		options:{
 			action:"WSU global logo clicked",
 			category:"Spine Framework interactions",
-			label:function(ele){
-				return $(ele).attr("href");
+			label:function( ele ) {
+				return $( ele ).attr( "href" );
 			},
 			overwrites:"true"
 		}
@@ -89,8 +89,8 @@ window.wsu_analytics.wsuglobal.events = [
 		options:{
 			action:"mobile menu icon clicked",
 			category:"Spine Framework interactions",
-			label:function(ele){
-				return $("#spine").is(".shelved") ? "closed" : "opened" ;
+			label:function( ele ) {
+				return $( "#spine" ).is( ".shelved" ) ? "closed" : "opened" ;
 			},
 			overwrites:"true"
 		}
@@ -100,12 +100,12 @@ window.wsu_analytics.app.events    = [
 	{
 		element: "#wsu-actions-tabs button",
 		options: {
-			action:function(ele){
-				return "Action tab tapped "+ ( ele.closest( "li" ).hasClass( "opened" ) ? "closed" : "open" );
+			action:function( ele ) {
+				return "Action tab tapped " + ( ele.closest( "li" ).hasClass( "opened" ) ? "closed" : "open" );
 			},
 			eventTracked: "touchend mouseup",
 			category:"Spine Framework interactions",
-			label:function(ele){
+			label:function( ele ) {
 				return $( ele ).text();
 			},
 			overwrites:"true"
@@ -114,12 +114,12 @@ window.wsu_analytics.app.events    = [
 	{
 		element: "#wsu-actions-tabs button",
 		options: {
-			action:function(ele){
-				return "Action tab clicked "+ ( ele.closest( "li" ).hasClass( "opened" ) ? "open" : "closed" );
+			action:function( ele ) {
+				return "Action tab clicked " + ( ele.closest( "li" ).hasClass( "opened" ) ? "open" : "closed" );
 			},
 			eventTracked: "click",
 			category:"Spine Framework interactions",
-			label:function(ele){
+			label:function( ele ) {
 				return $( ele ).text();
 			},
 			overwrites:"true"
@@ -131,8 +131,8 @@ window.wsu_analytics.app.events    = [
 			action:"Action tab link followed",
 			category:"Spine Framework interactions",
 			eventTracked: "click",
-			label:function(ele){
-				return $(ele).text();
+			label:function( ele ) {
+				return $( ele ).text();
 			},
 			overwrites:"true"
 		}
@@ -140,13 +140,13 @@ window.wsu_analytics.app.events    = [
 	{
 		element:"#spine nav li.parent > a",
 		options:{
-			action:function(ele){
+			action:function( ele ) {
 				return "Couplet clicked " + ( ele.closest( ".parent" ).hasClass( "opened" ) ? "open" : "closed" );
 			},
 			eventTracked:"click",
 			category:"Spine Framework interactions",
-			label:function(ele){
-				return $(ele).text();
+			label:function( ele ) {
+				return $( ele ).text();
 			},
 			overwrites:"true"
 		}
@@ -154,7 +154,7 @@ window.wsu_analytics.app.events    = [
 	{
 		element:"#spine nav li.parent > a",
 		options:{
-			action:function(ele) {
+			action:function( ele ) {
 				return "Couplet tapped " + ( ele.closest( ".parent" ).hasClass( "opened" ) ? "closed" : "open" );
 			},
 			eventTracked:"touchend",
@@ -171,8 +171,8 @@ window.wsu_analytics.app.events    = [
 			action:"searching",
 			eventTracked:"autocompletesearch",
 			category:"Spine Framework interactions",
-			label:function(ele){
-				return ""+$(ele).val();
+			label:function( ele ) {
+				return "" + $( ele ).val();
 			},
 			overwrites:"true"
 		}
@@ -183,7 +183,7 @@ window.wsu_analytics.app.events    = [
 			action:"Social channel link followed",
 			category:"Spine Framework interactions",
 			eventTracked: "click",
-			label:function(ele){
+			label:function( ele ) {
 				return $( ele ).text();
 			},
 			overwrites:"true"
@@ -195,7 +195,7 @@ window.wsu_analytics.app.events    = [
 			action:"WSU global link followed",
 			category:"Spine Framework interactions",
 			eventTracked: "click",
-			label:function(ele){
+			label:function( ele ) {
 				return $( ele ).text();
 			},
 			overwrites:"true"
@@ -207,8 +207,8 @@ window.wsu_analytics.app.events    = [
 			action:"WSU global logo clicked",
 			category:"Spine Framework interactions",
 			eventTracked: "click",
-			label:function(ele){
-				return $(ele).attr("href");
+			label:function( ele ) {
+				return $( ele ).attr( "href" );
 			},
 			overwrites:"true"
 		}
@@ -219,11 +219,11 @@ window.wsu_analytics.app.events    = [
 			action:"Mobile menu icon tapped",
 			eventTracked: "touchend",
 			category:"Spine Framework interactions",
-			label:function(ele){
+			label:function( ele ) {
 				if ( $( "html" ).hasClass( "spine-mobile-open" ) ) {
-					return 'close';
+					return "close";
 				} else {
-					return 'open';
+					return "open";
 				}
 			},
 			overwrites:"true"
@@ -235,11 +235,11 @@ window.wsu_analytics.app.events    = [
 			action: "Mobile menu icon clicked",
 			eventTracked: "click",
 			category: "Spine Framework interactions",
-			label:function(ele){
+			label:function( ele ) {
 				if ( $( "html" ).hasClass( "spine-mobile-open" ) ) {
-					return 'close';
+					return "close";
 				} else {
-					return 'open';
+					return "open";
 				}
 			},
 			overwrites:"true"
@@ -280,6 +280,7 @@ window.wsu_analytics.site.events   = [
 
 		}
 	},
+
 	// Externals that are known to be url query intolerant.
 	{
 		element:"a[href*='tinyurl.com'],\
@@ -292,7 +293,7 @@ window.wsu_analytics.site.events   = [
 			mode:"event",
 			category:"outbound-query-intolerant",
 			action:"click"
-			
+
 		}
 	},
 	{
@@ -300,8 +301,8 @@ window.wsu_analytics.site.events   = [
 		options:{
 			action:"youtube",
 			category:"videos",
-			label:function(ele){
-				return ( ($(ele).attr('title')!='' && typeof($(ele).attr('title')) !=='undefined' ) ? $(ele).attr('title') : $(ele).attr('href') );
+			label:function( ele ) {
+				return ( ( $( ele ).attr( "title" ) != "" && typeof( $( ele ).attr( "title" ) ) !== "undefined" ) ? $( ele ).attr( "title" ) : $( ele ).attr( "href" ) );
 			},
 			overwrites:"true"
 		}
@@ -317,18 +318,19 @@ window.wsu_analytics.site.events   = [
 				 .track.docx\
 				",
 		options:{
-			action:function(ele){
-				var href_parts =$(ele).attr('href').split('.');
-				return href_parts[href_parts.length-1];
+			action:function( ele ) {
+				var href_parts = $( ele ).attr( "href" ).split( "." );
+				return href_parts[ href_parts.length - 1 ];
 			},
 			category:"download",
-			label:function(ele){
-				return ( ($(ele).attr('title')!='' && typeof($(ele).attr('title')) !=='undefined' ) ? $(ele).attr('title') : $(ele).attr('href') );
+			label:function( ele ) {
+				return ( ( $( ele ).attr( "title" ) != "" && typeof( $( ele ).attr( "title" ) ) !== "undefined" ) ? $( ele ).attr( "title" ) : $( ele ).attr( "href" ) );
 			},
 			overwrites:"true"
 		}
 	},
-	//this should be built on which are loading in the customizer
+
+	//This should be built on which are loading in the customizer
 	{
 		element:"a[href*='facebook.com']",
 		options:{
@@ -351,6 +353,6 @@ window.wsu_analytics.site.events   = [
 			category:"email",
 			overwrites:"true"
 		}
-	},
+	}
 ];
-})(jQuery, window, window.wsu_analytics);
+} )( jQuery, window, window.wsu_analytics );
