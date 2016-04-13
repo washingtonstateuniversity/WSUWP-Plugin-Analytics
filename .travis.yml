@@ -38,7 +38,5 @@ script:
       fi
     - |
       if [[ "$WP_TRAVISCI" == "codesniff" ]] ; then
-        grunt phpcs
-        grunt jshint
-        grunt jscs
+        grunt dev
       fi
