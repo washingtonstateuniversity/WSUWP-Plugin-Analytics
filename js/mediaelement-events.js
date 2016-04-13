@@ -1,19 +1,19 @@
 _wpmejsSettings.success = function( mejs ) {
-
-		//Orginal default settings
-		var autoplay, loop;
-
 		if ( "flash" === mejs.pluginType ) {
-			autoplay = mejs.attributes.autoplay && "false" !== mejs.attributes.autoplay;
-			loop = mejs.attributes.loop && "false" !== mejs.attributes.loop;
 
-			autoplay && mejs.addEventListener( "canplay", function() {
-				mejs.play();
-			}, false );
+			// Autoplay
+			if ( mejs.attributes.autoplay && "false" !== mejs.attributes.autoplay ) {
+				mejs.addEventListener( "canplay", function() {
+					mejs.play();
+				}, false );
+			}
 
-			loop && mejs.addEventListener( "ended", function() {
-				mejs.play();
-			}, false );
+			// Loop
+			if ( mejs.attributes.loop && "false" !== mejs.attributes.loop ) {
+				mejs.addEventListener( "ended", function() {
+					mejs.play();
+				}, false );
+			}
 		}
 
 		if ( typeof jQuery.jtrack !== "undefined" ) {
