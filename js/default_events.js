@@ -101,7 +101,7 @@ window.wsu_analytics.app.events    = [
 		element: "#wsu-actions-tabs button",
 		options: {
 			action:function(ele){
-				return "Action tab "+ ( ele.closest( "li" ).hasClass( "opened" ) ? "close" : "open" );
+				return "Action tab tapped "+ ( ele.closest( "li" ).hasClass( "opened" ) ? "closed" : "open" );
 			},
 			eventTracked: "touchend mouseup",
 			category:"Spine Framework interactions",
@@ -115,7 +115,7 @@ window.wsu_analytics.app.events    = [
 		element: "#wsu-actions-tabs button",
 		options: {
 			action:function(ele){
-				return "Action tab "+ ( ele.closest( "li" ).hasClass( "opened" ) ? "open" : "close" );
+				return "Action tab clicked "+ ( ele.closest( "li" ).hasClass( "opened" ) ? "open" : "closed" );
 			},
 			eventTracked: "click",
 			category:"Spine Framework interactions",
@@ -128,7 +128,7 @@ window.wsu_analytics.app.events    = [
 	{
 		element:"#wsu-actions a",
 		options:{
-			action:"Action tab link click",
+			action:"Action tab link followed",
 			category:"Spine Framework interactions",
 			eventTracked: "click",
 			label:function(ele){
@@ -141,7 +141,7 @@ window.wsu_analytics.app.events    = [
 		element:"#spine nav li.parent > a",
 		options:{
 			action:function(ele){
-				return "Couplet " + ( ele.closest( ".parent" ).hasClass( "opened" ) ? "open" : "close" ) + " click";
+				return "Couplet clicked " + ( ele.closest( ".parent" ).hasClass( "opened" ) ? "open" : "closed" );
 			},
 			eventTracked:"click",
 			category:"Spine Framework interactions",
@@ -155,7 +155,7 @@ window.wsu_analytics.app.events    = [
 		element:"#spine nav li.parent > a",
 		options:{
 			action:function(ele) {
-				return "Couplet " + ( ele.closest( ".parent" ).hasClass( "opened" ) ? "close" : "open" ) + " tap";
+				return "Couplet tapped " + ( ele.closest( ".parent" ).hasClass( "opened" ) ? "closed" : "open" );
 			},
 			eventTracked:"touchend",
 			category:"Spine Framework interactions",
@@ -180,7 +180,7 @@ window.wsu_analytics.app.events    = [
 	{
 		element:"#wsu-social-channels a",
 		options:{
-			action:"Social channel link click",
+			action:"Social channel link followed",
 			category:"Spine Framework interactions",
 			eventTracked: "click",
 			label:function(ele){
@@ -192,7 +192,7 @@ window.wsu_analytics.app.events    = [
 	{
 		element:"#wsu-global-links a",
 		options:{
-			action:"WSU global link click",
+			action:"WSU global link followed",
 			category:"Spine Framework interactions",
 			eventTracked: "click",
 			label:function(ele){
