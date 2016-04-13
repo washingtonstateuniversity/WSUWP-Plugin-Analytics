@@ -26,9 +26,6 @@
 
 	// Track app level analytics for front end and admin requests.
 	if(analytics.app.ga_code!==false){
-		var browser_width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-		var browser_height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-
 		rendered_accounts = jQuery.merge( rendered_accounts , [{
 			id: analytics.app.ga_code,
 			settings:{
@@ -41,9 +38,7 @@
 					{'name':'dimension4','val': analytics.app.wsuwp_network },      // The WSUWP Platform network <string>
 					{'name':'dimension5','val': analytics.app.spine_grid },         // The Spine grid layout from Customizer
 					{'name':'dimension6','val': analytics.app.spine_color },        // The color of the Spine from Customizer
-					{'name':'dimension7','val': analytics.app.server_protocol },    // The HTTP protocol, likely HTTP/1.1 or HTTP/2.0
-					{'name':'dimension8','val': browser_width },                    // The width of the browser window
-					{'name':'dimension9','val': browser_height }                    // The height of the browser window
+					{'name':'dimension7','val': analytics.app.server_protocol }    // The HTTP protocol, likely HTTP/1.1 or HTTP/2.0
 				],
 				events: analytics.app.events
 			}
