@@ -13,6 +13,15 @@ module.exports = function( grunt ) {
 				dest: "js/analytics.min.js"
 			}
 		},
+		phpcs: {
+			plugin: {
+				src: "./"
+			},
+			options: {
+				bin: "vendor/bin/phpcs --extensions=php --ignore=\"*/vendor/*,*/node_modules/*\"",
+				standard: "phpcs.ruleset.xml"
+			}
+		},
 		jshint: {
 			files: [ "js/analytics.js", "js/default_events.js", "js/default_ui-events.js", "js/mediaelement-events.js", "Gruntfile.js" ],
 			options: {
@@ -45,7 +54,9 @@ module.exports = function( grunt ) {
 	grunt.loadNpmTasks( "grunt-contrib-uglify" );
 	grunt.loadNpmTasks( "grunt-contrib-jshint" );
 	grunt.loadNpmTasks( "grunt-jscs" );
+	grunt.loadNpmTasks( "grunt-phpcs" );
 
 	// Default task(s).
-	grunt.registerTask( "default", [ "jshint", "uglify" ] );
+	grunt.registerTask( "dev", [ "phpcs", "jscs", "jshint" ] );
+	grunt.registerTask( "default", [ "phpcs", "jscs", "jshint", "uglify" ] );
 };

@@ -1,5 +1,7 @@
 # WSU Analytics
 
+[![Build Status](https://api.travis-ci.org/washingtonstateuniversity/WSUWP-Plugin-Analytics.svg?branch=master)](https://travis-ci.org/washingtonstateuniversity/WSUWP-Plugin-Analytics)
+
 WSU Analytics is a WordPress plugin that provides tracking through Google Analytics for WSU WordPress sites using WSU's [jTrack](https://github.com/washingtonstateuniversity/jTrack).
 
 This plugin is activated globally on the [WSUWP Platform](https://github.com/washingtonstateuniversity/wsuwp-platform) but can be used on any individual WordPress site at WSU. See the filters at the bottom of this page for providing your own application level analytics. If you have any questions about implementation, please reach out to [Web Communication](https://web.wsu.edu).

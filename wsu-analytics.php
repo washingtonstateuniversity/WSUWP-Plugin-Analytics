@@ -110,7 +110,7 @@ class WSU_Analytics {
 	 * Display the settings fields associated with general analytics.
 	 */
 	public function display_analytics_settings() {
-		add_settings_field( 'wsuwp-ga-id', 'Google Analytics ID', array( $this, 'general_settings_ga_id'), $this->settings_page, 'wsuwp-analytics', array( 'label_for' => 'wsuwp_ga_id' ) );
+		add_settings_field( 'wsuwp-ga-id', 'Google Analytics ID', array( $this, 'general_settings_ga_id' ), $this->settings_page, 'wsuwp-analytics', array( 'label_for' => 'wsuwp_ga_id' ) );
 		add_settings_field( 'wsuwp-analytics-option-map', 'General Analytics Settings', array( $this, 'general_settings_inputs' ), $this->settings_page, 'wsuwp-analytics', array( 'label_for' => 'wsuwp_analytics_option_map' ) );
 	}
 
@@ -213,7 +213,7 @@ class WSU_Analytics {
 	 * @return array
 	 * @access private
 	 */
-	private function get_analytics_options(){
+	private function get_analytics_options() {
 		$option_object = get_option( 'wsuwp_analytics_option_map', array() );
 
 		return wp_parse_args( $option_object, $this->extended_analytics_defaults );
@@ -261,7 +261,7 @@ class WSU_Analytics {
 		);
 
 		// @todo complete units taxonomy.
-		$units = array ();
+		$units = array();
 
 		?>
 		<!-- campus -->
@@ -269,7 +269,7 @@ class WSU_Analytics {
 		<select id="wsu-analytics-campus" name="wsuwp_analytics_option_map[campus]">
 			<option value="none" <?php selected( 'none', $option_object['campus'] ); ?>>None</option>
 			<option value="all" <?php selected( 'all', $option_object['campus'] ); ?>>All</option>
-			<?php foreach( $campus as $key => $name ) : ?>
+			<?php foreach ( $campus as $key => $name ) : ?>
 				<option value="<?php echo $key; ?>" <?php selected( $key, $option_object['campus'] )?>><?php echo $name; ?></option>
 			<?php endforeach; ?>
 		</select></p>
@@ -280,7 +280,7 @@ class WSU_Analytics {
 		<select id="wsu-analytics-college" name="wsuwp_analytics_option_map[college]">
 			<option value="none" <?php selected( 'none', $option_object['college'] ); ?>>None</option>
 			<option value="all" <?php selected( 'all', $option_object['college'] ); ?>>All</option>
-			<?php foreach( $college as $key => $name ) : ?>
+			<?php foreach ( $college as $key => $name ) : ?>
 				<option value="<?php echo $key; ?>" <?php selected( $key, $option_object['college'] ); ?>><?php echo $name; ?></option>
 			<?php endforeach; ?>
 		</select></p>
@@ -299,9 +299,9 @@ class WSU_Analytics {
 		<p><label class="wsu-analytics-label" for="wsu-analytics-parent-unit">Parent Unit:</label>
 		<select id="wsu-analytics-parent-unit" name="wsuwp_analytics_option_map[unit]">
 			<option value="none" <?php selected( 'none', $option_object['unit'] ); ?>>None</option>
-			<?php foreach( $units as $key => $group ) : ?>
+			<?php foreach ( $units as $key => $group ) : ?>
 				<optgroup label="<?php echo $key; ?>">
-				<?php foreach( $group as $item_key => $name ) : ?>
+				<?php foreach ( $group as $item_key => $name ) : ?>
 					<option value="<?php echo $item_key; ?>" <?php selected( $item_key, $option_object['unit'] ); ?>><?php echo $name; ?></option>
 				<?php endforeach; ?>
 				</optgroup>
@@ -313,9 +313,9 @@ class WSU_Analytics {
 		<p><label class="wsu-analytics-label" for="wsu-analytics-unit">Unit:</label>
 		<select id="wsu-analytics-unit" name="wsuwp_analytics_option_map[subunit]">
 			<option value="none" <?php selected( 'none', $option_object['subunit'] ); ?>>None</option>
-			<?php foreach( $units as $key => $group ) : ?>
+			<?php foreach ( $units as $key => $group ) : ?>
 				<optgroup label="<?php echo $key; ?>">
-				<?php foreach( $group as $item_key => $name ) : ?>
+				<?php foreach ( $group as $item_key => $name ) : ?>
 					<option value="<?php echo $item_key; ?>" <?php selected( $item_key, $option_object['subunit'] ); ?>><?php echo $name; ?></option>
 				<?php endforeach;?>
 				</optgroup>
@@ -326,15 +326,15 @@ class WSU_Analytics {
 		<?php if ( apply_filters( 'wsu_analytics_events_override', false ) || apply_filters( 'wsu_analytics_ui_events_override', false ) ) : ?>
 		<!-- extend_defaults -->
 		<p><span class="wsu-analytics-label">Custom Events Tracking:</span>
-		<label>Extend <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="true" <?=checked( "true", $option_object["extend_defaults"] )?> /></label>
-		<label>Override <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="false" <?=checked( "false", $option_object["extend_defaults"] )?> /></label>
+		<label>Extend <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="true" <?php checked( 'true', $option_object['extend_defaults'] )?> /></label>
+		<label>Override <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="false" <?php checked( 'false', $option_object['extend_defaults'] )?> /></label>
 		<p class="description">Should your theme's custom events file(s) extend or override the default events provided by WSU Analytics?</p><br/>
 		<?php endif; ?>
 
 		<!-- use_jquery_ui -->
 		<p><span class="wsu-analytics-label">Track jQuery UI Events:</span>
-		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="true" <?=checked( "true", $option_object["use_jquery_ui"] )?> /></label>
-		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="false" <?=checked( "false", $option_object["use_jquery_ui"] )?> /></label>
+		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="true" <?php checked( 'false', $option_object['use_jquery_ui'] )?> /></label>
+		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="false" <?php checked( 'false', $option_object['use_jquery_ui'] )?> /></label>
 		<p class="description">Should WSU Analytics track default jQuery UI events for the site?</p><br/>
 
 		<?php if ( ( function_exists( 'wsuwp_is_network_admin' ) && wsuwp_is_network_admin( wsuwp_get_current_network() ) ) || is_super_admin() ) : ?>
@@ -430,7 +430,7 @@ class WSU_Analytics {
 			'defaults' => array(
 				'cookieDomain'		 => $this->get_cookie_domain(),
 			),
-			
+
 			'wsuglobal' => array(
 				'ga_code'            => 'true' === $option_object['track_global'] ? 'UA-55791317-1' : false, // Hard coded global analytics ID for WSU.
 				'campus'             => $option_object['campus'],
@@ -478,7 +478,7 @@ class WSU_Analytics {
 		wp_localize_script( 'wsu-analytics-events', 'wsu_analytics', $tracker_data );
 
 		// Allow a theme to override or extend default UI events.
-		if( 'true' === $option_object['use_jquery_ui'] ) {
+		if ( 'true' === $option_object['use_jquery_ui'] ) {
 			if ( apply_filters( 'wsu_analytics_ui_events_override', false ) ) {
 				if ( 'true' === $option_object['extend_defaults'] ) {
 					wp_enqueue_script( 'wsu-analytics-ui-events', plugins_url( 'js/default_ui-events.js', __FILE__ ), array( 'jquery-jtrack', 'jquery' ), $this->script_version(), true );
@@ -495,13 +495,13 @@ class WSU_Analytics {
 		// Fire the primary analytics script after all tracker data and events data is available.
 		wp_enqueue_script( 'wsu-analytics-main' );
 	}
-	
+
 	/**
 	 * Enqueues the events when the core media is loaded.
 	 */
 	public function mediaelement_scripts() {
 		wp_enqueue_script( 'wsu-mediaelement-events', plugins_url( '/js/mediaelement-events.js', __FILE__ ), array( 'mediaelement' ), false, true );
-		return "mediaelement";
+		return 'mediaelement';
 	}
 
 	/**
@@ -536,7 +536,7 @@ class WSU_Analytics {
 	 * @return String
 	 * @access private
 	 */
-	private function get_page_view_type(){
+	private function get_page_view_type() {
 		if ( is_blog_admin() ) {
 			$page_view_type = 'Site Admin';
 		} elseif ( is_network_admin() ) {
@@ -555,7 +555,7 @@ class WSU_Analytics {
 	 * @return String
 	 * @access private
 	 */
-	private function get_authenticated_user(){
+	private function get_authenticated_user() {
 		if ( is_user_logged_in() ) {
 			$authenticated_user = 'Authenticated';
 		} else {
