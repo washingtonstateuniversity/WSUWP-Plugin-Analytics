@@ -1,3 +1,4 @@
+/* globals _wpmejsSettings */
 _wpmejsSettings.success = function( mejs ) {
 		if ( "flash" === mejs.pluginType ) {
 
