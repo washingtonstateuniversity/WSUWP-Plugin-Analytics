@@ -1,46 +1,51 @@
-module.exports = function(grunt) {
+/* globals module */
+module.exports = function( grunt ) {
+
 	// Project configuration
-	grunt.initConfig({
-		pkg: grunt.file.readJSON('package.json'),
+	grunt.initConfig( {
+		pkg: grunt.file.readJSON( "package.json" ),
 		uglify: {
 			options: {
-				banner: '/*! <%= pkg.name %> */\n'
+				banner: "/*! <%= pkg.name %> */\n"
 			},
 			build: {
-				src: 'js/analytics.js',
-				dest: 'js/analytics.min.js'
+				src: "js/analytics.js",
+				dest: "js/analytics.min.js"
 			}
 		},
 		jshint: {
-			files: ['js/analytics.js'],
+			files: [ "js/analytics.js", "js/default_events.js", "js/default_ui-events.js", "js/mediaelement-events.js", "Gruntfile.js" ],
 			options: {
-// options here to override JSHint defaults
-				boss: true,
+				bitwise: true,
 				curly: true,
 				eqeqeq: true,
-				eqnull: true,
-				expr: true,
-				immed: true,
+				forin: true,
+				freeze: true,
 				noarg: true,
-				onevar: false,
-				smarttabs: true,
-				trailing: true,
+				nonbsp: true,
+				quotmark: "double",
 				undef: true,
 				unused: true,
-				globals: {
-					jQuery: true,
-					console: true,
-					module: true,
-					document: true,
-					window:true
-				}
+				browser: true, // Define globals exposed by modern browsers.
+				jquery: true   // Define globals exposed by jQuery.
+			}
+		},
+		jscs: {
+			files: [ "js/analytics.js", "js/default_events.js", "js/default_ui-events.js", "js/mediaelement-events.js", "Gruntfile.js" ],
+			options: {
+				preset: "jquery",
+				fix: false,
+				verbose: true,                                 // Display the rule name with the warning.
+				requireCamelCaseOrUpperCaseIdentifiers: false, // We rely on name_name too much to change them all.
+				maximumLineLength: 250                         // Temporary
 			}
 		}
-	});
+	} );
 
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks( "grunt-contrib-uglify" );
+	grunt.loadNpmTasks( "grunt-contrib-jshint" );
+	grunt.loadNpmTasks( "grunt-jscs" );
 
 	// Default task(s).
-	grunt.registerTask('default', ['jshint', 'uglify']);
+	grunt.registerTask( "default", [ "jshint", "uglify" ] );
 };
