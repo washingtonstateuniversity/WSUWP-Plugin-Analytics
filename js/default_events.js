@@ -94,7 +94,7 @@ window.wsu_analytics.wsuglobal.events = [
 			},
 			overwrites:"true"
 		}
-	},
+	}
 ];
 window.wsu_analytics.app.events    = [
 	{
@@ -184,10 +184,31 @@ window.wsu_analytics.app.events    = [
 	{
 		element:"#shelve",
 		options:{
-			action:"mobile menu icon clicked",
+			action:"Mobile menu icon tapped",
+			eventTracked: "touchend",
 			category:"Spine Framework interactions",
 			label:function(ele){
-				return $("#spine").is(".shelved") ? "closed" : "opened" ;
+				if ( $( "html" ).hasClass( "spine-mobile-open" ) ) {
+					return 'close';
+				} else {
+					return 'open';
+				}
+			},
+			overwrites:"true"
+		}
+	},
+	{
+		element: "#shelve",
+		options: {
+			action: "Mobile menu icon clicked",
+			eventTracked: "click",
+			category: "Spine Framework interactions",
+			label:function(ele){
+				if ( $( "html" ).hasClass( "spine-mobile-open" ) ) {
+					return 'close';
+				} else {
+					return 'open';
+				}
 			},
 			overwrites:"true"
 		}
