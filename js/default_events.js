@@ -98,15 +98,29 @@ window.wsu_analytics.wsuglobal.events = [
 ];
 window.wsu_analytics.app.events    = [
 	{
-		element:"#wsu-actions-tabs button",
-		options:{
-			action:" closed",
+		element: "#wsu-actions-tabs button",
+		options: {
 			action:function(ele){
-				return "Action tab "+ (ele.closest('li').is(".opened") ?"opening":"closing");
+				return "Action tab "+ ( ele.closest( "li" ).hasClass( "opened" ) ? "close" : "open" );
 			},
+			eventTracked: "touchend mouseup",
 			category:"Spine Framework interactions",
 			label:function(ele){
-				return " "+$(ele).text();
+				return $( ele ).text();
+			},
+			overwrites:"true"
+		}
+	},
+	{
+		element: "#wsu-actions-tabs button",
+		options: {
+			action:function(ele){
+				return "Action tab "+ ( ele.closest( "li" ).hasClass( "opened" ) ? "open" : "close" );
+			},
+			eventTracked: "click",
+			category:"Spine Framework interactions",
+			label:function(ele){
+				return $( ele ).text();
 			},
 			overwrites:"true"
 		}
