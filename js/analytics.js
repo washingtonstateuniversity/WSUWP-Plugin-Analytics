@@ -90,11 +90,15 @@
 		}
 	}
 
-	// Fire tracking on all merged accounts and events with jTrack.
-	jQuery.jtrack( {
-		analytics:{
-			ga_name:"_wsuGA",
-			accounts: rendered_accounts
-		}
-	} );
+	if ( undefined !== jQuery.jtrack ) {
+
+		// Fire tracking on all merged accounts and events with jTrack.
+		jQuery.jtrack( {
+			analytics:{
+				ga_name:"_wsuGA",
+				accounts: rendered_accounts
+			}
+		} );
+	}
+
 } )( jQuery, window, window.wsu_analytics );
