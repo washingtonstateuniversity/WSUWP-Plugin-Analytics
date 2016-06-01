@@ -473,11 +473,11 @@ class WSU_Analytics {
 		// be part of a must-use plugin.
 		$app_analytics_id = apply_filters( 'wsu_analytics_app_analytics_id', '' );
 
+		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.min.js', __FILE__ ), array( 'jquery' ), $this->script_version(), true );
+
 		if ( 'jtrack' === $option_object['tracker'] ) {
 			wp_enqueue_script( 'jquery-jtrack', '//repo.wsu.edu/jtrack/1.2.5/jtrack.min.js', array( 'jquery' ), $this->script_version(), true );
 		}
-
-		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.min.js', __FILE__ ), array( 'jquery' ), $this->script_version(), true );
 
 		$spine_color = '';
 		$spine_grid = '';
