@@ -50,6 +50,8 @@ class WSU_Analytics {
 		add_filter( 'wp_audio_shortcode_library', array( $this, 'mediaelement_scripts' ), 11 );
 
 		add_action( 'wp_head', array( $this, 'display_site_verification' ), 99 );
+		add_action( 'wp_head', array( $this, 'display_tag_manager' ), 100 );
+		add_action( 'wp_footer', array( $this, 'display_noscript_tag_manager' ) );
 
 		// Configure the settings page and sections provided by the plugin.
 		add_action( 'admin_init', array( $this, 'register_settings_sections' ), 10 );
@@ -218,6 +220,25 @@ class WSU_Analytics {
 		$option_object = get_option( 'wsuwp_analytics_option_map', array() );
 
 		return wp_parse_args( $option_object, $this->extended_analytics_defaults );
+	}
+
+	/**
+	 * Return the value of a single WSUWP Analytics option.
+	 *
+	 * @since 0.7.0
+	 *
+	 * @param string $key Option key.
+	 *
+	 * @return mixed Option value.
+	 */
+	public function get_analytics_option( $key ) {
+		$option_object = $this->get_analytics_options();
+
+		if ( isset( $option_object[ $key ] ) ) {
+			return $option_object[ $key ];
+		}
+
+		return false;
 	}
 
 	/**
@@ -391,6 +412,43 @@ class WSU_Analytics {
 		if ( $bing_verification ) {
 			echo '<meta name="msvalidate.01" content="' . esc_attr( $bing_verification ) . '" />' . "\n";
 		}
+	}
+
+	/**
+	 * Output the JavaScript used when Google Tag Manager is enabled.
+	 *
+	 * @since 0.7.0
+	 */
+	public function display_tag_manager() {
+		if ( 'tag-manager' !== $this->get_analytics_option( 'tracker' ) ) {
+			return;
+		}
+
+		?>
+		<!-- Google Tag Manager -->
+		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+				new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+				j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+				'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+			})(window,document,'script','dataLayer','GTM-K5CHVG');</script>
+		<!-- End Google Tag Manager -->
+		<?php
+	}
+
+	/**
+	 * Output the noscript iframe in the HTML body to track non-JS users if
+	 * Google Tag Manager is enabled.
+	 *
+	 * @since 0.7.0
+	 */
+	public function display_noscript_tag_manager() {
+		if ( 'tag-manager' !== $this->get_analytics_option( 'tracker' ) ) {
+			return;
+		}
+
+		?>
+		<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-K5CHVG" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<?php
 	}
 
 	/**
