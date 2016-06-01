@@ -285,6 +285,7 @@ class WSU_Analytics {
 		// @todo complete units taxonomy.
 		$units = array();
 
+		if ( wsuwp_is_global_admin( 0 ) ) :
 		?>
 		<p><label class="wsu-analytics-label" for="wsu-analytics-tracker">Global Tracker:</label>
 		<select id="wsu-analytics-tracker" name="wsuwp_analytics_option_map[tracker]">
@@ -292,6 +293,7 @@ class WSU_Analytics {
 			<option value="tag-manager" <?php selected( 'tag-manager', $option_object['tracker'] ); ?>>Tag Manager</option>
 		</select></p>
 		<p class="description">Should global analytics be tracked via JTrack or Google Tag Manager?</p><br />
+		<?php endif; ?>
 		<!-- campus -->
 		<p><label class="wsu-analytics-label" for="wsu-analytics-campus">Campus:</label>
 		<select id="wsu-analytics-campus" name="wsuwp_analytics_option_map[campus]">
