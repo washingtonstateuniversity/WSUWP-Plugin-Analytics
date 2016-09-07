@@ -490,8 +490,8 @@ class WSU_Analytics {
 			$spine_grid = esc_js( spine_get_option( 'grid_style' ) );
 		}
 
-		if ( function_exists( 'wsuwp_get_current_network' ) ) {
-			$wsuwp_network = wsuwp_get_current_network()->domain;
+		if ( is_multisite() ) {
+			$wsuwp_network = get_network()->domain;
 		}
 
 		// Escaping of tracker data for output as JSON is handled via wp_localize_script().
