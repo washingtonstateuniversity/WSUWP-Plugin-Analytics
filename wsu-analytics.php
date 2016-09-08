@@ -367,7 +367,7 @@ class WSU_Analytics {
 		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="false" <?php checked( 'false', $option_object['use_jquery_ui'] )?> /></label>
 		<p class="description">Should WSU Analytics track default jQuery UI events for the site?</p><br/>
 
-		<?php if ( ( function_exists( 'wsuwp_is_network_admin' ) && wsuwp_is_network_admin( wsuwp_get_current_network() ) ) || is_super_admin() ) : ?>
+		<?php if ( ( function_exists( 'wsuwp_is_global_admin' ) && wsuwp_is_global_admin( wp_get_current_user()->ID ) ) || is_super_admin() ) : ?>
 		<p><span class="wsu-analytics-label">Track Global Analytics</span></p>
 		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[track_global]" value="true" <?php checked( 'true', $option_object['track_global'] ); ?> /></label>
 		<label>No  <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[track_global]" value="false" <?php checked( 'false', $option_object['track_global'] ); ?> /></label>
@@ -490,8 +490,8 @@ class WSU_Analytics {
 			$spine_grid = esc_js( spine_get_option( 'grid_style' ) );
 		}
 
-		if ( function_exists( 'wsuwp_get_current_network' ) ) {
-			$wsuwp_network = wsuwp_get_current_network()->domain;
+		if ( is_multisite() ) {
+			$wsuwp_network = get_network()->domain;
 		}
 
 		// Escaping of tracker data for output as JSON is handled via wp_localize_script().
