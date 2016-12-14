@@ -51,6 +51,7 @@ class WSU_Analytics {
 
 		add_action( 'wp_head', array( $this, 'display_site_verification' ), 99 );
 		add_action( 'wp_head', array( $this, 'display_tag_manager' ), 100 );
+		add_action( 'admin_head', array( $this, 'display_tag_manager' ), 100 );
 		add_action( 'wp_footer', array( $this, 'display_noscript_tag_manager' ) );
 
 		// Configure the settings page and sections provided by the plugin.
@@ -427,6 +428,7 @@ class WSU_Analytics {
 		}
 
 		$tracker_data = $this->get_tracker_data();
+
 		?>
 		<script type='text/javascript'>
 			/* <![CDATA[ */
@@ -522,6 +524,7 @@ class WSU_Analytics {
 				// If a subunit has been used as a fallback, output "none" as the subunit.
 				'subunit'            => 'none' !== $option_object['unit'] ? $option_object['subunit'] : 'none',
 				'is_editor'          => $this->is_editor() ? 'true' : 'false',
+				'track_view'         => is_admin() ? 'no' : 'yes',
 				'events'             => array(),
 			),
 
@@ -537,8 +540,9 @@ class WSU_Analytics {
 			),
 
 			'site' => array(
-				'ga_code'           => 'true' === $option_object['track_site'] ? $google_analytics_id : false,
-				'events'            => array(),
+				'ga_code'            => 'true' === $option_object['track_site'] ? $google_analytics_id : false,
+				'track_view'         => is_admin() ? 'no' : 'yes',
+				'events'             => array(),
 			),
 		);
 
