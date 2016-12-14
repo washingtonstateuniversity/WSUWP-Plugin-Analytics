@@ -507,7 +507,6 @@ class WSU_Analytics {
 			$wsuwp_network = get_network()->domain;
 		}
 
-
 		// Escaping of tracker data for output as JSON is handled via wp_localize_script().
 		$tracker_data = array(
 			'defaults' => array(
