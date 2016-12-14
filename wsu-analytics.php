@@ -555,11 +555,13 @@ class WSU_Analytics {
 			return;
 		}
 
+		if ( 'jtrack' !== $this->get_analytics_option( 'tracker' ) ) {
+			return;
+		}
+
 		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.min.js', __FILE__ ), array( 'jquery' ), $this->script_version(), true );
 
-		if ( 'jtrack' === $option_object['tracker'] ) {
-			wp_enqueue_script( 'jquery-jtrack', '//repo.wsu.edu/jtrack/1.6.0/jtrack.min.js', array( 'jquery' ), $this->script_version(), true );
-		}
+		wp_enqueue_script( 'jquery-jtrack', '//repo.wsu.edu/jtrack/1.6.0/jtrack.min.js', array( 'jquery' ), $this->script_version(), true );
 
 		// Allow a theme to override or extend default events.
 		if ( apply_filters( 'wsu_analytics_events_override', false ) ) {
@@ -574,13 +576,11 @@ class WSU_Analytics {
 			wp_enqueue_script( 'wsu-analytics-events', plugins_url( 'js/default_events.js', __FILE__ ), array( 'jquery' ), $this->script_version(), true );
 		}
 
-		if ( 'jtrack' === $option_object['tracker'] ) {
-			// Escaping of tracker data for output as JSON is handled via wp_localize_script().
-			$tracker_data = $this->get_tracker_data();
+		// Escaping of tracker data for output as JSON is handled via wp_localize_script().
+		$tracker_data = $this->get_tracker_data();
 
-			// Output tracker data as a JSON object in the document.
-			wp_localize_script( 'wsu-analytics-events', 'wsu_analytics', $tracker_data );
-		}
+		// Output tracker data as a JSON object in the document.
+		wp_localize_script( 'wsu-analytics-events', 'wsu_analytics', $tracker_data );
 
 		// Allow a theme to override or extend default UI events.
 		if ( 'true' === $option_object['use_jquery_ui'] ) {
