@@ -521,6 +521,7 @@ class WSU_Analytics {
 				'unit'               => 'none' === $option_object['unit'] && 'none' !== $option_object['subunit'] ? $option_object['subunit'] : $option_object['unit'],
 				// If a subunit has been used as a fallback, output "none" as the subunit.
 				'subunit'            => 'none' !== $option_object['unit'] ? $option_object['subunit'] : 'none',
+				'is_editor'          => $this->is_editor() ? 'true' : 'false',
 				'events'             => array(),
 			),
 
@@ -529,7 +530,6 @@ class WSU_Analytics {
 				'page_view_type'     => $this->get_page_view_type(),
 				'authenticated_user' => $this->get_authenticated_user(),
 				'server_protocol'    => $_SERVER['SERVER_PROTOCOL'],
-				'is_editor'          => $this->is_editor(),
 				'wsuwp_network'      => $wsuwp_network,
 				'spine_grid'         => $spine_grid,
 				'spine_color'        => $spine_color,
