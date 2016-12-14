@@ -426,7 +426,24 @@ class WSU_Analytics {
 			return;
 		}
 
+		$tracker_data = $this->get_tracker_data();
 		?>
+		<script type='text/javascript'>
+			/* <![CDATA[ */
+			var wsu_analytics = <?php echo wp_json_encode( $tracker_data ); ?>;
+			/* ]]> */
+
+			// Determine if this is a mobile view using the same definition as the WSU Spine - less than 990px.
+			function wsa_spine_type() {
+				if ( window.matchMedia ) {
+					return window.matchMedia( "(max-width: 989px)" ).matches ? 'spine-mobile' : 'spine-full';
+				}
+
+				return 'spine-full';
+			}
+
+			wsu_analytics.app.spine_type = wsa_spine_type();
+		</script>
 		<!-- Google Tag Manager -->
 		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 				new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -454,14 +471,14 @@ class WSU_Analytics {
 	}
 
 	/**
-	 * Enqueue the scripts used for analytics on the platform.
+	 * Builds an array of tracker data that is attached to a jQuery or Google Tag Manager request.
+	 *
+	 * @since 0.8.0
+	 *
+	 * @return array
 	 */
-	public function enqueue_scripts() {
+	public function get_tracker_data() {
 		$option_object = $this->get_analytics_options();
-
-		if ( defined( 'WSU_LOCAL_CONFIG' ) && WSU_LOCAL_CONFIG && false === apply_filters( 'wsu_analytics_local_debug', false ) ) {
-			return;
-		}
 
 		// Look for a site level Google Analytics ID
 		$google_analytics_id = get_option( 'wsuwp_ga_id', false );
@@ -475,12 +492,6 @@ class WSU_Analytics {
 		// be part of a must-use plugin.
 		$app_analytics_id = apply_filters( 'wsu_analytics_app_analytics_id', '' );
 
-		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.min.js', __FILE__ ), array( 'jquery' ), $this->script_version(), true );
-
-		if ( 'jtrack' === $option_object['tracker'] ) {
-			wp_enqueue_script( 'jquery-jtrack', '//repo.wsu.edu/jtrack/1.6.0/jtrack.min.js', array( 'jquery' ), $this->script_version(), true );
-		}
-
 		$spine_color = '';
 		$spine_grid = '';
 		$wsuwp_network = '';
@@ -493,6 +504,7 @@ class WSU_Analytics {
 		if ( is_multisite() ) {
 			$wsuwp_network = get_network()->domain;
 		}
+
 
 		// Escaping of tracker data for output as JSON is handled via wp_localize_script().
 		$tracker_data = array(
@@ -530,6 +542,25 @@ class WSU_Analytics {
 			),
 		);
 
+		return $tracker_data;
+	}
+
+	/**
+	 * Enqueue the scripts used for analytics on the platform.
+	 */
+	public function enqueue_scripts() {
+		$option_object = $this->get_analytics_options();
+
+		if ( defined( 'WSU_LOCAL_CONFIG' ) && WSU_LOCAL_CONFIG && false === apply_filters( 'wsu_analytics_local_debug', false ) ) {
+			return;
+		}
+
+		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.min.js', __FILE__ ), array( 'jquery' ), $this->script_version(), true );
+
+		if ( 'jtrack' === $option_object['tracker'] ) {
+			wp_enqueue_script( 'jquery-jtrack', '//repo.wsu.edu/jtrack/1.6.0/jtrack.min.js', array( 'jquery' ), $this->script_version(), true );
+		}
+
 		// Allow a theme to override or extend default events.
 		if ( apply_filters( 'wsu_analytics_events_override', false ) ) {
 			if ( 'true' === $option_object['extend_defaults'] ) {
@@ -543,8 +574,13 @@ class WSU_Analytics {
 			wp_enqueue_script( 'wsu-analytics-events', plugins_url( 'js/default_events.js', __FILE__ ), array( 'jquery' ), $this->script_version(), true );
 		}
 
-		// Output tracker data as a JSON object in the document.
-		wp_localize_script( 'wsu-analytics-events', 'wsu_analytics', $tracker_data );
+		if ( 'jtrack' === $option_object['tracker'] ) {
+			// Escaping of tracker data for output as JSON is handled via wp_localize_script().
+			$tracker_data = $this->get_tracker_data();
+
+			// Output tracker data as a JSON object in the document.
+			wp_localize_script( 'wsu-analytics-events', 'wsu_analytics', $tracker_data );
+		}
 
 		// Allow a theme to override or extend default UI events.
 		if ( 'true' === $option_object['use_jquery_ui'] ) {
