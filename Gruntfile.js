@@ -4,15 +4,7 @@ module.exports = function( grunt ) {
 	// Project configuration
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( "package.json" ),
-		uglify: {
-			options: {
-				banner: "/*! <%= pkg.name %> */\n"
-			},
-			build: {
-				src: "js/analytics.js",
-				dest: "js/analytics.min.js"
-			}
-		},
+
 		phpcs: {
 			plugin: {
 				src: "./"
@@ -22,8 +14,9 @@ module.exports = function( grunt ) {
 				standard: "phpcs.ruleset.xml"
 			}
 		},
+
 		jshint: {
-			files: [ "js/analytics.js", "js/default_events.js", "js/default_ui-events.js", "js/mediaelement-events.js", "Gruntfile.js" ],
+			files: [ "Gruntfile.js" ],
 			options: {
 				bitwise: true,
 				curly: true,
@@ -39,8 +32,9 @@ module.exports = function( grunt ) {
 				jquery: true   // Define globals exposed by jQuery.
 			}
 		},
+
 		jscs: {
-			files: [ "js/analytics.js", "js/default_events.js", "js/default_ui-events.js", "js/mediaelement-events.js", "Gruntfile.js" ],
+			files: [ "Gruntfile.js" ],
 			options: {
 				preset: "jquery",
 				fix: false,
@@ -50,12 +44,10 @@ module.exports = function( grunt ) {
 		}
 	} );
 
-	grunt.loadNpmTasks( "grunt-contrib-uglify" );
 	grunt.loadNpmTasks( "grunt-contrib-jshint" );
 	grunt.loadNpmTasks( "grunt-jscs" );
 	grunt.loadNpmTasks( "grunt-phpcs" );
 
 	// Default task(s).
-	grunt.registerTask( "dev", [ "phpcs", "jscs", "jshint" ] );
-	grunt.registerTask( "default", [ "phpcs", "jscs", "jshint", "uglify" ] );
+	grunt.registerTask( "default", [ "phpcs", "jscs", "jshint" ] );
 };
