@@ -51,6 +51,7 @@ class WSU_Analytics {
 
 		add_action( 'wp_head', array( $this, 'display_site_verification' ), 99 );
 		add_action( 'wp_head', array( $this, 'display_tag_manager' ), 100 );
+		add_action( 'admin_head', array( $this, 'display_tag_manager' ), 100 );
 		add_action( 'wp_footer', array( $this, 'display_noscript_tag_manager' ) );
 
 		// Configure the settings page and sections provided by the plugin.
@@ -426,7 +427,25 @@ class WSU_Analytics {
 			return;
 		}
 
+		$tracker_data = $this->get_tracker_data();
+
 		?>
+		<script type='text/javascript'>
+			/* <![CDATA[ */
+			var wsu_analytics = <?php echo wp_json_encode( $tracker_data ); ?>;
+			/* ]]> */
+
+			// Determine if this is a mobile view using the same definition as the WSU Spine - less than 990px.
+			function wsa_spine_type() {
+				if ( window.matchMedia ) {
+					return window.matchMedia( "(max-width: 989px)" ).matches ? 'spine-mobile' : 'spine-full';
+				}
+
+				return 'spine-full';
+			}
+
+			wsu_analytics.app.spine_type = wsa_spine_type();
+		</script>
 		<!-- Google Tag Manager -->
 		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 				new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -454,14 +473,14 @@ class WSU_Analytics {
 	}
 
 	/**
-	 * Enqueue the scripts used for analytics on the platform.
+	 * Builds an array of tracker data that is attached to a jQuery or Google Tag Manager request.
+	 *
+	 * @since 0.8.0
+	 *
+	 * @return array
 	 */
-	public function enqueue_scripts() {
+	public function get_tracker_data() {
 		$option_object = $this->get_analytics_options();
-
-		if ( defined( 'WSU_LOCAL_CONFIG' ) && WSU_LOCAL_CONFIG && false === apply_filters( 'wsu_analytics_local_debug', false ) ) {
-			return;
-		}
 
 		// Look for a site level Google Analytics ID
 		$google_analytics_id = get_option( 'wsuwp_ga_id', false );
@@ -474,12 +493,6 @@ class WSU_Analytics {
 		// Provide this via filter in your instance of WordPress. In the WSUWP Platform, this will
 		// be part of a must-use plugin.
 		$app_analytics_id = apply_filters( 'wsu_analytics_app_analytics_id', '' );
-
-		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.min.js', __FILE__ ), array( 'jquery' ), $this->script_version(), true );
-
-		if ( 'jtrack' === $option_object['tracker'] ) {
-			wp_enqueue_script( 'jquery-jtrack', '//repo.wsu.edu/jtrack/1.6.0/jtrack.min.js', array( 'jquery' ), $this->script_version(), true );
-		}
 
 		$spine_color = '';
 		$spine_grid = '';
@@ -509,6 +522,8 @@ class WSU_Analytics {
 				'unit'               => 'none' === $option_object['unit'] && 'none' !== $option_object['subunit'] ? $option_object['subunit'] : $option_object['unit'],
 				// If a subunit has been used as a fallback, output "none" as the subunit.
 				'subunit'            => 'none' !== $option_object['unit'] ? $option_object['subunit'] : 'none',
+				'is_editor'          => $this->is_editor() ? 'true' : 'false',
+				'track_view'         => is_admin() ? 'no' : 'yes',
 				'events'             => array(),
 			),
 
@@ -517,7 +532,6 @@ class WSU_Analytics {
 				'page_view_type'     => $this->get_page_view_type(),
 				'authenticated_user' => $this->get_authenticated_user(),
 				'server_protocol'    => $_SERVER['SERVER_PROTOCOL'],
-				'is_editor'          => $this->is_editor(),
 				'wsuwp_network'      => $wsuwp_network,
 				'spine_grid'         => $spine_grid,
 				'spine_color'        => $spine_color,
@@ -525,10 +539,32 @@ class WSU_Analytics {
 			),
 
 			'site' => array(
-				'ga_code'           => 'true' === $option_object['track_site'] ? $google_analytics_id : false,
-				'events'            => array(),
+				'ga_code'            => 'true' === $option_object['track_site'] ? $google_analytics_id : false,
+				'track_view'         => is_admin() ? 'no' : 'yes',
+				'events'             => array(),
 			),
 		);
+
+		return $tracker_data;
+	}
+
+	/**
+	 * Enqueue the scripts used for analytics on the platform.
+	 */
+	public function enqueue_scripts() {
+		$option_object = $this->get_analytics_options();
+
+		if ( defined( 'WSU_LOCAL_CONFIG' ) && WSU_LOCAL_CONFIG && false === apply_filters( 'wsu_analytics_local_debug', false ) ) {
+			return;
+		}
+
+		if ( 'jtrack' !== $this->get_analytics_option( 'tracker' ) ) {
+			return;
+		}
+
+		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.min.js', __FILE__ ), array( 'jquery' ), $this->script_version(), true );
+
+		wp_enqueue_script( 'jquery-jtrack', '//repo.wsu.edu/jtrack/1.6.0/jtrack.min.js', array( 'jquery' ), $this->script_version(), true );
 
 		// Allow a theme to override or extend default events.
 		if ( apply_filters( 'wsu_analytics_events_override', false ) ) {
@@ -542,6 +578,9 @@ class WSU_Analytics {
 		} else {
 			wp_enqueue_script( 'wsu-analytics-events', plugins_url( 'js/default_events.js', __FILE__ ), array( 'jquery' ), $this->script_version(), true );
 		}
+
+		// Escaping of tracker data for output as JSON is handled via wp_localize_script().
+		$tracker_data = $this->get_tracker_data();
 
 		// Output tracker data as a JSON object in the document.
 		wp_localize_script( 'wsu-analytics-events', 'wsu_analytics', $tracker_data );
