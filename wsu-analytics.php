@@ -3,7 +3,7 @@
 Plugin Name: WSU Analytics
 Version: 0.8.0
 Plugin URI: https://web.wsu.edu/
-Description: Provides tracking through Google Analytics for WSU WordPress sites using WSU's jTrack.
+Description: Provides tracking through Google Analytics for WSU WordPress sites.
 Author: washingtonstateuniversity, jeremyfelt, jeremybass
 Author URI: https://web.wsu.edu/
 */
@@ -337,20 +337,6 @@ class WSU_Analytics {
 			<?php endforeach;?>
 		</select></p>
 		<p class="description">Does this site represent an entity that is a unit? (e.g. department, office, school)</p><br/>
-
-		<?php if ( apply_filters( 'wsu_analytics_events_override', false ) || apply_filters( 'wsu_analytics_ui_events_override', false ) ) : ?>
-		<!-- extend_defaults -->
-		<p><span class="wsu-analytics-label">Custom Events Tracking:</span>
-		<label>Extend <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="true" <?php checked( 'true', $option_object['extend_defaults'] )?> /></label>
-		<label>Override <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="false" <?php checked( 'false', $option_object['extend_defaults'] )?> /></label>
-		<p class="description">Should your theme's custom events file(s) extend or override the default events provided by WSU Analytics?</p><br/>
-		<?php endif; ?>
-
-		<!-- use_jquery_ui -->
-		<p><span class="wsu-analytics-label">Track jQuery UI Events:</span>
-		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="true" <?php checked( 'false', $option_object['use_jquery_ui'] )?> /></label>
-		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="false" <?php checked( 'false', $option_object['use_jquery_ui'] )?> /></label>
-		<p class="description">Should WSU Analytics track default jQuery UI events for the site?</p><br/>
 
 		<?php if ( ( function_exists( 'wsuwp_is_global_admin' ) && wsuwp_is_global_admin( wp_get_current_user()->ID ) ) || is_super_admin() ) : ?>
 		<p><span class="wsu-analytics-label">Track Global Analytics</span></p>
