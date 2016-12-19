@@ -3,7 +3,7 @@
 Plugin Name: WSU Analytics
 Version: 0.8.0
 Plugin URI: https://web.wsu.edu/
-Description: Provides tracking through Google Analytics for WSU WordPress sites using WSU's jTrack.
+Description: Provides tracking through Google Analytics for WSU WordPress sites.
 Author: washingtonstateuniversity, jeremyfelt, jeremybass
 Author URI: https://web.wsu.edu/
 */
@@ -24,14 +24,12 @@ class WSU_Analytics {
 	 * @var array List of default values for the extended analytics option.
 	 */
 	var $extended_analytics_defaults = array(
-		'tracker'         => 'jtrack',
+		'tracker'         => 'tagmanager',
 		'campus'          => 'none',
 		'college'         => 'none',
 		'unit_type'       => 'none',
 		'unit'            => 'none',
 		'subunit'         => 'none',
-		'extend_defaults' => 'true',
-		'use_jquery_ui'   => 'true',
 		'track_global'    => 'true',
 		'track_app'       => 'true',
 		'track_site'      => 'true',
@@ -41,14 +39,6 @@ class WSU_Analytics {
 	 * Add our hooks.
 	 */
 	public function __construct() {
-		// Tracking scripts are enqueued on the front end and admin views.
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10 );
-		add_action( 'admin_footer', array( $this, 'enqueue_scripts' ), 10 );
-
-		// Hack an enqueue of mediaelement when required to add custom events.
-		add_filter( 'wp_video_shortcode_library', array( $this, 'mediaelement_scripts' ), 11 );
-		add_filter( 'wp_audio_shortcode_library', array( $this, 'mediaelement_scripts' ), 11 );
-
 		add_action( 'wp_head', array( $this, 'display_site_verification' ), 99 );
 		add_action( 'wp_head', array( $this, 'display_tag_manager' ), 100 );
 		add_action( 'admin_head', array( $this, 'display_tag_manager' ), 100 );
@@ -286,15 +276,7 @@ class WSU_Analytics {
 		// @todo complete units taxonomy.
 		$units = array();
 
-		if ( wsuwp_is_global_admin( 0 ) ) :
 		?>
-		<p><label class="wsu-analytics-label" for="wsu-analytics-tracker">Global Tracker:</label>
-		<select id="wsu-analytics-tracker" name="wsuwp_analytics_option_map[tracker]">
-			<option value="jtrack" <?php selected( 'jtrack', $option_object['tracker'] ); ?>>JTrack</option>
-			<option value="tag-manager" <?php selected( 'tag-manager', $option_object['tracker'] ); ?>>Tag Manager</option>
-		</select></p>
-		<p class="description">Should global analytics be tracked via JTrack or Google Tag Manager?</p><br />
-		<?php endif; ?>
 		<!-- campus -->
 		<p><label class="wsu-analytics-label" for="wsu-analytics-campus">Campus:</label>
 		<select id="wsu-analytics-campus" name="wsuwp_analytics_option_map[campus]">
@@ -354,20 +336,6 @@ class WSU_Analytics {
 		</select></p>
 		<p class="description">Does this site represent an entity that is a unit? (e.g. department, office, school)</p><br/>
 
-		<?php if ( apply_filters( 'wsu_analytics_events_override', false ) || apply_filters( 'wsu_analytics_ui_events_override', false ) ) : ?>
-		<!-- extend_defaults -->
-		<p><span class="wsu-analytics-label">Custom Events Tracking:</span>
-		<label>Extend <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="true" <?php checked( 'true', $option_object['extend_defaults'] )?> /></label>
-		<label>Override <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[extend_defaults]" value="false" <?php checked( 'false', $option_object['extend_defaults'] )?> /></label>
-		<p class="description">Should your theme's custom events file(s) extend or override the default events provided by WSU Analytics?</p><br/>
-		<?php endif; ?>
-
-		<!-- use_jquery_ui -->
-		<p><span class="wsu-analytics-label">Track jQuery UI Events:</span>
-		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="true" <?php checked( 'false', $option_object['use_jquery_ui'] )?> /></label>
-		<label>No <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[use_jquery_ui]" value="false" <?php checked( 'false', $option_object['use_jquery_ui'] )?> /></label>
-		<p class="description">Should WSU Analytics track default jQuery UI events for the site?</p><br/>
-
 		<?php if ( ( function_exists( 'wsuwp_is_global_admin' ) && wsuwp_is_global_admin( wp_get_current_user()->ID ) ) || is_super_admin() ) : ?>
 		<p><span class="wsu-analytics-label">Track Global Analytics</span></p>
 		<label>Yes <input type="radio" class="regular-radio" name="wsuwp_analytics_option_map[track_global]" value="true" <?php checked( 'true', $option_object['track_global'] ); ?> /></label>
@@ -423,10 +391,6 @@ class WSU_Analytics {
 	 * @since 0.7.0
 	 */
 	public function display_tag_manager() {
-		if ( 'tag-manager' !== $this->get_analytics_option( 'tracker' ) ) {
-			return;
-		}
-
 		$tracker_data = $this->get_tracker_data();
 
 		?>
@@ -463,10 +427,6 @@ class WSU_Analytics {
 	 * @since 0.7.0
 	 */
 	public function display_noscript_tag_manager() {
-		if ( 'tag-manager' !== $this->get_analytics_option( 'tracker' ) ) {
-			return;
-		}
-
 		?>
 		<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-K5CHVG" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<?php
@@ -546,83 +506,6 @@ class WSU_Analytics {
 		);
 
 		return $tracker_data;
-	}
-
-	/**
-	 * Enqueue the scripts used for analytics on the platform.
-	 */
-	public function enqueue_scripts() {
-		$option_object = $this->get_analytics_options();
-
-		if ( defined( 'WSU_LOCAL_CONFIG' ) && WSU_LOCAL_CONFIG && false === apply_filters( 'wsu_analytics_local_debug', false ) ) {
-			return;
-		}
-
-		if ( 'jtrack' !== $this->get_analytics_option( 'tracker' ) ) {
-			return;
-		}
-
-		wp_register_script( 'wsu-analytics-main', plugins_url( 'js/analytics.min.js', __FILE__ ), array( 'jquery' ), $this->script_version(), true );
-
-		wp_enqueue_script( 'jquery-jtrack', '//repo.wsu.edu/jtrack/1.6.0/jtrack.min.js', array( 'jquery' ), $this->script_version(), true );
-
-		// Allow a theme to override or extend default events.
-		if ( apply_filters( 'wsu_analytics_events_override', false ) ) {
-			if ( 'true' === $option_object['extend_defaults'] ) {
-				wp_enqueue_script( 'wsu-analytics-events', plugins_url( 'js/default_events.js', __FILE__ ), array( 'jquery' ), $this->script_version(), true );
-				$custom_slug = 'wsu-analytics-extended-events';
-			} else {
-				$custom_slug = 'wsu-analytics-events';
-			}
-			wp_enqueue_script( $custom_slug, get_stylesheet_directory_uri() . '/wsu-analytics/events.js', array( 'jquery' ), $this->script_version(), true );
-		} else {
-			wp_enqueue_script( 'wsu-analytics-events', plugins_url( 'js/default_events.js', __FILE__ ), array( 'jquery' ), $this->script_version(), true );
-		}
-
-		// Escaping of tracker data for output as JSON is handled via wp_localize_script().
-		$tracker_data = $this->get_tracker_data();
-
-		// Output tracker data as a JSON object in the document.
-		wp_localize_script( 'wsu-analytics-events', 'wsu_analytics', $tracker_data );
-
-		// Allow a theme to override or extend default UI events.
-		if ( 'true' === $option_object['use_jquery_ui'] ) {
-			if ( apply_filters( 'wsu_analytics_ui_events_override', false ) ) {
-				if ( 'true' === $option_object['extend_defaults'] ) {
-					wp_enqueue_script( 'wsu-analytics-ui-events', plugins_url( 'js/default_ui-events.js', __FILE__ ), array( 'jquery' ), $this->script_version(), true );
-					$custom_slug = 'wsu-analytics-extended-ui-events';
-				} else {
-					$custom_slug = 'wsu-analytics-ui-events';
-				}
-				wp_enqueue_script( $custom_slug, get_stylesheet_directory_uri() . '/wsu-analytics/ui-events.js', array( 'jquery' ), $this->script_version(), true );
-			} else {
-				wp_enqueue_script( 'wsu-analytics-ui-events', plugins_url( 'js/default_ui-events.js', __FILE__ ), array( 'jquery', 'jquery' ), $this->script_version(), true );
-			}
-		}
-
-		// Fire the primary analytics script after all tracker data and events data is available.
-		wp_enqueue_script( 'wsu-analytics-main' );
-	}
-
-	/**
-	 * Enqueues the events when the core media is loaded.
-	 */
-	public function mediaelement_scripts() {
-		wp_enqueue_script( 'wsu-mediaelement-events', plugins_url( '/js/mediaelement-events.js', __FILE__ ), array( 'mediaelement' ), false, true );
-		return 'mediaelement';
-	}
-
-	/**
-	 * Compile a script version and include WSUWP Platform if possible.
-	 *
-	 * @return string Version to be attached to scripts.
-	 */
-	private function script_version() {
-		if ( function_exists( 'wsuwp_global_version' ) ) {
-			return wsuwp_global_version() . '-' . $this->version;
-		}
-
-		return $this->version;
 	}
 
 	/**
