@@ -28,21 +28,13 @@ Traffic and associated events will be tracked automatically at the global (WSU) 
 * **Parent Unit** - A parent entity for the unit the site is associated with.
 * **Unit** - The unit the site is associated with.
 
-Additional, advanced options are provided.
-
-* **Track jQuery UI Events** - If jQuery UI is in use on this site, should default events be tracked?
-* **Track Site Analytics** - Should site analytics be turned on or off for this site?
-    * This allows site analytics to be temporarily disabled even with a GA ID stored.
-
-For network administrators and super admins, options are provided to turn on and off global and app analytics to aid in troubleshooting.
+For global administrators, options are provided to turn on and off global, application, and site analytics to aid in troubleshooting.
 
 If a theme has decided to extend or override the default events provided by WSU Analytics, an option will appear to either extend or override. See the filters below for more advanced functionality.
 
 ## Extending Analytics
 
-Multiple filters are available in the WSU Analytics plugin to extend functionality.
+Filters are available in the WSU Analytics plugin to extend functionality.
 
 * `wsu_analytics_app_analytics_id` - Empty string by default. Provide a valid GA ID to track traffic at an application level.
-* `wsu_analytics_events_override` - False by default. Return true if you would like to provide a custom events file at `wsu-analytics/events.js` in your child theme.
-* `wsu_analytics_ui_events_override` - False by default. Return true if you would like to provide a custom jQuery UI events file at `wsu-analytics/ui-events.js` in your child theme.
 * `wsu_analytics_local_debug` - False by default. Return true if you'd like to override how WSU Analytics handles local environments.

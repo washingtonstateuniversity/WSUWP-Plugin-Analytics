@@ -30,8 +30,6 @@ class WSU_Analytics {
 		'unit_type'       => 'none',
 		'unit'            => 'none',
 		'subunit'         => 'none',
-		'extend_defaults' => 'true',
-		'use_jquery_ui'   => 'true',
 		'track_global'    => 'true',
 		'track_app'       => 'true',
 		'track_site'      => 'true',
