@@ -9,6 +9,7 @@
 
 # Ignore Nod modules via Grunt.
 node_modules
+package-lock.json
 
 # Ignore Composer files
 vendor

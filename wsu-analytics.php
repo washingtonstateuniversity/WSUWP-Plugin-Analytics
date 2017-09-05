@@ -96,16 +96,24 @@ class WSU_Analytics {
 	 * Display the settings fields associated with site verification.
 	 */
 	public function display_verification_settings() {
-		add_settings_field( 'wsuwp-google-site-verify', 'Google Site Verification', array( $this, 'general_settings_google_site_verify' ), $this->settings_page, 'wsuwp-verification', array( 'label_for' => 'wsuwp_google_verify' ) );
-		add_settings_field( 'wsuwp-bing-site-verify', 'Bing Site Verification', array( $this, 'general_settings_bing_site_verify' ), $this->settings_page, 'wsuwp-verification', array( 'label_for' => 'wsuwp_bing_verify' ) );
+		add_settings_field( 'wsuwp-google-site-verify', 'Google Site Verification', array( $this, 'general_settings_google_site_verify' ), $this->settings_page, 'wsuwp-verification', array(
+			'label_for' => 'wsuwp_google_verify',
+		) );
+		add_settings_field( 'wsuwp-bing-site-verify', 'Bing Site Verification', array( $this, 'general_settings_bing_site_verify' ), $this->settings_page, 'wsuwp-verification', array(
+			'label_for' => 'wsuwp_bing_verify',
+		) );
 	}
 
 	/**
 	 * Display the settings fields associated with general analytics.
 	 */
 	public function display_analytics_settings() {
-		add_settings_field( 'wsuwp-ga-id', 'Google Analytics ID', array( $this, 'general_settings_ga_id' ), $this->settings_page, 'wsuwp-analytics', array( 'label_for' => 'wsuwp_ga_id' ) );
-		add_settings_field( 'wsuwp-analytics-option-map', 'General Analytics Settings', array( $this, 'general_settings_inputs' ), $this->settings_page, 'wsuwp-analytics', array( 'label_for' => 'wsuwp_analytics_option_map' ) );
+		add_settings_field( 'wsuwp-ga-id', 'Google Analytics ID', array( $this, 'general_settings_ga_id' ), $this->settings_page, 'wsuwp-analytics', array(
+			'label_for' => 'wsuwp_ga_id',
+		) );
+		add_settings_field( 'wsuwp-analytics-option-map', 'General Analytics Settings', array( $this, 'general_settings_inputs' ), $this->settings_page, 'wsuwp-analytics', array(
+			'label_for' => 'wsuwp_analytics_option_map',
+		) );
 	}
 
 	/**
@@ -283,7 +291,7 @@ class WSU_Analytics {
 			<option value="none" <?php selected( 'none', $option_object['campus'] ); ?>>None</option>
 			<option value="all" <?php selected( 'all', $option_object['campus'] ); ?>>All</option>
 			<?php foreach ( $campus as $key => $name ) : ?>
-				<option value="<?php echo $key; ?>" <?php selected( $key, $option_object['campus'] )?>><?php echo $name; ?></option>
+				<option value="<?php echo $key; ?>" <?php selected( $key, $option_object['campus'] ); ?>><?php echo $name; ?></option>
 			<?php endforeach; ?>
 		</select></p>
 		<p class="description">Does this site represent a campus in location or association?</p><br/>
@@ -330,9 +338,9 @@ class WSU_Analytics {
 				<optgroup label="<?php echo $key; ?>">
 				<?php foreach ( $group as $item_key => $name ) : ?>
 					<option value="<?php echo $item_key; ?>" <?php selected( $item_key, $option_object['subunit'] ); ?>><?php echo $name; ?></option>
-				<?php endforeach;?>
+				<?php endforeach; ?>
 				</optgroup>
-			<?php endforeach;?>
+			<?php endforeach; ?>
 		</select></p>
 		<p class="description">Does this site represent an entity that is a unit? (e.g. department, office, school)</p><br/>
 
@@ -470,7 +478,7 @@ class WSU_Analytics {
 		// Escaping of tracker data for output as JSON is handled via wp_localize_script().
 		$tracker_data = array(
 			'defaults' => array(
-				'cookieDomain'		 => $this->get_cookie_domain(),
+				'cookieDomain' => $this->get_cookie_domain(),
 			),
 
 			'wsuglobal' => array(
