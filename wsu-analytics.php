@@ -475,6 +475,11 @@ class WSU_Analytics {
 			$wsuwp_network = get_network()->domain;
 		}
 
+		// Do not track site analytics on admin or preview views.
+		if ( is_admin() || is_preview() ) {
+			$option_object['track_site'] = false;
+		}
+
 		// Escaping of tracker data for output as JSON is handled via wp_localize_script().
 		$tracker_data = array(
 			'defaults' => array(
