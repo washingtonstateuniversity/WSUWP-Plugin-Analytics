@@ -127,7 +127,7 @@ class WSU_Analytics {
 		// trim spaces, uppercase UA, explode to 3 piece array
 		$ga_id = explode( '-', trim( strtoupper( $ga_id ) ) );
 
-		if ( empty( $ga_id ) || 'UA' !== $ga_id[0] ) {
+		if ( empty( $ga_id ) ) {
 			return false;
 		}
 
