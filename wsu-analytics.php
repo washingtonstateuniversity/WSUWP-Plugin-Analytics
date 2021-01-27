@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WSU Analytics
-Version: 1.1.0
+Version: 1.2.0
 Plugin URI: https://web.wsu.edu/
 Description: Provides tracking through Google Analytics for WSU WordPress sites.
 Author: washingtonstateuniversity, jeremyfelt, jeremybass
@@ -13,7 +13,7 @@ class WSU_Analytics {
 	/**
 	 * @var string The current version of this plugin. Used to break script cache.
 	 */
-	var $version = '1.1.0';
+	var $version = '1.2.0';
 
 	/**
 	 * @var string Track the string used for the custom settings page we add.
@@ -56,6 +56,7 @@ class WSU_Analytics {
 	public function register_settings_sections() {
 		register_setting( 'wsuwp-analytics', 'wsuwp_google_verify', array( $this, 'sanitize_google_verify' ) );
 		register_setting( 'wsuwp-analytics', 'wsuwp_bing_verify', array( $this, 'sanitize_bing_verify' ) );
+		register_setting( 'wsuwp-analytics', 'wsuwp_facebook_verify', array( $this, 'sanitize_facebook_verify' ) );
 		register_setting( 'wsuwp-analytics', 'wsuwp_ga_id', array( $this, 'sanitize_ga_id' ) );
 		register_setting( 'wsuwp-analytics', 'wsuwp_analytics_option_map', array( $this, 'sanitize_wsuwp_analytics_option_map' ) );
 	}
@@ -101,6 +102,9 @@ class WSU_Analytics {
 		) );
 		add_settings_field( 'wsuwp-bing-site-verify', 'Bing Site Verification', array( $this, 'general_settings_bing_site_verify' ), $this->settings_page, 'wsuwp-verification', array(
 			'label_for' => 'wsuwp_bing_verify',
+		) );
+		add_settings_field( 'wsuwp-facebook-site-verify', 'Facebook Site Verification', array( $this, 'general_settings_facebook_site_verify' ), $this->settings_page, 'wsuwp-verification', array(
+			'label_for' => 'wsuwp_facebook_verify',
 		) );
 	}
 
@@ -153,6 +157,18 @@ class WSU_Analytics {
 	 */
 	public function sanitize_google_verify( $google_verify ) {
 		return sanitize_text_field( $google_verify );
+	}
+
+
+	/**
+	 * Sanitize the saved value for the Facebook Site Verification meta.
+	 *
+	 * @param string $facebook_verify
+	 *
+	 * @return string
+	 */
+	public function sanitize_facebook_verify( $facebook_verify ) {
+		return sanitize_text_field( $facebook_verify );
 	}
 
 	/**
@@ -208,6 +224,16 @@ class WSU_Analytics {
 
 		?><input id="wsuwp_bing_verify" name="wsuwp_bing_verify" value="<?php echo esc_attr( $bing_verification ); ?>" type="text" class="regular-text" /><?php
 	}
+
+	/**
+	 * Provide an input in general settings for the entry of Bing Site Verification meta data.
+	 */
+	public function general_settings_facebook_site_verify() {
+		$facebook_verification = get_option( 'wsuwp_facebook_verify', false );
+
+		?><input id="wsuwp_facebook_verify" name="wsuwp_facebook_verify" value="<?php echo esc_attr( $facebook_verification ); ?>" type="text" class="regular-text" /><?php
+	}
+
 
 	/**
 	 * Get extended analytics options for this site.
@@ -383,6 +409,7 @@ class WSU_Analytics {
 	public function display_site_verification() {
 		$google_verification = get_option( 'wsuwp_google_verify', false );
 		$bing_verification = get_option( 'wsuwp_bing_verify', false );
+		$facebook_verification = get_option( 'wsuwp_facebook_verify', false );
 
 		if ( $google_verification ) {
 			echo '<meta name="google-site-verification" content="' . esc_attr( $google_verification ) . '">' . "\n";
@@ -390,6 +417,10 @@ class WSU_Analytics {
 
 		if ( $bing_verification ) {
 			echo '<meta name="msvalidate.01" content="' . esc_attr( $bing_verification ) . '" />' . "\n";
+		}
+
+		if ( $facebook_verification ) {
+			echo '<meta name="facebook-domain-verification"  content="' . esc_attr( $facebook_verification ) . '" />' . "\n";
 		}
 	}
 
