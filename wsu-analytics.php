@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WSU Analytics
-Version: 1.2.0
+Version: 1.3.0
 Plugin URI: https://web.wsu.edu/
 Description: Provides tracking through Google Analytics for WSU WordPress sites.
 Author: washingtonstateuniversity, jeremyfelt, jeremybass
@@ -13,7 +13,7 @@ class WSU_Analytics {
 	/**
 	 * @var string The current version of this plugin. Used to break script cache.
 	 */
-	var $version = '1.2.0';
+	var $version = '1.3.0';
 
 	/**
 	 * @var string Track the string used for the custom settings page we add.
@@ -58,6 +58,7 @@ class WSU_Analytics {
 		register_setting( 'wsuwp-analytics', 'wsuwp_bing_verify', array( $this, 'sanitize_bing_verify' ) );
 		register_setting( 'wsuwp-analytics', 'wsuwp_facebook_verify', array( $this, 'sanitize_facebook_verify' ) );
 		register_setting( 'wsuwp-analytics', 'wsuwp_ga_id', array( $this, 'sanitize_ga_id' ) );
+		register_setting( 'wsuwp-analytics', 'wsuwp_ga4_id', 'sanitize_text_field' );
 		register_setting( 'wsuwp-analytics', 'wsuwp_analytics_option_map', array( $this, 'sanitize_wsuwp_analytics_option_map' ) );
 	}
 
@@ -114,6 +115,9 @@ class WSU_Analytics {
 	public function display_analytics_settings() {
 		add_settings_field( 'wsuwp-ga-id', 'Google Analytics ID', array( $this, 'general_settings_ga_id' ), $this->settings_page, 'wsuwp-analytics', array(
 			'label_for' => 'wsuwp_ga_id',
+		) );
+		add_settings_field( 'wsuwp-ga4-id', 'GA4 Analytics ID', array( $this, 'general_settings_ga4_id' ), $this->settings_page, 'wsuwp-analytics', array(
+			'label_for' => 'wsuwp_ga4_id',
 		) );
 		add_settings_field( 'wsuwp-analytics-option-map', 'General Analytics Settings', array( $this, 'general_settings_inputs' ), $this->settings_page, 'wsuwp-analytics', array(
 			'label_for' => 'wsuwp_analytics_option_map',
@@ -206,6 +210,16 @@ class WSU_Analytics {
 
 		?><input id="wsuwp_ga_id" name="wsuwp_ga_id" value="<?php echo esc_attr( $google_analytics_id ); ?>" type="text" class="regular-text" /><?php
 	}
+
+	/**
+	 * Display a field to capture the site's Google Analytics ID.
+	 */
+	public function general_settings_ga4_id() {
+		$google_analytics_id = get_option( 'wsuwp_ga4_id', false );
+
+		?><input id="wsuwp_ga4_id" name="wsuwp_ga4_id" value="<?php echo esc_attr( $google_analytics_id ); ?>" type="text" class="regular-text" /><?php
+	}
+
 
 	/**
 	 * Provide an input in general settings for the entry of Google Site Verification meta data.
@@ -457,6 +471,10 @@ class WSU_Analytics {
 			})(window,document,'script','dataLayer','GTM-K5CHVG');</script>
 		<!-- End Google Tag Manager -->
 		<?php
+
+		include __DIR__ . '/tags/ga4-tagmanager.php';
+		include __DIR__ . '/tags/marketing-tagmanager.php';
+
 	}
 
 	/**
@@ -469,6 +487,10 @@ class WSU_Analytics {
 		?>
 		<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-K5CHVG" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<?php
+
+		include __DIR__ . '/tags/ga4-tagmanager-body.php';
+		include __DIR__ . '/tags/marketing-tagmanager-body.php';
+
 	}
 
 	/**
@@ -483,6 +505,9 @@ class WSU_Analytics {
 
 		// Look for a site level Google Analytics ID
 		$google_analytics_id = get_option( 'wsuwp_ga_id', false );
+
+		// Look for a site level Google Analytics ID
+		$ga4_google_analytics_id = get_option( 'wsuwp_ga4_id', false );
 
 		// If a site level ID does not exist, look for a network level Google Analytics ID
 		if ( ! $google_analytics_id ) {
@@ -544,6 +569,7 @@ class WSU_Analytics {
 
 			'site' => array(
 				'ga_code'            => 'true' === $option_object['track_site'] ? $google_analytics_id : false,
+				'ga4_code'            => 'true' === $option_object['track_site'] ? $ga4_google_analytics_id : false,
 				'track_view'         => is_admin() ? 'no' : 'yes',
 				'events'             => array(),
 			),
