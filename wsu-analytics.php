@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WSU Analytics
-Version: 1.3.1
+Version: 1.3.2
 Plugin URI: https://web.wsu.edu/
 Description: Provides tracking through Google Analytics for WSU WordPress sites.
 Author: washingtonstateuniversity, jeremyfelt, jeremybass
@@ -13,7 +13,7 @@ class WSU_Analytics {
 	/**
 	 * @var string The current version of this plugin. Used to break script cache.
 	 */
-	var $version = '1.3.1';
+	var $version = '1.3.2';
 
 	/**
 	 * @var string Track the string used for the custom settings page we add.
@@ -39,14 +39,31 @@ class WSU_Analytics {
 	 * Add our hooks.
 	 */
 	public function __construct() {
-		add_action( 'wp_head', array( $this, 'display_site_verification' ), 99 );
-		add_action( 'wp_head', array( $this, 'display_tag_manager' ), 100 );
+		add_action( 'wp_head', array( $this, 'display_site_verification' ), 1 );
+		add_action( 'wp_head', array( $this, 'display_tag_manager' ), 2 );
 		add_action( 'admin_head', array( $this, 'display_tag_manager' ), 100 );
-		add_action( 'wp_footer', array( $this, 'display_noscript_tag_manager' ) );
+		
 
 		// Configure the settings page and sections provided by the plugin.
 		add_action( 'admin_init', array( $this, 'register_settings_sections' ), 10 );
 		add_action( 'admin_menu', array( $this, 'add_analytics_options_page' ), 10 );
+
+		add_action( 'after_setup_theme', array( $this, 'display_body_tags' ) );
+	}
+
+
+	public function display_body_tags() {
+
+		if ( defined( 'ISWDS' ) ) {
+
+			add_action( 'wp_body_open', array( $this, 'display_noscript_tag_manager' ) );
+
+		} else {
+
+			add_action( 'wp_footer', array( $this, 'display_noscript_tag_manager' ) );
+
+		}
+
 	}
 
 	/**
