@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WSU Analytics
-Version: 1.3.3
+Version: 1.3.4
 Plugin URI: https://web.wsu.edu/
 Description: Provides tracking through Google Analytics for WSU WordPress sites.
 Author: washingtonstateuniversity, jeremyfelt, jeremybass
@@ -13,7 +13,7 @@ class WSU_Analytics {
 	/**
 	 * @var string The current version of this plugin. Used to break script cache.
 	 */
-	var $version = '1.3.3';
+	var $version = '1.3.4';
 
 	/**
 	 * @var string Track the string used for the custom settings page we add.
@@ -590,7 +590,7 @@ class WSU_Analytics {
 
 			'site' => array(
 				'ga_code'            => 'true' === $option_object['track_site'] ? $google_analytics_id : false,
-				'ga4_code'            => 'true' === $option_object['track_site'] ? $ga4_google_analytics_id : false,
+				'ga4_code'           => $ga4_google_analytics_id,
 				'track_view'         => is_admin() ? 'no' : 'yes',
 				'events'             => array(),
 			),
